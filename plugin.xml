@@ -1,0 +1,13 @@
+<plugin name='cxf' version='0.5.1' grailsVersion='1.1.1 &gt; *'>
+  <author>Ryan Crum</author>
+  <authorEmail>ryan.j.crum@gmail.com</authorEmail>
+  <title>CXF plug-in for Grails</title>
+  <description>\
+Add SOAP exposure to Grails services using Apache CXF.
+</description>
+  <documentation>http://grails.org/plugin/cxf</documentation>
+  <resources />
+  <dependencies>
+    <plugin name='hibernate' version='1.1 &gt; *' />
+  </dependencies>
+</plugin>
