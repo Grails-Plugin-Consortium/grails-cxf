@@ -51,6 +51,13 @@ Add SOAP exposure to Grails services using Apache CXF.
             address = "/${wsName.replace("Service", "")}"
             serviceBean = ref("${service.propertyName}")
           }
+        } else if (exposes?.contains('cxfrs')) { // can't do both!
+          def wsName = service.propertyName
+          "${wsName}Factory"(org.grails.cxf.GrailsCXFRSServerFactoryBean, wsName, srvClass) { 
+            address = "/rest/"
+            serviceBeans = [ref("${service.propertyName}")]
+          }
+
         }
       }
     }

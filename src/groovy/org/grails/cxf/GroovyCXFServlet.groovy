@@ -44,7 +44,7 @@ public class GrailsCXFServlet extends CXFServlet {
       throws ServletException {
     super.loadAdditionalConfig(ctx, servletConfig)
     
-    def services = GrailsCXFServerFactoryBean.services + GrailsCXFJaxWsServerFactoryBean.services
+    def services = GrailsCXFServerFactoryBean.services + GrailsCXFJaxWsServerFactoryBean.services + GrailsCXFRSServerFactoryBean.services
     def childCtx = new GenericApplicationContext(ctx)
     def bb = new BeanBuilder(childCtx)
     bb.beans {
