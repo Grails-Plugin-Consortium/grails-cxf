@@ -9,7 +9,7 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
  * A bean that creates a CXF REST service and excludes all of the groovy
  * stuff and properties from showing up as web methods.
  *
- * @author Ryan Crum <ryan.j.crum@gmail.com>
+ * @author Mark White
  */
 class GrailsCXFRSServerFactoryBean extends JAXRSServerFactoryBean {
   static services = []
