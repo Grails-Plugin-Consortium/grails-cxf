@@ -2,9 +2,7 @@
   <author>Ryan Crum</author>
   <authorEmail>ryan.j.crum@gmail.com</authorEmail>
   <title>CXF plug-in for Grails</title>
-  <description>\
-Add SOAP exposure to Grails services using Apache CXF.
-</description>
+  <description>Add SOAP exposure to Grails services using Apache CXF.</description>
   <documentation>http://grails.org/plugin/cxf</documentation>
   <resources>
     <resource>BuildConfig</resource>
