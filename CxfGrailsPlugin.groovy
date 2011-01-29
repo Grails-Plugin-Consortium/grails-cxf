@@ -10,31 +10,29 @@ import org.apache.cxf.Bus
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping
 
 class CxfGrailsPlugin {
-    // the plugin version
-    def version = "0.7.0"
-    // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "1.3.5 > *"
-    // the other plugins this plugin depends on
-    def loadAfter = ['hibernate']
-    def observe = ['hibernate']
-    def dependsOn = [hibernate: '1.3.5 > *']
+  // the plugin version
+  def version = "0.7.0"
+  // the version or versions of Grails the plugin is designed for
+  def grailsVersion = "1.3.5 > *"
+  // the other plugins this plugin depends on
+  def loadAfter = ['hibernate']
+  def observe = ['hibernate']
+  def dependsOn = [hibernate: '1.3.5 > *']
     
-    // resources that are excluded from plugin packaging
-    def pluginExcludes = [
-            "grails-app/views/error.gsp"
-    ]
+  // resources that are excluded from plugin packaging
+  def pluginExcludes = [
+    "grails-app/views/error.gsp"
+  ]
 
-    def author = "Ryan Crum"
-    def authorEmail = "ryan.j.crum@gmail.com"
-    def title = "CXF plug-in for Grails"
-    def description = '''\\
-Add SOAP exposure to Grails services using Apache CXF.
-'''
+  def author = "Ryan Crum"
+  def authorEmail = "ryan.j.crum@gmail.com"
+  def title = "CXF plug-in for Grails"
+  def description = 'Add SOAP exposure to Grails services using Apache CXF.'
 
-    // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/cxf"
+  // URL to the plugin's documentation
+  def documentation = "http://grails.org/plugin/cxf"
 
-    def doWithSpring = {
+  def doWithSpring = {
     if (application.serviceClasses) {
       application.serviceClasses.each { service ->
         def srvClass = service.getClazz()
@@ -62,60 +60,60 @@ Add SOAP exposure to Grails services using Apache CXF.
       }
     }
     
-    }
+  }
 
-    def doWithApplicationContext = { applicationContext ->
-    }
+  def doWithApplicationContext = { applicationContext ->
+  }
 
-    def doWithWebDescriptor = { xml ->
-      def filters = xml.filter
-      def filterMappings = xml.'filter-mapping'
-      def servlets = xml.servlet
-      def servletMappings = xml.'servlet-mapping'
+  def doWithWebDescriptor = { xml ->
+    def filters = xml.filter
+    def filterMappings = xml.'filter-mapping'
+    def servlets = xml.servlet
+    def servletMappings = xml.'servlet-mapping'
 
-      def hibernateFilter = 'hibernateFilter'
-      filters[filters.size() - 1] + {
-        filter {
-          'filter-name'(hibernateFilter)
-          'filter-class'('org.codehaus.groovy.grails.orm.hibernate.support.GrailsOpenSessionInViewFilter')
-        }
-      }
-
-      filterMappings[filterMappings.size() - 1] + {
-        'filter-mapping' {
-          'filter-name'(hibernateFilter)
-          'url-pattern'("/services/*")
-        }
-      }
-
-      servlets[servlets.size() - 1] + {
-        servlet {
-          'servlet-name'('CXFServlet')
-          'servlet-class'('org.grails.cxf.GrailsCXFServlet')
-          'load-on-startup'(1)
-        }
-      }
-
-      servletMappings[servletMappings.size() - 1] + {
-        'servlet-mapping' {
-          'servlet-name'('CXFServlet')
-          'url-pattern'("/services/*")
-        }
+    def hibernateFilter = 'hibernateFilter'
+    filters[filters.size() - 1] + {
+      filter {
+        'filter-name'(hibernateFilter)
+        'filter-class'('org.codehaus.groovy.grails.orm.hibernate.support.GrailsOpenSessionInViewFilter')
       }
     }
 
-    def doWithDynamicMethods = { ctx ->
-        // TODO Implement registering dynamic methods to classes (optional)
+    filterMappings[filterMappings.size() - 1] + {
+      'filter-mapping' {
+        'filter-name'(hibernateFilter)
+        'url-pattern'("/services/*")
+      }
     }
 
-    def onChange = { event ->
-        // TODO Implement code that is executed when any artefact that this plugin is
-        // watching is modified and reloaded. The event contains: event.source,
-        // event.application, event.manager, event.ctx, and event.plugin.
+    servlets[servlets.size() - 1] + {
+      servlet {
+        'servlet-name'('CXFServlet')
+        'servlet-class'('org.grails.cxf.GrailsCXFServlet')
+        'load-on-startup'(1)
+      }
     }
 
-    def onConfigChange = { event ->
-        // TODO Implement code that is executed when the project configuration changes.
-        // The event is the same as for 'onChange'.
+    servletMappings[servletMappings.size() - 1] + {
+      'servlet-mapping' {
+        'servlet-name'('CXFServlet')
+        'url-pattern'("/services/*")
+      }
     }
+  }
+
+  def doWithDynamicMethods = { ctx ->
+    // TODO Implement registering dynamic methods to classes (optional)
+  }
+
+  def onChange = { event ->
+    // TODO Implement code that is executed when any artefact that this plugin is
+    // watching is modified and reloaded. The event contains: event.source,
+    // event.application, event.manager, event.ctx, and event.plugin.
+  }
+
+  def onConfigChange = { event ->
+    // TODO Implement code that is executed when the project configuration changes.
+    // The event is the same as for 'onChange'.
+  }
 }
