@@ -13,16 +13,20 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
  */
 class GrailsCXFServerFactoryBean extends ServerFactoryBean {
   static services = []
-  def excludedMethods = ["getMetaClass",
-      "setMetaClass", 
-      "getProperty",
-      "setProperty",
-      "invokeMethod",
-      "isTransactional",
-      "getTransactional",
-      "setTransactional", 
-      "getMetaMethods",
-      "setMetaMethods"]
+  def excludedMethods = [
+    "getMetaClass",
+    "setMetaClass", 
+    "getProperty",
+    "setProperty",
+    "invokeMethod",
+    "isTransactional",
+    "getTransactional",
+    "setTransactional", 
+    "getMetaMethods",
+    "setMetaMethods",
+    "getErrors",
+    "setErrors"
+  ]
 
   public GrailsCXFServerFactoryBean(String svcName, Class clz) {
     super()
