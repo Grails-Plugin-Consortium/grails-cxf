@@ -1,17 +1,27 @@
-<plugin name='cxf' version='0.7.0' grailsVersion='1.3.5 &gt; *'>
+<plugin name='cxf' version='0.9.0' grailsVersion='2.0.0 &gt; *'>
   <author>Ryan Crum</author>
   <authorEmail>ryan.j.crum@gmail.com</authorEmail>
   <title>CXF plug-in for Grails</title>
   <description>Add SOAP exposure to Grails services using Apache CXF.</description>
   <documentation>http://grails.org/plugin/cxf</documentation>
-  <resources>
-    <resource>BuildConfig</resource>
-    <resource>Config</resource>
-    <resource>DataSource</resource>
-    <resource>UrlMappings</resource>
-  </resources>
+  <type>CxfGrailsPlugin</type>
+  <resources />
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
   <dependencies>
-    <plugin name='hibernate' version='1.3.5 &gt; *' />
+    <compile>
+      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.3.0' />
+      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.3.0' />
+    </compile>
   </dependencies>
+  <plugins />
+  <runtimePluginRequirements>
+    <plugin name='hibernate' version='2.0.0 &gt; *' />
+  </runtimePluginRequirements>
   <behavior />
 </plugin>
