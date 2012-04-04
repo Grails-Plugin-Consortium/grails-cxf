@@ -1,11 +1,13 @@
-<plugin name='cxf' version='0.9.0' grailsVersion='2.0.0 &gt; *'>
+<plugin name='cxf' version='1.0.0' grailsVersion='2.0.0 &gt; *'>
   <author>Ryan Crum</author>
   <authorEmail>ryan.j.crum@gmail.com</authorEmail>
   <title>CXF plug-in for Grails</title>
   <description>Add SOAP exposure to Grails services using Apache CXF.</description>
   <documentation>http://grails.org/plugin/cxf</documentation>
   <type>CxfGrailsPlugin</type>
-  <resources />
+  <resources>
+    <resource>test.TestService</resource>
+  </resources>
   <repositories>
     <repository name='grailsCentral' url='http://plugins.grails.org' />
     <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
@@ -15,11 +17,15 @@
   </repositories>
   <dependencies>
     <compile>
-      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.3.0' />
-      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.3.0' />
+      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.5.2' />
+      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.5.2' />
     </compile>
   </dependencies>
-  <plugins />
+  <plugins>
+    <compile>
+      <plugin group='org.grails.plugins' name='spock' version='0.6' />
+    </compile>
+  </plugins>
   <runtimePluginRequirements>
     <plugin name='hibernate' version='2.0.0 &gt; *' />
   </runtimePluginRequirements>

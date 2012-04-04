@@ -1,8 +1,7 @@
 package org.grails.cxf
 
-import org.apache.cxf.jaxrs.JAXRSServerFactoryBean
-import org.apache.cxf.jaxrs.JAXRSServiceFactoryBean
 import org.apache.cxf.jaxrs.JAXRSBindingFactory
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 /**
@@ -12,15 +11,16 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
  * @author Mark White
  */
 class GrailsCXFRSServerFactoryBean extends JAXRSServerFactoryBean {
-  static services = []
 
-  public GrailsCXFRSServerFactoryBean(String svcName, Class clz) {
-    super()
-    services.push(svcName)
-    
-    bindingId = JAXRSBindingFactory.JAXRS_BINDING_ID;
-    resourceClasses = GrailsClassUtils.getStaticPropertyValue(clz, 'resources')
-    serviceClass = clz
+    static services = []
 
-  }
+    public GrailsCXFRSServerFactoryBean(String svcName, Class clz) {
+        super()
+        services.push(svcName)
+
+        bindingId = JAXRSBindingFactory.JAXRS_BINDING_ID;
+        resourceClasses = GrailsClassUtils.getStaticPropertyValue(clz, 'resources')
+        serviceClass = clz
+
+    }
 }
