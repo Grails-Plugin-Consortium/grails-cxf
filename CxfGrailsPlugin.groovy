@@ -29,8 +29,7 @@ class CxfGrailsPlugin {
     def doWithSpring = {
         //In 2.5.2 the CXFServlet has some hard coded paths to "/WEB-INF/cxf-servlet.xml"
         //probably don't want to create that file, so just wire up the cxf bean here.
-        "cxf"(org.apache.cxf.bus.spring.SpringBus)
-
+        cxf(org.apache.cxf.bus.spring.SpringBus)
 
         if(application.serviceClasses) {
             application.serviceClasses.each { service ->

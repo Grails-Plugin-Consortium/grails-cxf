@@ -1,4 +1,4 @@
-<plugin name='cxf' version='1.0.0' grailsVersion='2.0.0 &gt; *'>
+<plugin name='cxf' version='1.0.3' grailsVersion='2.0.0 &gt; *'>
   <author>Ryan Crum</author>
   <authorEmail>ryan.j.crum@gmail.com</authorEmail>
   <title>CXF plug-in for Grails</title>
@@ -6,7 +6,7 @@
   <documentation>http://grails.org/plugin/cxf</documentation>
   <type>CxfGrailsPlugin</type>
   <resources>
-    <resource>test.TestService</resource>
+    <resource>cxf.TestService</resource>
   </resources>
   <repositories>
     <repository name='grailsCentral' url='http://plugins.grails.org' />
@@ -17,15 +17,11 @@
   </repositories>
   <dependencies>
     <compile>
-      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.5.2' />
       <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.5.2' />
+      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.5.2' />
     </compile>
   </dependencies>
-  <plugins>
-    <compile>
-      <plugin group='org.grails.plugins' name='spock' version='0.6' />
-    </compile>
-  </plugins>
+  <plugins />
   <runtimePluginRequirements>
     <plugin name='hibernate' version='2.0.0 &gt; *' />
   </runtimePluginRequirements>
