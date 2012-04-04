@@ -1,57 +1,61 @@
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
-import org.apache.cxf.frontend.ServerFactoryBean
-import org.apache.cxf.transport.DestinationFactory
-import org.apache.cxf.transport.DestinationFactoryManager
-import org.apache.cxf.transport.servlet.ServletTransportFactory
-import org.apache.cxf.bus.spring.SpringBusFactory
-import org.apache.cxf.transport.servlet.CXFServlet
-import org.apache.cxf.Bus
-//import org.grails.cxf.CXFController
-import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping
 
 class CxfGrailsPlugin {
   // the plugin version
-  def version = "0.9.0"
+  def version = "1.0.0"
   // the version or versions of Grails the plugin is designed for
   def grailsVersion = "2.0.0 > *"
   // the other plugins this plugin depends on
   def loadAfter = ['hibernate']
   def observe = ['hibernate']
   def dependsOn = [hibernate: '2.0.0 > *']
-    
+
   // resources that are excluded from plugin packaging
   def pluginExcludes = [
-    "grails-app/views/error.gsp"
+          "grails-app/views/error.gsp",
+          "grails-app/services/test/**",
+          "web-app/**",
+          "src/test/**",
+          "src/java/test/**",
+          "test/**",
+          "spock-0.6"
   ]
 
   def author = "Ryan Crum"
   def authorEmail = "ryan.j.crum@gmail.com"
   def title = "CXF plug-in for Grails"
   def description = 'Add SOAP exposure to Grails services using Apache CXF.'
+  def developers = [
+          [name: "Ryan Crum", email: "ryan.j.crum@gmail.com"],
+          [name: "Christian Oestreich", email: "acetrike@gmail.com"]]
 
   // URL to the plugin's documentation
   def documentation = "http://grails.org/plugin/cxf"
 
   def doWithSpring = {
-    if (application.serviceClasses) {
+    //In 2.5.2 the CXFServlet has some hard coded paths to "/WEB-INF/cxf-servlet.xml"
+    //probably don't want to create that file, so just wire up the cxf bean here.
+    cxf(org.apache.cxf.bus.spring.SpringBus)
+
+    if(application.serviceClasses) {
       application.serviceClasses.each { service ->
         def srvClass = service.getClazz()
         def exposes = GrailsClassUtils.getStaticPropertyValue(srvClass, 'expose')
-        if (exposes?.contains('cxf')) {
+        if(exposes?.contains('cxf')) {
           def wsName = service.propertyName
-          "${wsName}Factory"(org.grails.cxf.GrailsCXFServerFactoryBean, wsName, srvClass) { 
+          "${wsName}Factory"(org.grails.cxf.GrailsCXFServerFactoryBean, wsName, srvClass) {
             address = "/${wsName.replace("Service", "")}"
             serviceBean = ref("${service.propertyName}")
           }
-        } else if (exposes?.contains('cxfjax')) { // can't do both!
+        } else if(exposes?.contains('cxfjax')) { // can't do both!
           def wsName = service.propertyName
-          "${wsName}Factory"(org.grails.cxf.GrailsCXFJaxWsServerFactoryBean, wsName, srvClass) { 
+          "${wsName}Factory"(org.grails.cxf.GrailsCXFJaxWsServerFactoryBean, wsName, srvClass) {
             address = "/${wsName.replace("Service", "")}"
             serviceBean = ref("${service.propertyName}")
           }
-        } else if (exposes?.contains('cxfrs')) { // can't do both!
+        } else if(exposes?.contains('cxfrs')) { // can't do both!
           def wsName = service.propertyName
-          "${wsName}Factory"(org.grails.cxf.GrailsCXFRSServerFactoryBean, wsName, srvClass) { 
+          "${wsName}Factory"(org.grails.cxf.GrailsCXFRSServerFactoryBean, wsName, srvClass) {
             address = "/${wsName.replace("Service", "")}"
             serviceBeans = [ref("${service.propertyName}")]
           }
@@ -59,7 +63,7 @@ class CxfGrailsPlugin {
         }
       }
     }
-    
+
   }
 
   def doWithApplicationContext = { applicationContext ->

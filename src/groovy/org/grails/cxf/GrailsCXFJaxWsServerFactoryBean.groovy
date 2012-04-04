@@ -2,8 +2,6 @@ package org.grails.cxf
 
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean
 import org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean
-import org.apache.cxf.frontend.ServerFactoryBean
-import org.apache.cxf.service.factory.ReflectionServiceFactoryBean
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 /**
@@ -13,20 +11,21 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
  * @author Ryan Crum <ryan.j.crum@gmail.com>
  */
 class GrailsCXFJaxWsServerFactoryBean extends JaxWsServerFactoryBean {
+
   static services = []
   def excludedMethods = [
-    "getMetaClass",
-    "setMetaClass", 
-    "getProperty",
-    "setProperty",
-    "invokeMethod",
-    "isTransactional",
-    "getTransactional",
-    "setTransactional", 
-    "getMetaMethods",
-    "setMetaMethods",
-    "getErrors",
-    "setErrors"
+          "getMetaClass",
+          "setMetaClass",
+          "getProperty",
+          "setProperty",
+          "invokeMethod",
+          "isTransactional",
+          "getTransactional",
+          "setTransactional",
+          "getMetaMethods",
+          "setMetaMethods",
+          "getErrors",
+          "setErrors"
   ]
 
   public GrailsCXFJaxWsServerFactoryBean(String svcName, Class clz) {
@@ -41,11 +40,11 @@ class GrailsCXFJaxWsServerFactoryBean extends JaxWsServerFactoryBean {
     }
 
     def manualExclusions = GrailsClassUtils.getStaticPropertyValue(clz, 'exclude')
-    
+
     clz.methods.each { method ->
-      if (method.name in excludedMethods
-        || method.name in manualExclusions
-        || method.name.startsWith("super\$")) {
+      if(        method.name in excludedMethods
+              || method.name in manualExclusions
+              || method.name.startsWith("super\$")) {
         svcFact.ignoredMethods.add(method)
       }
     }
