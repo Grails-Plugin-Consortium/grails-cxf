@@ -12,7 +12,10 @@ class CxfGrailsPlugin {
 
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-            "grails-app/views/error.gsp"
+            "grails-app/views/error.gsp",
+            "grails-app/services/test/**",
+            "test/**",
+            "spock-0.6"
     ]
 
     def author = "Ryan Crum"

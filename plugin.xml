@@ -1,13 +1,11 @@
-<plugin name='cxf' version='1.0.3' grailsVersion='2.0.0 &gt; *'>
+<plugin name='cxf' version='1.0.0' grailsVersion='2.0.0 &gt; *'>
   <author>Ryan Crum</author>
   <authorEmail>ryan.j.crum@gmail.com</authorEmail>
   <title>CXF plug-in for Grails</title>
   <description>Add SOAP exposure to Grails services using Apache CXF.</description>
   <documentation>http://grails.org/plugin/cxf</documentation>
   <type>CxfGrailsPlugin</type>
-  <resources>
-    <resource>cxf.TestService</resource>
-  </resources>
+  <resources />
   <repositories>
     <repository name='grailsCentral' url='http://plugins.grails.org' />
     <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
