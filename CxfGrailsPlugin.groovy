@@ -14,6 +14,7 @@ class CxfGrailsPlugin {
     def pluginExcludes = [
             "grails-app/views/error.gsp",
             "grails-app/services/test/**",
+            "web-app/**",
             "test/**",
             "spock-0.6"
     ]

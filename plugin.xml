@@ -5,7 +5,11 @@
   <description>Add SOAP exposure to Grails services using Apache CXF.</description>
   <documentation>http://grails.org/plugin/cxf</documentation>
   <type>CxfGrailsPlugin</type>
-  <resources />
+  <resources>
+    <resource>test.TestCxfJaxService</resource>
+    <resource>test.TestCxfService</resource>
+    <resource>test.TestService</resource>
+  </resources>
   <repositories>
     <repository name='grailsCentral' url='http://plugins.grails.org' />
     <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
@@ -14,12 +18,24 @@
     <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
   </repositories>
   <dependencies>
+    <test>
+      <dependency group='org.codehaus.geb' name='geb-spock' version='0.6.3' />
+      <dependency group='org.seleniumhq.selenium' name='selenium-htmlunit-driver' version='2.20.0' />
+      <dependency group='org.seleniumhq.selenium' name='selenium-chrome-driver' version='2.20.0' />
+      <dependency group='org.seleniumhq.selenium' name='selenium-firefox-driver' version='2.20.0' />
+      <dependency group='com.github.groovy-wslite' name='groovy-wslite' version='0.7.0' />
+    </test>
     <compile>
-      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.5.2' />
       <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.5.2' />
+      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.5.2' />
     </compile>
   </dependencies>
-  <plugins />
+  <plugins>
+    <test>
+      <plugin group='org.grails.plugins' name='geb' version='0.6.3' />
+      <plugin group='org.grails.plugins' name='spock' version='0.6' />
+    </test>
+  </plugins>
   <runtimePluginRequirements>
     <plugin name='hibernate' version='2.0.0 &gt; *' />
   </runtimePluginRequirements>
