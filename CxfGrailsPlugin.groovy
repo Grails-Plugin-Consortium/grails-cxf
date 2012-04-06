@@ -15,6 +15,8 @@ class CxfGrailsPlugin {
             "grails-app/views/error.gsp",
             "grails-app/services/test/**",
             "web-app/**",
+            "src/test/**",
+            "src/java/test/**",
             "test/**",
             "spock-0.6"
     ]
