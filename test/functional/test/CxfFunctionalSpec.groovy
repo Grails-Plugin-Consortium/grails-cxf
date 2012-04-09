@@ -8,13 +8,13 @@ import wslite.soap.SOAPFaultException
  */
 class CxfFunctionalSpec extends GebReportingSpec {
 
-    def "invoke cxf test service soap endpoint stringMethod"() {
-        given:
-        def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxf?wsdl')
+  def "invoke cxf test service soap endpoint stringMethod"() {
+    given:
+    def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxf?wsdl')
 
-        when:
-        def response = cxfClient.send(
-                """<?xml version='1.0' encoding='UTF-8'?>
+    when:
+    def response = cxfClient.send(
+            """<?xml version='1.0' encoding='UTF-8'?>
                     <soap-env:Envelope xmlns:soap-env='http://schemas.xmlsoap.org/soap/envelope/' xmlns:test='http://test/'>
                       <soap-env:Header />
                       <soap-env:Body>
@@ -24,18 +24,18 @@ class CxfFunctionalSpec extends GebReportingSpec {
                       </soap-env:Body>
                     </soap-env:Envelope>""")
 
-        then:
-        200 == response.httpResponse.statusCode
-        'hello' == response.envelope as String
-    }
+    then:
+    200 == response.httpResponse.statusCode
+    'hello' == response.envelope as String
+  }
 
-    def "invoke cxf test service soap endpoint booleanMethod"() {
-        given:
-        def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxf?wsdl')
+  def "invoke cxf test service soap endpoint booleanMethod"() {
+    given:
+    def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxf?wsdl')
 
-        when:
-        def response = cxfClient.send(
-                """<?xml version='1.0' encoding='UTF-8'?>
+    when:
+    def response = cxfClient.send(
+            """<?xml version='1.0' encoding='UTF-8'?>
                     <soap-env:Envelope xmlns:soap-env='http://schemas.xmlsoap.org/soap/envelope/' xmlns:test='http://test/'>
                       <soap-env:Header />
                       <soap-env:Body>
@@ -44,41 +44,41 @@ class CxfFunctionalSpec extends GebReportingSpec {
                         </test:booleanMethod>
                       </soap-env:Body>
                     </soap-env:Envelope>"""
-        )
+    )
 
-        then:
-        200 == response.httpResponse.statusCode
-        response.envelope as Boolean
-    }
+    then:
+    200 == response.httpResponse.statusCode
+    response.envelope as Boolean
+  }
 
-    def "invoke cxf test service soap endpoint sonicScrewdriver"() {
-        given:
-        def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxf?wsdl')
+  def "invoke cxf test service soap endpoint sonicScrewdriver"() {
+    given:
+    def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxf?wsdl')
 
-        when:
-        def response = cxfClient.send(
-                """<?xml version='1.0' encoding='UTF-8'?>
+    when:
+    def response = cxfClient.send(
+            """<?xml version='1.0' encoding='UTF-8'?>
                     <soap-env:Envelope xmlns:soap-env='http://schemas.xmlsoap.org/soap/envelope/' xmlns:test='http://test/'>
                       <soap-env:Header />
                       <soap-env:Body>
                         <test:sonicScrewdriver />
                       </soap-env:Body>
                     </soap-env:Envelope>"""
-        )
+    )
 
-        then: 'this should not exist as a valid endpoint'
-        SOAPFaultException exception = thrown()
-        exception instanceof SOAPFaultException
-        exception.message.contains('was not recognized')
-    }
+    then: 'this should not exist as a valid endpoint'
+    SOAPFaultException exception = thrown()
+    exception instanceof SOAPFaultException
+    exception.message.contains('was not recognized')
+  }
 
-    def "invoke cxfjax test service soap endpoint stringMethod"() {
-        given:
-        def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxfJax?wsdl')
+  def "invoke cxfjax test service soap endpoint stringMethod"() {
+    given:
+    def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxfJax?wsdl')
 
-        when:
-        def response = cxfClient.send(
-                """<?xml version='1.0' encoding='UTF-8'?>
+    when:
+    def response = cxfClient.send(
+            """<?xml version='1.0' encoding='UTF-8'?>
                         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://test/">
                             <soapenv:Header/>
                             <soapenv:Body>
@@ -88,18 +88,18 @@ class CxfFunctionalSpec extends GebReportingSpec {
                             </soapenv:Body>
                         </soapenv:Envelope>""")
 
-        then:
-        200 == response.httpResponse.statusCode
-        'hello' == response.envelope as String
-    }
+    then:
+    200 == response.httpResponse.statusCode
+    'hello' == response.envelope as String
+  }
 
-    def "invoke cxfjax test service soap endpoint booleanMethod"() {
-        given:
-        def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxfJax?wsdl')
+  def "invoke cxfjax test service soap endpoint booleanMethod"() {
+    given:
+    def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxfJax?wsdl')
 
-        when:
-        def response = cxfClient.send(
-                """<?xml version='1.0' encoding='UTF-8'?>
+    when:
+    def response = cxfClient.send(
+            """<?xml version='1.0' encoding='UTF-8'?>
                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://test/">
                        <soapenv:Header/>
                        <soapenv:Body>
@@ -109,29 +109,29 @@ class CxfFunctionalSpec extends GebReportingSpec {
                        </soapenv:Body>
                     </soapenv:Envelope>""")
 
-        then:
-        200 == response.httpResponse.statusCode
-        response.envelope as Boolean
-    }
+    then:
+    200 == response.httpResponse.statusCode
+    response.envelope as Boolean
+  }
 
-    def "invoke cxfjax test service soap endpoint sonicScrewdriver"() {
-        given:
-        def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxfJax?wsdl')
+  def "invoke cxfjax test service soap endpoint sonicScrewdriver"() {
+    given:
+    def cxfClient = new SOAPClient('http://localhost:8080/cxf/services/testCxfJax?wsdl')
 
-        when:
-        def response = cxfClient.send(
-                """<?xml version='1.0' encoding='UTF-8'?>
+    when:
+    def response = cxfClient.send(
+            """<?xml version='1.0' encoding='UTF-8'?>
                     <soap-env:Envelope xmlns:soap-env='http://schemas.xmlsoap.org/soap/envelope/' xmlns:test='http://test/'>
                       <soap-env:Header />
                       <soap-env:Body>
                         <test:sonicScrewdriver />
                       </soap-env:Body>
                     </soap-env:Envelope>"""
-        )
+    )
 
-        then: 'this should not exist as a valid endpoint'
-        SOAPFaultException exception = thrown()
-        exception instanceof SOAPFaultException
-        exception.message.contains('was not recognized')
-    }
+    then: 'this should not exist as a valid endpoint'
+    SOAPFaultException exception = thrown()
+    exception instanceof SOAPFaultException
+    exception.message.contains('was not recognized')
+  }
 }

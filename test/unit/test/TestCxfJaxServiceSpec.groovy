@@ -9,24 +9,24 @@ import spock.lang.Unroll
 @TestFor(TestCxfJaxService)
 class TestCxfJaxServiceSpec extends Specification {
 
-    def testCxfJaxService
+  def testCxfJaxService
 
-    def setup() {
-        testCxfJaxService = new TestCxfJaxService()
-    }
+  def setup() {
+    testCxfJaxService = new TestCxfJaxService()
+  }
 
-    @Unroll
-    def "test basic service methods #method"() {
-        when:
-        def output = testCxfJaxService.invokeMethod(method, param)
+  @Unroll
+  def "test basic service methods #method"() {
+    when:
+    def output = testCxfJaxService.invokeMethod(method, param)
 
-        then:
-        output == result
+    then:
+    output == result
 
-        where:
-        method             | param   | result
-        'booleanMethod'    | true    | true
-        'stringMethod'     | 'hello' | 'hello'
-        'sonicScrewdriver' | null    | 'buzz'
-    }
+    where:
+    method             | param   | result
+    'booleanMethod'    | true    | true
+    'stringMethod'     | 'hello' | 'hello'
+    'sonicScrewdriver' | null    | 'buzz'
+  }
 }

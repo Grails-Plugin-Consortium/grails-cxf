@@ -12,43 +12,43 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
  */
 class GrailsCXFJaxWsServerFactoryBean extends JaxWsServerFactoryBean {
 
-    static services = []
-    def excludedMethods = [
-            "getMetaClass",
-            "setMetaClass",
-            "getProperty",
-            "setProperty",
-            "invokeMethod",
-            "isTransactional",
-            "getTransactional",
-            "setTransactional",
-            "getMetaMethods",
-            "setMetaMethods",
-            "getErrors",
-            "setErrors"
-    ]
+  static services = []
+  def excludedMethods = [
+          "getMetaClass",
+          "setMetaClass",
+          "getProperty",
+          "setProperty",
+          "invokeMethod",
+          "isTransactional",
+          "getTransactional",
+          "setTransactional",
+          "getMetaMethods",
+          "setMetaMethods",
+          "getErrors",
+          "setErrors"
+  ]
 
-    public GrailsCXFJaxWsServerFactoryBean(String svcName, Class clz) {
-        super()
-        services.push(svcName)
+  public GrailsCXFJaxWsServerFactoryBean(String svcName, Class clz) {
+    super()
+    services.push(svcName)
 
-        def svcFact = (getServiceFactory() as JaxWsServiceFactoryBean)
+    def svcFact = (getServiceFactory() as JaxWsServiceFactoryBean)
 
-        clz.metaClass.properties.each { prop ->
-            excludedMethods.push(GrailsClassUtils.getGetterName(prop.name))
-            excludedMethods.push(GrailsClassUtils.getSetterName(prop.name))
-        }
-
-        def manualExclusions = GrailsClassUtils.getStaticPropertyValue(clz, 'exclude')
-
-        clz.methods.each { method ->
-            if(        method.name in excludedMethods
-                    || method.name in manualExclusions
-                    || method.name.startsWith("super\$")) {
-                svcFact.ignoredMethods.add(method)
-            }
-        }
-
-        serviceClass = clz
+    clz.metaClass.properties.each { prop ->
+      excludedMethods.push(GrailsClassUtils.getGetterName(prop.name))
+      excludedMethods.push(GrailsClassUtils.getSetterName(prop.name))
     }
+
+    def manualExclusions = GrailsClassUtils.getStaticPropertyValue(clz, 'exclude')
+
+    clz.methods.each { method ->
+      if(        method.name in excludedMethods
+              || method.name in manualExclusions
+              || method.name.startsWith("super\$")) {
+        svcFact.ignoredMethods.add(method)
+      }
+    }
+
+    serviceClass = clz
+  }
 }
