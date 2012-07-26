@@ -1,3 +1,17 @@
 stacktrace.log
 docs
 docs/*
+.idea/
+CustomerService.wsdl
+global-groovy.log
+grails-app/conf/BootStrap.groovy
+grails-app/conf/spring/
+grails-app/i18n/*
+grails-app/views/error.gsp
+grails-app/views/layouts/*
+*.zip
+*.iml
+soapui-errors.log
+soapui.log
+target/
+web-app
