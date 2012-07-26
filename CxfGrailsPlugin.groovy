@@ -60,7 +60,7 @@ class CxfGrailsPlugin {
     def developers = [
             [name: "Ryan Crum", email: "ryan.j.crum@gmail.com"],
             [name: "Christian Oestreich", email: "acetrike@gmail.com"],
-            [name: "Ben Doer", email: "craftsman@bendoerr.me"]]
+            [name: "Ben Doerr", email: "craftsman@bendoerr.me"]]
 
     def documentation = "http://grails.org/plugin/cxf"
     def license = ''

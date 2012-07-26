@@ -122,7 +122,7 @@ class DefaultGrailsEndpointClassSpec extends UnitSpec {
             ToastAndButter          | 'toastAndButter'
     }
 
-    def "sevletName defaults on single configuration"() {
+    def "servletName defaults on single configuration"() {
         when:
             def artefact = new DefaultGrailsEndpointClass(DefaultEndpoint)
 
