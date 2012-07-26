@@ -59,12 +59,14 @@ class EndpointBeanConfiguration {
                 String endpointAddress = endpointArtefact.address
                 Class endpointFactoryClass = endpointArtefact.exposeAs.factoryBean
                 Set endpointExclusions = endpointArtefact.excludes
+                String endpointWsdlLocation = endpointArtefact.wsdl?.toString()
 
                 "${endpointName}Factory"(endpointFactoryClass) {
                     address = endpointAddress
                     serviceClass = endpointClass
                     serviceBean = ref(endpointName)
                     ignoredMethods = endpointExclusions
+                    if (endpointWsdlLocation) wsdlLocation = endpointWsdlLocation
                 }
                 debug "Cxf endpoint service factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
             }

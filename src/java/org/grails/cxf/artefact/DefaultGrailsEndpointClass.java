@@ -10,6 +10,7 @@ import org.grails.cxf.utils.GrailsCxfUtils;
 
 import javax.xml.transform.TransformerConfigurationException;
 import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +23,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     protected EndpointExposureType exposeAs;
     protected Set<String> excludes;
     protected String servletName;
+    protected URL wsdl;
 
     private static final Log log = LogFactory.getLog(DefaultGrailsEndpointClass.class);
 
@@ -30,6 +32,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         setupExposeAs();
         buildExclusionSet();
         setupServletName();
+        findWsdl();
     }
 
     /**
@@ -75,6 +78,18 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
      */
     public String getAddress() {
         return "/" + getNameNoPostfix();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public URL getWsdl() {
+        return wsdl;
+    }
+
+    public Boolean hasWsdl() {
+        return wsdl != null;
     }
 
     public String getNameNoPostfix() {
@@ -137,4 +152,15 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         log.debug("Endpoint [" + getFullName() + "] configured to servlet [" + servletName + "].");
     }
 
+    protected void findWsdl() {
+        String wsdlLocation = (String) getPropertyOrStaticPropertyOrFieldValue(WSDL, String.class);
+        if (wsdlLocation != null && !wsdlLocation.equals("")) {
+            wsdl = getClass().getClassLoader().getResource(wsdlLocation);
+            if(wsdl == null) {
+                log.error("Endpoint [" + getFullName() + "] as WSDL at [" + wsdlLocation + "] but it couldn't be found. Will try to generate the Cxf Service from the endpoint class.");
+            }
+        }
+
+        log.debug("Endpoint [" + getFullName() + "] configured to use WSDL [" + wsdl + "].");
+    }
 }

@@ -30,6 +30,9 @@ class DelegatingServerFactoryBean implements MethodIgnoringServerFactoryBean {
         }.each {Method method ->
             getServiceFactory().getIgnoredMethods().add(method)
         }
+
+        // TODO: Side Effect - Refactor this outa here.
+        getServiceFactory().getIgnoredClasses().add('groovy.lang.MetaClass')
     }
 
     private void assertCanSetIgnoredMethods() {

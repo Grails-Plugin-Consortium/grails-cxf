@@ -85,6 +85,8 @@ class CxfGrailsPlugin {
             'grails-app/taglib/**',
             'grails-app/utils/**',
             'grails-app/views/**',
+            'src/groovy/org/grails/cxf/test/**',
+            'src/java/org/grails/cxf/test/**',
             'lib/**',
             'target/**',
             'web-app/**'

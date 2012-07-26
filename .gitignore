@@ -2,7 +2,6 @@ stacktrace.log
 docs
 docs/*
 .idea/
-CustomerService.wsdl
 global-groovy.log
 grails-app/conf/BootStrap.groovy
 grails-app/conf/spring/

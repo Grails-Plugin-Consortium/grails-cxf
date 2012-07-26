@@ -6,7 +6,7 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.dependency.resolution = {
 
     def exportFalse = { export: false }
-    def excludeConflicting = { excludes 'xmlbeans', 'spring-web', 'spring-core' }
+    def excludeConflicting = { excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis' }
 
     def cxfGroup = 'org.apache.cxf'
     def cxfVersion = '2.6.1'
@@ -31,7 +31,7 @@ grails.project.dependency.resolution = {
                 version:  '1.2',
                 group: 'commons-cli'
 
-        /* Dependencies for the Wsdl To Java script *****************************/
+        /* Dependencies for the Wsdl To Java script ***************************/
         build   name: 'cxf-tools-wsdlto-core',
                 version: cxfVersion,
                 group: cxfGroup,
@@ -47,7 +47,7 @@ grails.project.dependency.resolution = {
                 group: cxfGroup,
                 excludeConflicting
 
-        /* Dependencies for the Cxf Runtime *************************************/
+        /* Dependencies for the Cxf Runtime ***********************************/
         compile name: 'cxf-rt-frontend-jaxws',
                 version: cxfVersion,
                 group: cxfGroup,
@@ -57,10 +57,33 @@ grails.project.dependency.resolution = {
                 version: cxfVersion,
                 group: cxfGroup,
                 excludeConflicting
+
+        /* Some Testing Help **************************************************/
+        test    name: 'groovy-wslite',
+                version: '0.7.0',
+                group: 'com.github.groovy-wslite',
+                exportFalse
+
+        test    name: 'geb-spock',
+                version: '0.5.1',
+                group: 'org.codehaus.geb',
+                exportFalse
+
+        test    name: 'selenium-htmlunit-driver',
+                version: '2.20.0',
+                group: 'org.seleniumhq.selenium', {
+                    with exportFalse
+                    with excludeConflicting
+                }
+
+        test    name: 'selenium-chrome-driver',
+                version: '2.20.0',
+                group: 'org.seleniumhq.selenium',
+                exportFalse
     }
 
     plugins {
-        /* Grails required plugins **********************************************/
+        /* Grails required plugins ********************************************/
         runtime name: 'hibernate',
                 version: grailsVersion,
                 group: pluginsGroup,
@@ -71,9 +94,14 @@ grails.project.dependency.resolution = {
                 group: pluginsGroup,
                 exportFalse
 
-        /* Spock for Testing ****************************************************/
+        /* Spock and Geb for Testing ******************************************/
         test    name: 'spock',
                 version: '0.5-groovy-1.7',
+                group: pluginsGroup,
+                exportFalse
+
+        test    name: 'geb',
+                version: '0.5.1',
                 group: pluginsGroup,
                 exportFalse
     }

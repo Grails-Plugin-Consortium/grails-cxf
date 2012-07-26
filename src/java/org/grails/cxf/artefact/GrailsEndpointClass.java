@@ -1,5 +1,6 @@
 package org.grails.cxf.artefact;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,6 +13,8 @@ public interface GrailsEndpointClass {
     public static final String EXCLUDES = "excludes";
 
     public static final String SERVLET_NAME = "servletName";
+
+    public static final String WSDL = "wsdl";
 
     public static final Set<String> DEFAULT_GROOVY_EXCLUDES =
             Collections.unmodifiableSet(
@@ -63,4 +66,12 @@ public interface GrailsEndpointClass {
      * @return the address to expose this endpoint at
      */
     String getAddress();
+
+    /**
+     * A WSDL can be specified to be used.
+     *
+     * @return a URL to a WDSL that is on the classpath. Putting the WSDL in the src/java path is the best bet.
+     */
+    URL getWsdl();
+
 }
