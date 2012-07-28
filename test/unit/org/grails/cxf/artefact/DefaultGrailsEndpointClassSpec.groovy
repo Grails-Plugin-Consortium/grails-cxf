@@ -3,10 +3,11 @@ package org.grails.cxf.artefact
 import grails.plugin.spock.UnitSpec
 import org.grails.cxf.utils.CxfConfigHandler
 
-import static org.grails.cxf.artefact.EndpointExposureType.CXF
-import static org.grails.cxf.artefact.EndpointExposureType.JAXRS
-import static org.grails.cxf.artefact.EndpointExposureType.JAXWS
+import static org.grails.cxf.artefact.EndpointExposureType.JAX_RS
+import static org.grails.cxf.artefact.EndpointExposureType.JAX_WS
+import static org.grails.cxf.artefact.EndpointExposureType.SIMPLE
 import static org.grails.cxf.artefact.GrailsEndpointClass.DEFAULT_GROOVY_EXCLUDES
+import static org.grails.cxf.artefact.EndpointExposureType.JAX_WS_WSDL
 
 class DefaultGrailsEndpointClassSpec extends UnitSpec {
 
@@ -46,7 +47,7 @@ class DefaultGrailsEndpointClassSpec extends UnitSpec {
             def artefact = new DefaultGrailsEndpointClass(DefaultEndpoint)
 
         then:
-            artefact.exposeAs == CXF
+            artefact.exposeAs == JAX_WS
     }
 
     def "exposeAs can be configured"() {
@@ -59,18 +60,34 @@ class DefaultGrailsEndpointClassSpec extends UnitSpec {
 
         where:
             exposeAs     | expectedExposeAs
-            ''           | CXF
-            null         | CXF
-            1234         | CXF
-            new Object() | CXF
-            'CXF'        | CXF
-            'cxf'        | CXF
-            'JAXWS'      | JAXWS
-            'jaxws'      | JAXWS
-            'JAXRS'      | JAXRS
-            'jaxrs'      | JAXRS
-            'FOO'        | CXF
-            'foo'        | CXF
+            ''           | JAX_WS
+            null         | JAX_WS
+            1234         | JAX_WS
+            new Object() | JAX_WS
+            'SIMPLE'     | SIMPLE
+            'simple'     | SIMPLE
+            'cxf'        | JAX_WS
+            'foo'        | JAX_WS
+            'JAX_RS'     | JAX_RS
+            'JAX-RS'     | JAX_RS
+            'JAX RS'     | JAX_RS
+            'jax rs'     | JAX_RS
+            'jax-rs'     | JAX_RS
+            'jax_rs'     | JAX_RS
+            'JAX_WS'     | JAX_WS
+            'JAX-WS'     | JAX_WS
+            'JAX WS'     | JAX_WS
+            'jax_ws'     | JAX_WS
+            'jax-ws'     | JAX_WS
+            'jax ws'     | JAX_WS
+            'JAX_WS_WSDL' | JAX_WS_WSDL
+            'JAX-WS-WSDL' | JAX_WS_WSDL
+            'JAX WS WSDL' | JAX_WS_WSDL
+            'jax_ws_wsdl' | JAX_WS_WSDL
+            'jax-ws-wsdl' | JAX_WS_WSDL
+            'jax ws wsdl' | JAX_WS_WSDL
+            'jax ws WSDL' | JAX_WS_WSDL
+            'jax-ws WSDL' | JAX_WS_WSDL
     }
 
     def "excludes is built with defaults"() {

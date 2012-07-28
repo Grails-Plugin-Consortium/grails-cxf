@@ -4,6 +4,7 @@
 
 cxf {
     servlet {
+        // Let the GSP Servlet startup first.
         loadDelay = 1
 
         // Uncomment to change the default servlet when multiple are configured
@@ -13,4 +14,11 @@ cxf {
     servlets = [
         'CXFServlet': '/services/*'
     ]
+}
+
+environments {
+    test {
+        // Get things up and running right away.
+        cxf.servlet.loadDelay = 0
+    }
 }

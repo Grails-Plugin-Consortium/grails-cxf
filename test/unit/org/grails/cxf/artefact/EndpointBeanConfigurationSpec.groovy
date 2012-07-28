@@ -6,7 +6,7 @@ import org.apache.cxf.bus.spring.SpringBus
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.commons.GrailsClass
-import org.grails.cxf.frontend.GrailsServerFactoryBean
+import org.grails.cxf.frontend.GrailsJaxWsServerFactoryBean
 import org.springframework.beans.MutablePropertyValues
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.beans.factory.config.RuntimeBeanReference
@@ -83,7 +83,7 @@ class EndpointBeanConfigurationSpec extends UnitSpec {
 
         then:
             BeanDefinition testOneEndpointFactory = beans.testOneEndpointFactory
-            testOneEndpointFactory.getBeanClassName() == GrailsServerFactoryBean.name
+            testOneEndpointFactory.getBeanClassName() == GrailsJaxWsServerFactoryBean.name
             testOneEndpointFactory.isSingleton()
             testOneEndpointFactory.isAutowireCandidate()
 
@@ -94,7 +94,7 @@ class EndpointBeanConfigurationSpec extends UnitSpec {
             testOneEFBeanProps.getPropertyValue('ignoredMethods').value == GrailsEndpointClass.DEFAULT_GROOVY_EXCLUDES
 
             BeanDefinition testTwoEndpointFactory = beans.testTwoEndpointFactory
-            testTwoEndpointFactory.getBeanClassName() == GrailsServerFactoryBean.name
+            testTwoEndpointFactory.getBeanClassName() == GrailsJaxWsServerFactoryBean.name
             testTwoEndpointFactory.isSingleton()
             testTwoEndpointFactory.isAutowireCandidate()
     

@@ -1,6 +1,6 @@
 @artifact.package@
 class @artifact.name@ {
-    static exposeAs = 'cxf'
+    static exposeAs = 'jax-ws'
     static excludes = []
 
     String serviceMethod(String s) {

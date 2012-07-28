@@ -5,8 +5,11 @@ import org.grails.cxf.test.soap.simple.InvalidIsbnFormatException
 import org.grails.cxf.test.soap.simple.Isbn
 
 /**
- * An example of a Code First service using JAXB annotated objects and and Cxf Reflection service generation which will
- * make use of the JAX-WS annotations on the interface.
+ * An example of a Code First service using a Cxf JAX-WS frontend service.
+ * <p>
+ * SOAP Binding is specified by JAXB annotations.
+ *
+ * @see http://cxf.apache.org/docs/developing-a-service.html
  */
 class BookStoreEndpoint implements BookStoreService {
 

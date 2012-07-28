@@ -8,7 +8,8 @@ import javax.xml.datatype.DatatypeConstants
 import org.grails.cxf.test.soap.CustomerType
 
 class CustomerServiceEndpoint implements CustomerService {
-    static exposeAs = 'cxf'
+
+    static exposeAs = 'simple'
 
     static List<Customer> CUSTOMERS = [
             new Customer(name: 'Frank', address: ['1234 Awesomeness St.', 'Chochokacho, Toast'], numOrders: 5,

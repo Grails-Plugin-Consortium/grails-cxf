@@ -41,4 +41,8 @@ class GrailsCxfUtils {
     static List configuredArtefacts() {
         return [EndpointArtefactHandler]
     }
+
+    static String flexibleEnumName(String name) {
+        return name.replaceAll(/(\s|\-)/, '_').toUpperCase()
+    }
 }

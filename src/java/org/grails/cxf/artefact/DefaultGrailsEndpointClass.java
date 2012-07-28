@@ -97,15 +97,19 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     protected void setupExposeAs() {
-        exposeAs = EndpointExposureType.CXF;
+        exposeAs = EndpointExposureType.JAX_WS; // Default to the most common type.
 
         String manualExposeAs = (String) getPropertyOrStaticPropertyOrFieldValue(EXPOSE_AS, String.class);
         if (manualExposeAs != null && !manualExposeAs.equals("")) {
             try {
-                exposeAs = EndpointExposureType.valueOf(manualExposeAs.toUpperCase());
+                exposeAs = EndpointExposureType.forExposeAs(manualExposeAs);
             } catch (IllegalArgumentException e) {
                 log.error("Unsupported endpoint exposure type [" + manualExposeAs + "] for endpoint [" + getFullName() + "]. Using default type.");
             }
+        }
+
+        if(exposeAs.equals(EndpointExposureType.SIMPLE)) {
+            log.warn("Simple Cxf Frontends are generally not recommended. Find out more: http://cxf.apache.org/docs/simple-frontend.html");
         }
 
         log.debug("Endpoint [" + getFullName() + "] configured to use [" + exposeAs.name() + "].");

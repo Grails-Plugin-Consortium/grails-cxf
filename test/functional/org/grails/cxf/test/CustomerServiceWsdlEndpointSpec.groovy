@@ -8,7 +8,7 @@ import org.grails.cxf.test.soap.CustomerType
 
 class CustomerServiceWsdlEndpointSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient('http://localhost:8080/cxf/services/customerServiceWsdl?wsdl')
+    SOAPClient client = new SOAPClient('http://localhost:8080/cxf/services/customerServiceWsdl')
 
     def "getCustomersByName actually works"() {
         when:

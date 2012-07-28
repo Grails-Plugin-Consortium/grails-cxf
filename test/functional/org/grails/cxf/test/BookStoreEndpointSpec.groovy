@@ -7,7 +7,7 @@ import wslite.soap.SOAPVersion
 
 class BookStoreEndpointSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient('http://localhost:8080/cxf/services/bookStore?wsdl')
+    SOAPClient client = new SOAPClient('http://localhost:8080/cxf/services/bookStore')
 
     def "findBookByIsbn should return the book of awesomeness given a valid isbn"() {
         when:
@@ -21,7 +21,7 @@ class BookStoreEndpointSpec extends GebReportingSpec {
                     }
                 }
             }
-            def methodResponse = response.body.findBookByIsbnResponse.return
+            def methodResponse = response.body.findBookByIsbnResponse.book
 
         then:
             200 == response.httpResponse.statusCode
