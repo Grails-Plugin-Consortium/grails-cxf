@@ -72,4 +72,8 @@ class NavigableConfiguration {
             configObject.putAll([(valueName): value])
         }
     }
+
+    String toString() {
+        super.toString() + configObject.flatten()
+    }
 }

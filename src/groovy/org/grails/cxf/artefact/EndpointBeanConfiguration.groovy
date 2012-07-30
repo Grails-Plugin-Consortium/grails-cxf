@@ -4,6 +4,8 @@ import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
+import javax.xml.ws.soap.SOAPBinding
+
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
  */
@@ -59,16 +61,38 @@ class EndpointBeanConfiguration {
                 String endpointAddress = endpointArtefact.address
                 Class endpointFactoryClass = endpointArtefact.exposeAs.factoryBean
                 Set endpointExclusions = endpointArtefact.excludes
+                Boolean endpointUseWsdl = endpointArtefact.hasWsdl()
                 String endpointWsdlLocation = endpointArtefact.wsdl?.toString()
+                Boolean endpointUseSoap12 = endpointArtefact.soap12
 
                 "${endpointName}Factory"(endpointFactoryClass) {
                     address = endpointAddress
                     serviceClass = endpointClass
                     serviceBean = ref(endpointName)
                     ignoredMethods = endpointExclusions
-                    if (endpointWsdlLocation) wsdlLocation = endpointWsdlLocation
+
+                    if (endpointUseWsdl) {
+                        wsdlLocation = endpointWsdlLocation
+                    }
+
+                    if (endpointUseSoap12) {
+                        bindingId = SOAPBinding.SOAP12HTTP_MTOM_BINDING
+                    }
                 }
-                debug "Cxf endpoint service factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
+
+                debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
+                trace 'Cxf endpoint server factory bean wiring details:' +
+                        "\n\tEndpoint Name:                       $endpointName" +
+                        "\n\tEndpoint Class:                      $endpointClass" +
+                        "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
+                        "\n\tServer Factory - Address:            $endpointAddress" +
+                        "\n\tServer Factory - Service Class:      $endpointClass" +
+                        "\n\tServer Factory - Service Bean:       ref($endpointName)" +
+                        "\n\tServer Factory - Ignored Methods:    $endpointExclusions" +
+                        "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
+                        "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
+                        "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
+                        "\n"
             }
         }
     }

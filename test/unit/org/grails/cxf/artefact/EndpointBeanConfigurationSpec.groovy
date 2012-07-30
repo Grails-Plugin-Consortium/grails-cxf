@@ -108,7 +108,7 @@ class EndpointBeanConfigurationSpec extends UnitSpec {
     def "cxfServiceEndpointBeans wires cxf service beans from the the factory"() {
         when:
             Map<String, BeanDefinition> beans =
-                bb.beans(bc.cxfServiceEndpointBeans('CXFServlet')).beanDefinitions
+                bb.beans(bc.cxfServiceEndpointBeans('CxfServlet')).beanDefinitions
         
         then:
             BeanDefinition testOneBean = beans.testOneEndpointBean

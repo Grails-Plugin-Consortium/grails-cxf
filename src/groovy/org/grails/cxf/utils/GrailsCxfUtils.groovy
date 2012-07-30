@@ -7,6 +7,11 @@ import org.grails.cxf.artefact.EndpointArtefactHandler
  */
 class GrailsCxfUtils {
 
+    static final String CFG_LOAD_ON_STARTUP  = 'servlet.loadOnStartup'
+    static final String CFG_DEFAULT_SERVLET  = 'servlet.defaultServlet'
+    static final String CFG_SERVLET_MAPPINGS = 'servlets'
+    static final String CFG_ENDPOINT_SOAP12  = 'endpoint.soap12Binding'
+
     private GrailsCxfUtils() {
         // Class contains static methods only
     }
@@ -15,27 +20,40 @@ class GrailsCxfUtils {
         CxfConfigHandler.instance.getCxfConfig()
     }
 
+    static NavigableConfiguration getCxfNavConfig() {
+        return new NavigableConfiguration(getCxfConfig())
+    }
+
+    static Object getConfig(String configPath) {
+        getCxfNavConfig().get(configPath)
+    }
+
     static void reloadCxfConfig() {
         CxfConfigHandler.instance.reloadCxfConfig()
     }
 
-    static Integer getLoadDelay() {
-        return getCxfConfig().servlet.loadDelay
+    static Integer getLoadOnStartup() {
+        return getConfig(CFG_LOAD_ON_STARTUP)
     }
 
     static Map<String, String> getServletsMappings() {
-        assert getCxfConfig().servlets, "There must be at least one configured servlet."
-        return getCxfConfig().servlets
+        assert getConfig(CFG_SERVLET_MAPPINGS), "There must be at least one configured servlet."
+        return getConfig(CFG_SERVLET_MAPPINGS)
     }
 
     static String getDefaultServletName() {
-        Object defaultName = getCxfConfig().servlet.defaultName
+        Object defaultName = getConfig(CFG_DEFAULT_SERVLET)
 
-        if(defaultName instanceof String && !defaultName.isEmpty() && getServletsMappings().containsKey(defaultName)) {
+        if(defaultName instanceof String && !defaultName.isEmpty() &&
+                getServletsMappings().containsKey(defaultName)) {
             return defaultName
         }
 
         return new TreeMap<String, String>(getServletsMappings()).firstKey()
+    }
+
+    static Boolean getDefaultSoap12Binding() {
+        return getConfig(CFG_ENDPOINT_SOAP12)
     }
 
     static List configuredArtefacts() {

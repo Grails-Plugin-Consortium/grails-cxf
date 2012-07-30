@@ -1,6 +1,8 @@
 log4j = {
 
-    error stdout: "StackTrace"
+    if(System.getProperty('showFullStackTrace')) {
+        error stdout: "StackTrace"
+    }
 
     error   'org.codehaus.groovy.grails.web.servlet',  //  controllers
             'org.codehaus.groovy.grails.web.pages', //  GSP
@@ -16,7 +18,7 @@ log4j = {
 
     warn    'org.mortbay.log'
 
-    debug   'org.grails.cxf',
+    trace   'org.grails.cxf',
             'org.grails.cxf.artefact',
             'org.grails.cxf.frontend',
             'org.grails.cxf.servlet',

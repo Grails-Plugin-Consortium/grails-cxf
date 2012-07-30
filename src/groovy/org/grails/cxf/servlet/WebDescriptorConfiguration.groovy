@@ -29,7 +29,7 @@ class WebDescriptorConfiguration {
                     servlet {
                         'servlet-name'(name)
                         'servlet-class'('org.grails.cxf.servlet.GrailsCxfServlet')
-                        'load-on-startup'(loadDelay())
+                        'load-on-startup'(getLoadOnStartup())
                     }
                 }
 
@@ -50,8 +50,8 @@ class WebDescriptorConfiguration {
         debug "Creating web.xml entries for servlet [$name] at [$pattern]."
     }
 
-    private Integer loadDelay() {
-        return GrailsCxfUtils.getLoadDelay()
+    private Integer getLoadOnStartup() {
+        return GrailsCxfUtils.getLoadOnStartup()
     }
 
     private lastServletDescriptor() {

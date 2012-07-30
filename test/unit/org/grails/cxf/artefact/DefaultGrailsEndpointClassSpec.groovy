@@ -144,7 +144,7 @@ class DefaultGrailsEndpointClassSpec extends UnitSpec {
             def artefact = new DefaultGrailsEndpointClass(DefaultEndpoint)
 
         then:
-            artefact.servletName == 'CXFServlet'
+            artefact.servletName == 'CxfServlet'
     }
 
     def "servletName defaults to alphabetical on multiple configuration"() {
@@ -171,7 +171,7 @@ class DefaultGrailsEndpointClassSpec extends UnitSpec {
         ]
 
         when:
-            CxfConfigHandler.instance.cxfConfig.servlet.defaultName = 'SecondServlet'
+            CxfConfigHandler.instance.cxfConfig.servlet.defaultServlet = 'SecondServlet'
             def artefact = new DefaultGrailsEndpointClass(DefaultEndpoint)
 
         then:

@@ -24,6 +24,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     protected Set<String> excludes;
     protected String servletName;
     protected URL wsdl;
+    protected Boolean soap12;
 
     private static final Log log = LogFactory.getLog(DefaultGrailsEndpointClass.class);
 
@@ -33,6 +34,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         buildExclusionSet();
         setupServletName();
         findWsdl();
+        setupSoap12Binding();
     }
 
     /**
@@ -49,9 +51,11 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     /**
      * Setting the property {@code static excludes = ['myPublicMethod']} on the endpoint class will allow clients to
      * add additional method names to be excluded from exposure.
-     *
+     * <p>
      * By default all of the GroovyObject methods and getters and setters for properties will be excluded and setting
      * the excludes property on the endpoint class will add to this set.
+     * <p>
+     * TODO: I think this is only relevant to SIMPLE Cxf Frontends.
      *
      * @return @inheritDoc
      */
@@ -62,8 +66,8 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     /**
      * Since the plugin allows us to configure and use multiple CXF servlets, this property allows us to choose which
      * servlet to use. The servlet name can be configured by using the property servletName on the endpoint class.
-     *
-     * By default the first entry in the servlets configuration will be used.
+     * <p>
+     * By default the first alphabetically will be used.
      *
      * @return @inheritDoc
      */
@@ -72,7 +76,9 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     /**
-     * TODO should also allow overriding and basic configuration
+     * Gets the address that will be set on the Cxf ServerFactoryBean.
+     * <p>
+     * TODO Should also allow overriding and basic configuration?
      *
      * @return @inheritDoc
      */
@@ -81,25 +87,30 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     /**
+     * The URL of the Wsdl that is on the classpath.
      *
-     * @return
+     * @return @inheritDoc
      */
     public URL getWsdl() {
         return wsdl;
     }
 
     public Boolean hasWsdl() {
-        return wsdl != null;
+        return exposeAs == EndpointExposureType.JAX_WS_WSDL && wsdl != null;
     }
 
     public String getNameNoPostfix() {
         return StringUtils.removeEnd(getPropertyName(), EndpointArtefactHandler.TYPE);
     }
 
+    public Boolean isSoap12() {
+        return soap12;
+    }
+
     protected void setupExposeAs() {
         exposeAs = EndpointExposureType.JAX_WS; // Default to the most common type.
 
-        String manualExposeAs = (String) getPropertyOrStaticPropertyOrFieldValue(EXPOSE_AS, String.class);
+        String manualExposeAs = (String) getPropertyOrStaticPropertyOrFieldValue(PROP_EXPOSE_AS, String.class);
         if (manualExposeAs != null && !manualExposeAs.equals("")) {
             try {
                 exposeAs = EndpointExposureType.forExposeAs(manualExposeAs);
@@ -128,7 +139,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         }
 
         // Get the the methods that are specified for manual exclusion.
-        Collection<String> manualExcludes = (Collection<String>) getPropertyOrStaticPropertyOrFieldValue(EXCLUDES, Collection.class);
+        Collection<String> manualExcludes = (Collection<String>) getPropertyOrStaticPropertyOrFieldValue(PROP_EXCLUDES, Collection.class);
 
         Set<String> aggExcludes = new HashSet<String>();
         aggExcludes.addAll(groovyExcludes);
@@ -144,7 +155,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     protected void setupServletName() {
-        String manualServletName = (String) getPropertyOrStaticPropertyOrFieldValue(SERVLET_NAME, String.class);
+        String manualServletName = (String) getPropertyOrStaticPropertyOrFieldValue(PROP_SERVLET_NAME, String.class);
 
         if (manualServletName != null && !manualServletName.equals("") &&
                 GrailsCxfUtils.getServletsMappings().containsKey(manualServletName)) {
@@ -157,7 +168,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     protected void findWsdl() {
-        String wsdlLocation = (String) getPropertyOrStaticPropertyOrFieldValue(WSDL, String.class);
+        String wsdlLocation = (String) getPropertyOrStaticPropertyOrFieldValue(PROP_WSDL, String.class);
         if (wsdlLocation != null && !wsdlLocation.equals("")) {
             wsdl = getClass().getClassLoader().getResource(wsdlLocation);
             if(wsdl == null) {
@@ -166,5 +177,14 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         }
 
         log.debug("Endpoint [" + getFullName() + "] configured to use WSDL [" + wsdl + "].");
+    }
+
+    protected void setupSoap12Binding() {
+        soap12 = GrailsCxfUtils.getDefaultSoap12Binding();
+
+        Boolean soap12setting = (Boolean) getPropertyOrStaticPropertyOrFieldValue(PROP_SOAP12, Boolean.class);
+        if(soap12setting != null) {
+            soap12 = soap12setting;
+        }
     }
 }

@@ -8,13 +8,11 @@ import java.util.Set;
 
 public interface GrailsEndpointClass {
 
-    public static final String EXPOSE_AS = "exposeAs";
-
-    public static final String EXCLUDES = "excludes";
-
-    public static final String SERVLET_NAME = "servletName";
-
-    public static final String WSDL = "wsdl";
+    public static final String PROP_EXPOSE_AS    = "exposeAs";
+    public static final String PROP_EXCLUDES     = "excludes";
+    public static final String PROP_SERVLET_NAME = "servletName";
+    public static final String PROP_WSDL         = "wsdl";
+    public static final String PROP_SOAP12       = "soap12";
 
     public static final Set<String> DEFAULT_GROOVY_EXCLUDES =
             Collections.unmodifiableSet(
@@ -47,6 +45,8 @@ public interface GrailsEndpointClass {
     /**
      * The plugin will attempt to expose every public method intelligently in the endpoint class. We will filter out
      * the default GroovyObject methods and any of the property setters and getters.
+     * <p>
+     * This will be used to set the ignoredMethods property on the Cxf ServiceFactoryBean of the Cxf ServerFactoryBean.
      *
      * @return a set of method names to exclude from endpoint exposure.
      */
@@ -62,6 +62,8 @@ public interface GrailsEndpointClass {
 
     /**
      * The address past the configured servlet path that this endpoint should be exposed at.
+     * <p>
+     * This will be used to set the the address property on the Cxf ServerFactoryBean ({@see AbstractEndpointFactory}).
      *
      * @return the address to expose this endpoint at
      */
@@ -69,9 +71,20 @@ public interface GrailsEndpointClass {
 
     /**
      * A WSDL can be specified to be used.
+     * <p>
+     * By specifying a WSDL like this, it causes the ReflectionServiceFactoryBean populateFromClass property to be set
+     * to false.
      *
      * @return a URL to a WDSL that is on the classpath. Putting the WSDL in the src/java path is the best bet.
      */
     URL getWsdl();
+
+    /**
+     * Specifies to the EndpointBeanConfiguration class if it should set a binding id of SOAP 1.2 for the server
+     * factory that is getting configured.
+     *
+     *  @return if the Cxf Service should generate and use a Soap 1.2 binding.
+     */
+    Boolean isSoap12();
 
 }
