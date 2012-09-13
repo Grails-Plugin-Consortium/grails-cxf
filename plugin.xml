@@ -1,43 +1,21 @@
-<plugin name='cxf' version='1.0.0' grailsVersion='2.0.0 &gt; *'>
+<plugin name='cxf' version='1.0.0' grailsVersion='1.3.7 &gt; *'>
   <author>Ryan Crum</author>
   <authorEmail>ryan.j.crum@gmail.com</authorEmail>
-  <title>CXF plug-in for Grails</title>
-  <description>Add SOAP exposure to Grails services using Apache CXF.</description>
+  <title>CXF Server and Client plug-in for Grails</title>
   <documentation>http://grails.org/plugin/cxf</documentation>
-  <type>CxfGrailsPlugin</type>
   <resources>
-    <resource>test.TestCxfJaxService</resource>
-    <resource>test.TestCxfService</resource>
+    <resource>BuildConfig</resource>
+    <resource>Config</resource>
+    <resource>DataSource</resource>
+    <resource>DefaultCxfConfig</resource>
+    <resource>UrlMappings</resource>
+    <resource>test.TestCxfEndpoint</resource>
+    <resource>test.TestJaxwsEndpoint</resource>
     <resource>test.TestService</resource>
+    <resource>test.TestingEndpoint</resource>
   </resources>
-  <repositories>
-    <repository name='grailsCentral' url='http://plugins.grails.org' />
-    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
-    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
-    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
-    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
-  </repositories>
   <dependencies>
-    <test>
-      <dependency group='org.codehaus.geb' name='geb-spock' version='0.6.3' />
-      <dependency group='org.seleniumhq.selenium' name='selenium-htmlunit-driver' version='2.20.0' />
-      <dependency group='org.seleniumhq.selenium' name='selenium-chrome-driver' version='2.20.0' />
-      <dependency group='org.seleniumhq.selenium' name='selenium-firefox-driver' version='2.20.0' />
-      <dependency group='com.github.groovy-wslite' name='groovy-wslite' version='0.7.0' />
-    </test>
-    <compile>
-      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.5.2' />
-      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.5.2' />
-    </compile>
+    <plugin name='hibernate' version='1.3.7 &gt; *' />
   </dependencies>
-  <plugins>
-    <test>
-      <plugin group='org.grails.plugins' name='geb' version='0.6.3' />
-      <plugin group='org.grails.plugins' name='spock' version='0.6' />
-    </test>
-  </plugins>
-  <runtimePluginRequirements>
-    <plugin name='hibernate' version='2.0.0 &gt; *' />
-  </runtimePluginRequirements>
   <behavior />
 </plugin>
