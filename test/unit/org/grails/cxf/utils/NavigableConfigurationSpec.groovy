@@ -26,7 +26,7 @@ class NavigableConfigurationSpec extends UnitSpec {
     }
 
     @Unroll
-    def "get configuration at path"() {
+    def "get configuration at path #configPath = #expected"() {
         when:
         def found = new NavigableConfiguration(simpleConfig).get(configPath)
 
