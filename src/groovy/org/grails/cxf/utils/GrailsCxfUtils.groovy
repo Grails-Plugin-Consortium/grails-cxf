@@ -1,7 +1,7 @@
 package org.grails.cxf.utils
 
-import org.grails.cxf.artefact.EndpointArtefactHandler
 import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.grails.cxf.artefact.EndpointArtefactHandler
 
 /**
  *
@@ -28,7 +28,7 @@ class GrailsCxfUtils {
     }
 
     static Object getConfig(String configPath) {
-        cxfConfig?."${configPath}" ?: null
+        return configPath.tokenize('.').inject(cxfConfig) { cfg, pr -> cfg[pr] }
     }
 
     static void reloadCxfConfig() {
@@ -40,15 +40,17 @@ class GrailsCxfUtils {
     }
 
     static Map<String, String> getServletsMappings() {
-        assert getConfig(CFG_SERVLET_MAPPINGS), "There must be at least one configured servlet."
-        return getConfig(CFG_SERVLET_MAPPINGS) as Map<String, String>
+        Object mappings = getConfig(CFG_SERVLET_MAPPINGS)
+        assert mappings, "There must be at least one configured servlet."
+        return mappings as Map<String, String>
     }
 
     static String getDefaultServletName() {
         Object defaultName = getConfig(CFG_DEFAULT_SERVLET)
+        println getCxfConfig()."servlet.defaultServlet"
+        println getConfig(CFG_DEFAULT_SERVLET)
 
-        if(defaultName instanceof String && !defaultName.isEmpty() &&
-           servletsMappings.containsKey(defaultName)) {
+        if(defaultName instanceof String && !defaultName.isEmpty() && servletsMappings.containsKey(defaultName)) {
             return defaultName
         }
 

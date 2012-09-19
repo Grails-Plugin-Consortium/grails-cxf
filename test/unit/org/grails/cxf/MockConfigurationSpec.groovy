@@ -18,14 +18,12 @@ class MockConfigurationSpec extends Specification {
 
     protected class TestTwoEndpoint {}
 
-    @Shared
     Closure getArtefactsMock = {String type ->
         assert EndpointArtefactHandler.TYPE == type
         return [new DefaultGrailsEndpointClass(TestOneEndpoint),
                 new DefaultGrailsEndpointClass(TestTwoEndpoint)] as GrailsClass[]
     }
 
-    @Shared
     Closure getCxfConfig = {
         Class scriptClass = getClass().classLoader.loadClass('DefaultCxfConfig')
         ConfigObject config = new ConfigSlurper().parse(scriptClass)
@@ -33,16 +31,13 @@ class MockConfigurationSpec extends Specification {
         return config
     }
 
-    @Shared
     GrailsApplication grailsApplicationMock = [
             getArtefacts: getArtefactsMock,
             getConfig: getCxfConfig] as GrailsApplication
-    @Shared
     EndpointBeanConfiguration bc
-    @Shared
     BeanBuilder bb
 
-    def setupSpec() {
+    def setup() {
         GrailsCxfUtils.grailsApplication = grailsApplicationMock
         bc = new EndpointBeanConfiguration(grailsApplicationMock)
         bb = new BeanBuilder()

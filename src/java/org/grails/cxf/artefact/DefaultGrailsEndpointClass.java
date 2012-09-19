@@ -157,8 +157,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     protected void setupServletName() {
         String manualServletName = (String) getPropertyOrStaticPropertyOrFieldValue(PROP_SERVLET_NAME, String.class);
 
-        if (manualServletName != null && !manualServletName.equals("") &&
-                GrailsCxfUtils.getServletsMappings().containsKey(manualServletName)) {
+        if (manualServletName != null && !manualServletName.equals("") && GrailsCxfUtils.getServletsMappings().containsKey(manualServletName)) {
             servletName = manualServletName;
         } else {
             servletName = GrailsCxfUtils.getDefaultServletName();
