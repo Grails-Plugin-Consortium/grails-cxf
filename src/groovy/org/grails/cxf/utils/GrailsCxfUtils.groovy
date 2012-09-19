@@ -1,6 +1,7 @@
 package org.grails.cxf.utils
 
 import org.grails.cxf.artefact.EndpointArtefactHandler
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 /**
  *
@@ -12,20 +13,22 @@ class GrailsCxfUtils {
     static final String CFG_SERVLET_MAPPINGS = 'servlets'
     static final String CFG_ENDPOINT_SOAP12 = 'endpoint.soap12Binding'
 
+    static GrailsApplication grailsApplication
+
     private GrailsCxfUtils() {
         // Class contains static methods only
     }
 
     static ConfigObject getCxfConfig() {
-        CxfConfigHandler.instance.getCxfConfig()
+        return grailsApplication.config?.cxf
     }
 
     static NavigableConfiguration getCxfNavConfig() {
-        return new NavigableConfiguration(getCxfConfig())
+        return new NavigableConfiguration(cxfConfig)
     }
 
     static Object getConfig(String configPath) {
-        getCxfNavConfig().get(configPath)
+        cxfConfig?."${configPath}" ?: null
     }
 
     static void reloadCxfConfig() {
@@ -45,11 +48,11 @@ class GrailsCxfUtils {
         Object defaultName = getConfig(CFG_DEFAULT_SERVLET)
 
         if(defaultName instanceof String && !defaultName.isEmpty() &&
-           getServletsMappings().containsKey(defaultName)) {
+           servletsMappings.containsKey(defaultName)) {
             return defaultName
         }
 
-        return new TreeMap<String, String>(getServletsMappings()).firstKey()
+        return new TreeMap<String, String>(servletsMappings).firstKey()
     }
 
     static Boolean getDefaultSoap12Binding() {

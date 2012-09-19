@@ -22,7 +22,7 @@ cxf {
          * that don't explicitly define a {@code static servlet = name}. If
          * this value is not set then the first alphabetically will be used.
          */
-         //defaultServlet = 'CxfServlet'
+        //defaultServlet = 'CxfServlet'
     }
 
     /**
@@ -33,7 +33,7 @@ cxf {
      * configuration allows that.
      */
     servlets = [
-        CxfServlet: '/services/*'
+            CxfServlet: '/services/*'
     ]
 
     endpoint {
@@ -42,9 +42,11 @@ cxf {
          * cxf.endpoint.soap12Binding
          * <p>
          * Sets the Cxf Server Factory to generate a Soap 1.2 binding. This can
-         * also be set on a per endpoint basis using 
+         * also be set on a per endpoint basis using
          * {@code static soap12 = true}.
          */
         soap12Binding = false
     }
 }
+
+

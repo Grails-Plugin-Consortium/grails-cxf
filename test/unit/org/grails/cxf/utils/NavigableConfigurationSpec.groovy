@@ -1,10 +1,11 @@
 package org.grails.cxf.utils
 
-import spock.lang.Specification
+import grails.plugin.spock.UnitSpec
+import spock.lang.Unroll
 
-class NavigableConfigurationSpec extends Specification {
+class NavigableConfigurationSpec extends UnitSpec {
 
-    def simpleConfig
+    ConfigObject simpleConfig
 
     def setup() {
         simpleConfig = new ConfigSlurper().parse("""
@@ -24,6 +25,7 @@ class NavigableConfigurationSpec extends Specification {
             """)
     }
 
+    @Unroll
     def "get configuration at path"() {
         when:
         def found = new NavigableConfiguration(simpleConfig).get(configPath)
@@ -47,12 +49,16 @@ class NavigableConfigurationSpec extends Specification {
         'abc' == simpleConfig.apple.pear.cherry
     }
 
-    def "set configuration at path"() {
+    @Unroll
+    def "set configuration at path #configPath = #value"() {
+        given:
+        def config = new NavigableConfiguration(simpleConfig)
+
         when:
-        new NavigableConfiguration(simpleConfig).set(configPath, value)
+        config.set(configPath, value)
 
         then:
-        new NavigableConfiguration(simpleConfig).get(configPath) == value
+        config.get(configPath) == value
 
         where:
         configPath                                  | value

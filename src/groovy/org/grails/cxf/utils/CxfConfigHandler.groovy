@@ -1,43 +1,56 @@
 package org.grails.cxf.utils
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+
 import grails.util.Environment
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import groovy.util.logging.Commons
 
 /**
  * Handles the Plugins Configuration
  */
+@Commons
 class CxfConfigHandler {
 
     private static final String CONFIG_PATH = "grails.plugins.cxf"
     private static final String DEFAULT_CXF_CONFIG_CLASS = "DefaultCxfConfig"
 
-    private ConfigObject cxfConfig
+    private ConfigObject config
 
     /**
      * @return The groovy ConfigObject representation of this plugins configuration.
      */
     synchronized ConfigObject getCxfConfig() {
-        if (cxfConfig == null) {
+        if(config == null) {
             reloadCxfConfig()
         }
 
-        return cxfConfig
+        return config
+    }
+
+    synchronized void setCxfConfig(ConfigObject config) {
+        this.config = config
     }
 
     /**
      * Force a reload of the Cxf Plugin configuration.
      */
     void reloadCxfConfig() {
-        cxfConfig = mergeConfig(getDefinedConfig(), DEFAULT_CXF_CONFIG_CLASS)
-        setDefinedConfig(cxfConfig)
+        config = mergeConfig(getDefinedConfig(), DEFAULT_CXF_CONFIG_CLASS)
+        definedConfig = this.config
     }
 
     private ConfigObject getDefinedConfig() {
-        return (ConfigObject) new NavigableConfiguration(ConfigurationHolder.config).get(CONFIG_PATH)
+        def configObject =  new NavigableConfiguration(CH.config)
+        try {
+            return (ConfigObject) configObject.get(CONFIG_PATH)
+        } catch(NullPointerException npe) {
+            log.info "config node ${CONFIG_PATH} not found"
+            return CH.config
+        }
     }
 
     private void setDefinedConfig(final ConfigObject c) {
-        new NavigableConfiguration(ConfigurationHolder.config).set(CONFIG_PATH, c)
+        new NavigableConfiguration(CH.config).set(CONFIG_PATH, c)
     }
 
     /**
@@ -48,7 +61,7 @@ class CxfConfigHandler {
      */
     private ConfigObject mergeConfig(final ConfigObject currentConfig, final String className) {
         ClassLoader cl = CxfConfigHandler.getClassLoader()
-        ConfigSlurper slurper = new ConfigSlurper(Environment.getCurrent().getName())
+        ConfigSlurper slurper = new ConfigSlurper(Environment.current.name)
         ConfigObject secondaryConfig
 
         try {

@@ -1,51 +1,13 @@
 package org.grails.cxf.artefact
 
-import grails.spring.BeanBuilder
 import org.apache.cxf.bus.spring.SpringBus
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.commons.GrailsClass
+import org.grails.cxf.MockConfigurationSpec
 import org.grails.cxf.frontend.GrailsJaxWsServerFactoryBean
 import org.springframework.beans.MutablePropertyValues
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.beans.factory.config.RuntimeBeanReference
-import spock.lang.Specification
 
-class EndpointBeanConfigurationSpec extends Specification {
-
-    private class TestOneEndpoint {}
-
-    private class TestTwoEndpoint {}
-
-    private Boolean configWasntSet
-
-    Closure getArtefactsMock = {String type ->
-        assert EndpointArtefactHandler.TYPE == type
-        return [new DefaultGrailsEndpointClass(TestOneEndpoint),
-                new DefaultGrailsEndpointClass(TestTwoEndpoint)] as GrailsClass[]
-    }
-
-    GrailsApplication grailsApplicationMock = [getArtefacts: getArtefactsMock] as GrailsApplication
-
-    EndpointBeanConfiguration bc = new EndpointBeanConfiguration(grailsApplicationMock)
-
-    BeanBuilder bb
-
-    def setup() {
-        configWasntSet = false
-        if(ConfigurationHolder.config == null) {
-            ConfigurationHolder.config = new ConfigObject()
-            configWasntSet = true
-        }
-
-        bb = new BeanBuilder()
-    }
-
-    def cleanup() {
-        if(configWasntSet) {
-            ConfigurationHolder.config = null
-        }
-    }
+class EndpointBeanConfigurationSpec extends MockConfigurationSpec {
 
     def "cxfBeans sets up the cxf bus bean"() {
         when:
