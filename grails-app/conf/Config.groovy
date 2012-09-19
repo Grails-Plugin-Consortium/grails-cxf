@@ -25,3 +25,5 @@ log4j = {
             'org.grails.cxf.utils'
 
 }
+grails.views.default.codec="none" // none, html, base64
+grails.views.gsp.encoding="UTF-8"

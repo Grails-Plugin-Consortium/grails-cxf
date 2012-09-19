@@ -5,14 +5,14 @@ grails.project.test.reports.dir = "target/test-reports"
 
 grails.project.dependency.resolution = {
 
-    def exportFalse = { export: false }
+    def exportLibs = { export: false }
     def excludeConflicting = { excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis' }
 
     def cxfGroup = 'org.apache.cxf'
     def cxfVersion = '2.6.1'
 
     def pluginsGroup = 'org.grails.plugins'
-    def grailsVersion = '1.3.7'
+    def grailsVersion = '2.1.0'
 
     inherits("global") {}
 
@@ -62,24 +62,24 @@ grails.project.dependency.resolution = {
         test    name: 'groovy-wslite',
                 version: '0.7.0',
                 group: 'com.github.groovy-wslite',
-                exportFalse
+                exportLibs
 
         test    name: 'geb-spock',
                 version: '0.5.1',
                 group: 'org.codehaus.geb',
-                exportFalse
+                exportLibs
 
         test    name: 'selenium-htmlunit-driver',
                 version: '2.20.0',
                 group: 'org.seleniumhq.selenium', {
-                    with exportFalse
+                    with exportLibs
                     with excludeConflicting
                 }
 
         test    name: 'selenium-chrome-driver',
                 version: '2.20.0',
                 group: 'org.seleniumhq.selenium',
-                exportFalse
+                exportLibs
     }
 
     plugins {
@@ -87,23 +87,23 @@ grails.project.dependency.resolution = {
         runtime name: 'hibernate',
                 version: grailsVersion,
                 group: pluginsGroup,
-                exportFalse
+                exportLibs
 
         runtime name: 'tomcat',
                 version: grailsVersion,
                 group: pluginsGroup,
-                exportFalse
+                exportLibs
 
         /* Spock and Geb for Testing ******************************************/
         test    name: 'spock',
-                version: '0.5-groovy-1.7',
+                version: '0.6',
                 group: pluginsGroup,
-                exportFalse
+                exportLibs
 
         test    name: 'geb',
                 version: '0.5.1',
                 group: pluginsGroup,
-                exportFalse
+                exportLibs
     }
 }
 
