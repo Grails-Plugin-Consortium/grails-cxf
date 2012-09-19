@@ -8,6 +8,6 @@ import org.apache.cxf.jaxws.JaxWsServerFactoryBean
 class GrailsJaxWsServerFactoryBean extends JaxWsServerFactoryBean implements MethodIgnoringServerFactoryBean {
 
     void setIgnoredMethods(final Set exclusions) {
-        new DelegatingServerFactoryBean(this).ignoredMethods = exclusions
+        new DelegatingServerFactoryBean(this).setIgnoredMethods(exclusions)
     }
 }

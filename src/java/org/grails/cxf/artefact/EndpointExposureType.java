@@ -21,6 +21,10 @@ public enum EndpointExposureType {
 
     static EndpointExposureType forExposeAs(String exposeAs) throws IllegalArgumentException {
         String name = GrailsCxfUtils.flexibleEnumName(exposeAs);
-        return EndpointExposureType.valueOf(name);
+        try {
+            return EndpointExposureType.valueOf(name);
+        } catch(Exception e) {
+            return EndpointExposureType.valueOf("JAX_WS");
+        }
     }
 }

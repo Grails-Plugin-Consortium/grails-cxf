@@ -1,7 +1,7 @@
 package org.grails.cxf.utils
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.util.Environment
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 /**
  * Handles the Plugins Configuration
@@ -53,7 +53,7 @@ class CxfConfigHandler {
 
         try {
             secondaryConfig = slurper.parse(cl.loadClass(className))
-        } catch (ClassNotFoundException e) {
+        } catch(ClassNotFoundException e) {
             throw new RuntimeException(e)
         }
 
@@ -72,13 +72,7 @@ class CxfConfigHandler {
      */
     private ConfigObject mergeConfig(final ConfigObject currentConfig, final ConfigObject secondary) {
         ConfigObject config = new ConfigObject()
-
-        if (secondary == null) {
-            config.putAll(currentConfig)
-        } else {
-            config.putAll(secondary.merge(currentConfig))
-        }
-
+        config.putAll(!secondary ? currentConfig : secondary.merge(currentConfig))
         return config
     }
 
@@ -93,12 +87,12 @@ class CxfConfigHandler {
     }
 
     static CxfConfigHandler getInstance() {
-        if (instance) {
+        if(instance) {
             return instance
         }
 
-        synchronized (CxfConfigHandler) {
-            if (instance) {
+        synchronized(CxfConfigHandler) {
+            if(instance) {
                 return instance
             }
 

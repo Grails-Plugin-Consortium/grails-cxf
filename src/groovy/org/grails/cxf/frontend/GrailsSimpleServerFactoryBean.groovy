@@ -8,7 +8,7 @@ import org.apache.cxf.frontend.ServerFactoryBean
 class GrailsSimpleServerFactoryBean extends ServerFactoryBean implements MethodIgnoringServerFactoryBean {
 
     void setIgnoredMethods(final Set exclusions) {
-        new DelegatingServerFactoryBean(this).ignoredMethods = exclusions
+        new DelegatingServerFactoryBean(this).setIgnoredMethods(exclusions)
     }
 
 }

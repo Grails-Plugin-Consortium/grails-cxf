@@ -1,8 +1,8 @@
 package org.grails.cxf.artefact
 
-import grails.plugin.spock.UnitSpec
+import spock.lang.Specification
 
-class EndpointArtefactHandlerSpec extends UnitSpec {
+class EndpointArtefactHandlerSpec extends Specification {
 
     private class SomeEndpointNot {}
 
@@ -14,19 +14,19 @@ class EndpointArtefactHandlerSpec extends UnitSpec {
 
     def "isArtefactClass matches classes"() {
         when:
-            EndpointArtefactHandler handler = new EndpointArtefactHandler()
+        EndpointArtefactHandler handler = new EndpointArtefactHandler()
 
         then:
-            handler.isArtefactClass(clazz) == isArtefactClass
+        handler.isArtefactClass(clazz) == isArtefactClass
 
         where:
-            clazz               | isArtefactClass
-            null                | false
-            Object              | false
-            String              | false
-            SomeEndpointNot     | false
-            EndpointOther       | false
-            SuperEndpoint       | true
-            SuperDuperEndpoint  | true
+        clazz              | isArtefactClass
+        null               | false
+        Object             | false
+        String             | false
+        SomeEndpointNot    | false
+        EndpointOther      | false
+        SuperEndpoint      | true
+        SuperDuperEndpoint | true
     }
 }

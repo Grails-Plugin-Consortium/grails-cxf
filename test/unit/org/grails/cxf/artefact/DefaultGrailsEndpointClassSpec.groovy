@@ -1,6 +1,5 @@
 package org.grails.cxf.artefact
 
-import grails.plugin.spock.UnitSpec
 import org.grails.cxf.utils.CxfConfigHandler
 
 import static org.grails.cxf.artefact.EndpointExposureType.JAX_RS
@@ -8,8 +7,9 @@ import static org.grails.cxf.artefact.EndpointExposureType.JAX_WS
 import static org.grails.cxf.artefact.EndpointExposureType.SIMPLE
 import static org.grails.cxf.artefact.GrailsEndpointClass.DEFAULT_GROOVY_EXCLUDES
 import static org.grails.cxf.artefact.EndpointExposureType.JAX_WS_WSDL
+import spock.lang.Specification
 
-class DefaultGrailsEndpointClassSpec extends UnitSpec {
+class DefaultGrailsEndpointClassSpec extends Specification {
 
     private class DefaultEndpoint {}
 
