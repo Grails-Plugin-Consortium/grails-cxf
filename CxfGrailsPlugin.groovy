@@ -77,6 +77,8 @@ class CxfGrailsPlugin {
             'grails-app/conf/spring',
             'grails-app/conf/DataSource.groovy',
             'grails-app/conf/UrlMappings.groovy',
+            'grails-app/conf/codenarc.groovy',
+            'grails-app/conf/codenarc.ruleset.all.groovy.txt',
             'grails-app/controllers/**',
             'grails-app/domain/**',
             'grails-app/endpoints/**',
@@ -89,6 +91,7 @@ class CxfGrailsPlugin {
             'src/java/org/grails/cxf/test/**',
             'lib/**',
             'target/**',
-            'web-app/**'
+            'web-app/**',
+            'codenarc.properties'
     ]
 }

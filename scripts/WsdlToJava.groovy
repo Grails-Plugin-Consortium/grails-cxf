@@ -11,13 +11,13 @@ defaultOutPackage = 'org.grails.cxf.soap'
 cli = null
 options = null
 
-target(main: 'The description of the script goes here!') {
+target(main: 'Quick way to generate wsdl to java from cxf plugin') {
     depends(checkVersion)
 
     createCli()
     options = cli.parse(args.tokenize())
 
-    if (options.help) {
+    if(options.help) {
         cli.usage()
         return false
     }
@@ -30,18 +30,12 @@ finished = {String message -> event('StatusFinal', [message])}
 errorMessage = { String message -> event('StatusError', [message]) }
 
 private wsdl2Java() {
-    ant.java(classname: 'org.apache.cxf.tools.wsdlto.WSDLToJava') {
+    ant.java(fork: true, classpathref: "classpath", classname: 'org.apache.cxf.tools.wsdlto.WSDLToJava') {
         arg(value: '-verbose')
         arg(value: '-d')
         arg(value: javaSourceDir)
-
         arg(value: '-p')
-        if (options.p) {
-            arg(value: options.p)
-        } else {
-            arg(value: defaultOutPackage)
-        }
-
+        arg(value: options?.p ?: defaultOutPackage)
         arg(value: options.wsdl)
     }
     finished "Finished generating Java code for WSDL."
@@ -64,6 +58,7 @@ See http://cxf.apache.org/docs/wsdl-to-java.html for additional options.'''
     cli.formatter = new HelpFormatter()
     cli.width = 120
     cli.writer = new PrintWriter(new StringWriter() {
+
         @Override
         void flush() {
             super.flush()

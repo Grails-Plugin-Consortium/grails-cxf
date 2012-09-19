@@ -11,23 +11,23 @@ class BookStoreEndpointSpec extends GebReportingSpec {
 
     def "findBookByIsbn should return the book of awesomeness given a valid isbn"() {
         when:
-            SOAPResponse response = client.send {
-                envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
-                body {
-                    'test:findBookByIsbn' {
-                        isbn {
-                            number '1-84356-028-3'
-                        }
+        SOAPResponse response = client.send {
+            envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
+            body {
+                'test:findBookByIsbn' {
+                    isbn {
+                        number '1-84356-028-3'
                     }
                 }
             }
-            def methodResponse = response.body.findBookByIsbnResponse.book
+        }
+        def methodResponse = response.body.findBookByIsbnResponse.book
 
         then:
-            200 == response.httpResponse.statusCode
-            SOAPVersion.V1_1 == response.soapVersion
-            'The Definitive Book of Awesomeness' == methodResponse.title.text()
-            '1-84356-028-3' == methodResponse.isbn.text()
+        200 == response.httpResponse.statusCode
+        SOAPVersion.V1_1 == response.soapVersion
+        'The Definitive Book of Awesomeness' == methodResponse.title.text()
+        '1-84356-028-3' == methodResponse.isbn.text()
     }
 
     def "findBookByIsbn should fault when isbn is invalid"() {

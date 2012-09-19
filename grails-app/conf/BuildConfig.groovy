@@ -11,6 +11,8 @@ grails.project.dependency.resolution = {
     def cxfGroup = 'org.apache.cxf'
     def cxfVersion = '2.6.1'
 
+    def gebVersion = '0.7.2'
+
     def pluginsGroup = 'org.grails.plugins'
     def grailsVersion = '2.1.0'
 
@@ -27,25 +29,25 @@ grails.project.dependency.resolution = {
 
     dependencies {
 
-        build   name: 'commons-cli',
-                version:  '1.2',
-                group: 'commons-cli'
+        build name: 'commons-cli',
+              version: '1.2',
+              group: 'commons-cli'
 
         /* Dependencies for the Wsdl To Java script ***************************/
-        build   name: 'cxf-tools-wsdlto-core',
-                version: cxfVersion,
-                group: cxfGroup,
-                excludeConflicting
+        build name: 'cxf-tools-wsdlto-core',
+              version: cxfVersion,
+              group: cxfGroup,
+              excludeConflicting
 
-        build   name: 'cxf-tools-wsdlto-frontend-jaxws',
-                version: cxfVersion,
-                group: cxfGroup,
-                excludeConflicting
+        build name: 'cxf-tools-wsdlto-frontend-jaxws',
+              version: cxfVersion,
+              group: cxfGroup,
+              excludeConflicting
 
-        build   name: 'cxf-tools-wsdlto-databinding-jaxb',
-                version: cxfVersion,
-                group: cxfGroup,
-                excludeConflicting
+        build name: 'cxf-tools-wsdlto-databinding-jaxb',
+              version: cxfVersion,
+              group: cxfGroup,
+              excludeConflicting
 
         /* Dependencies for the Cxf Runtime ***********************************/
         compile name: 'cxf-rt-frontend-jaxws',
@@ -59,27 +61,27 @@ grails.project.dependency.resolution = {
                 excludeConflicting
 
         /* Some Testing Help **************************************************/
-        test    name: 'groovy-wslite',
-                version: '0.7.0',
-                group: 'com.github.groovy-wslite',
-                exportLibs
+        test name: 'groovy-wslite',
+             version: '0.7.0',
+             group: 'com.github.groovy-wslite',
+             exportLibs
 
-        test    name: 'geb-spock',
-                version: '0.5.1',
-                group: 'org.codehaus.geb',
-                exportLibs
+        test name: 'geb-spock',
+             version: gebVersion,
+             group: 'org.codehaus.geb',
+             exportLibs
 
-        test    name: 'selenium-htmlunit-driver',
-                version: '2.20.0',
-                group: 'org.seleniumhq.selenium', {
+        test name: 'selenium-htmlunit-driver',
+             version: '2.20.0',
+             group: 'org.seleniumhq.selenium', {
                     with exportLibs
                     with excludeConflicting
                 }
 
-        test    name: 'selenium-chrome-driver',
-                version: '2.20.0',
-                group: 'org.seleniumhq.selenium',
-                exportLibs
+        test name: 'selenium-chrome-driver',
+             version: '2.20.0',
+             group: 'org.seleniumhq.selenium',
+             exportLibs
     }
 
     plugins {
@@ -95,15 +97,42 @@ grails.project.dependency.resolution = {
                 exportLibs
 
         /* Spock and Geb for Testing ******************************************/
-        test    name: 'spock',
-                version: '0.6',
-                group: pluginsGroup,
-                exportLibs
+        test name: 'spock',
+             version: '0.6',
+             group: pluginsGroup,
+             exportLibs
 
-        test    name: 'geb',
-                version: '0.5.1',
-                group: pluginsGroup,
-                exportLibs
+        test name: 'geb',
+             version: gebVersion,
+             group: pluginsGroup,
+             exportLibs
+
+        test name: 'code-coverage',
+             version: '1.2.5',
+             group: pluginsGroup,
+             exportLibs
+
+        test name: 'codenarc',
+             version: '0.17',
+             group: pluginsGroup,
+             exportLibs
     }
 }
 
+coverage {
+    xml = true
+    exclusions = ["**/*Tests*"]
+}
+
+codenarc {
+    processTestUnit = false
+    processTestIntegration = false
+    propertiesFile = 'codenarc.properties'
+    ruleSetFiles = "file:grails-app/conf/codenarc.groovy"
+    reports = {
+        CxfClientReport('xml') {                    // The report name "MyXmlReport" is user-defined; Report type is 'xml'
+            outputFile = 'target/codenarc.xml'      // Set the 'outputFile' property of the (XML) Report
+            title = 'Grails CXF Plugin'             // Set the 'title' property of the (XML) Report
+        }
+    }
+}
