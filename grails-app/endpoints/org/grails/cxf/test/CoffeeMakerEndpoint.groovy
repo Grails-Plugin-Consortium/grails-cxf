@@ -3,6 +3,8 @@ package org.grails.cxf.test
 import org.grails.cxf.test.soap.simple.CoffeeType
 
 import java.util.concurrent.atomic.AtomicBoolean
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
+import org.grails.cxf.adapter.GrailsCxfMapAdapter
 
 /**
  * An example of a Simple Cxf SOAP Service.
@@ -12,10 +14,9 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * @see http://cxf.apache.org/docs/simple-frontend.html
  */
-class CoffeeMakerEndpoint implements CoffeeMakerService {
+class CoffeeMakerEndpoint {
 
-    static exposeAs = 'JAX_WS'
-//    static exposeAs = 'JAX_RS'
+    static exposeAs = 'simple'
 
     AtomicBoolean makerOn = new AtomicBoolean(false)
 
@@ -40,6 +41,7 @@ class CoffeeMakerEndpoint implements CoffeeMakerService {
         return CoffeeType.values()
     }
 
+    @XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)
     Map<String, CoffeeType> mapCoffeeLocations() {
         return ['Colombia': CoffeeType.Colombian, 'Ethiopia': CoffeeType.Ethiopian]
     }

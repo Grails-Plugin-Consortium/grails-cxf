@@ -14,11 +14,11 @@ class CxfGrailsPlugin {
         with wdc.configuredServlets()
     }
 
+    def classes = []
+
     def artefacts = GrailsCxfUtils.configuredArtefacts()
 
     def doWithSpring = {
-        loadDefaultConfig(application.config.grails.cxf)
-
         EndpointBeanConfiguration bc = new EndpointBeanConfiguration(application)
 
         with bc.cxfBeans()
@@ -34,6 +34,7 @@ class CxfGrailsPlugin {
 
     def watchedResources = [
             'file:./grails-app/endpoints/**/*',
+            'file:./grails-app/services/**/*',
             'file:./grails-app/conf/*Config.groovy'
     ]
 
@@ -97,16 +98,4 @@ class CxfGrailsPlugin {
             'web-app/**',
             'codenarc.properties'
     ]
-
-    private ConfigObject loadDefaultConfig(ConfigObject cxfConfig) {
-        GroovyClassLoader classLoader = new GroovyClassLoader(getClass().classLoader)
-        // merging default config into main application config
-        def defaultConfig = new ConfigSlurper(GrailsUtil.environment).parse(classLoader.loadClass('DefaultCxfConfig'))
-        //may look weird, but we must merge the user config into default first so the user overrides default,
-        // then merge back into the main to bring default values in that were not overridden
-        def mergedConfig = defaultConfig.grails.cxf.merge(cxfConfig)
-        cxfConfig.merge( mergedConfig )
-
-        return cxfConfig
-    }
 }
