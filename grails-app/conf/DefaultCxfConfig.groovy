@@ -1,5 +1,5 @@
 /**
- * Default configuration values for the plugin.
+ * Default configuration values for the plugin.  You can override in Config.groovy
  */
 
 cxf {
