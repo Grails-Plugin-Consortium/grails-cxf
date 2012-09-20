@@ -72,11 +72,16 @@ grails.project.dependency.resolution = {
              exportLibs
 
         test name: 'selenium-htmlunit-driver',
-             version: '2.20.0',
+             version: '2.25.0',
              group: 'org.seleniumhq.selenium', {
                     with exportLibs
                     with excludeConflicting
                 }
+
+        test name: 'selenium-firefox-driver',
+             version: '2.20.0',
+             group: 'org.seleniumhq.selenium',
+             exportLibs
 
         test name: 'selenium-chrome-driver',
              version: '2.20.0',
