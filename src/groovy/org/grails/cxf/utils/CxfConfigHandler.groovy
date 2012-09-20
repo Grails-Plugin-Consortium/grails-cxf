@@ -11,7 +11,7 @@ import groovy.util.logging.Commons
 @Commons
 class CxfConfigHandler {
 
-    private static final String CONFIG_PATH = "grails.plugins.cxf"
+    private static final String CONFIG_PATH = "grails.cxf"
     private static final String DEFAULT_CXF_CONFIG_CLASS = "DefaultCxfConfig"
 
     private ConfigObject config

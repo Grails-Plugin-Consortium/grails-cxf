@@ -12,8 +12,10 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * @see http://cxf.apache.org/docs/simple-frontend.html
  */
-class CoffeeMakerEndpoint {
-    static exposeAs = 'simple'
+class CoffeeMakerEndpoint implements CoffeeMakerService {
+
+    static exposeAs = 'JAX_WS'
+//    static exposeAs = 'JAX_RS'
 
     AtomicBoolean makerOn = new AtomicBoolean(false)
 
@@ -36,6 +38,10 @@ class CoffeeMakerEndpoint {
 
     List<CoffeeType> listCoffeeTypes() {
         return CoffeeType.values()
+    }
+
+    Map<String, CoffeeType> mapCoffeeLocations() {
+        return ['Colombia': CoffeeType.Colombian, 'Ethiopia': CoffeeType.Ethiopian]
     }
 
 }

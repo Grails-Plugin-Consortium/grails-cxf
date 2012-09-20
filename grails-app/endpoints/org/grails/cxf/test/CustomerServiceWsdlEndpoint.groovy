@@ -1,12 +1,13 @@
 package org.grails.cxf.test
 
 import org.grails.cxf.test.soap.Customer
+
 import javax.jws.WebService
 
 @WebService(name = 'CustomerServiceWsdlEndpoint',
-            targetNamespace = 'http://test.cxf.grails.org/',
-            serviceName = 'CustomerServiceWsdlEndpoint',
-            portName = 'CustomerServiceWsdlPort')
+targetNamespace = 'http://test.cxf.grails.org/',
+serviceName = 'CustomerServiceWsdlEndpoint',
+portName = 'CustomerServiceWsdlPort')
 class CustomerServiceWsdlEndpoint {
 
     static exposeAs = 'jax-ws wsdl'

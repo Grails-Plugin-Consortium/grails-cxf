@@ -32,7 +32,8 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
     private class ToastAndButter {}
 
     def setup() {
-        CxfConfigHandler.instance.cxfConfig = GrailsCxfUtils.cxfConfig
+        CxfConfigHandler.instance.cxfConfig =
+            new ConfigSlurper().parse(getClass().getClassLoader().loadClass('DefaultCxfConfig')).cxf
 
         // Reset this stuff each go
         SimpleEndpoint.exposeAs = ""
@@ -154,14 +155,11 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
 
     def "servletName defaults to alphabetical on multiple configuration"() {
         setup:
-        ConfigObject cxfConfig = getCxfConfig.call()
-        cxfConfig.cxf.servlets = [
+            CxfConfigHandler.instance.cxfConfig.servlets = [
                 'FirstServlet': '/services1/*',
                 'SecondServlet': '/services2/*',
                 'AThirdServlet': '/services3/*'
         ]
-        def config = [getConfig: {cxfConfig}] as GrailsApplication
-        GrailsCxfUtils.grailsApplication = config
 
         when:
         def artefact = new DefaultGrailsEndpointClass(DefaultEndpoint)
@@ -172,18 +170,14 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
 
     def "servletName default can be changed"() {
         setup:
-        ConfigObject cxfConfig = getCxfConfig.call()
-        cxfConfig.cxf = [
-                servlet: ['defaultServlet': 'SecondServlet'],
-                servlets: [
+        CxfConfigHandler.instance.cxfConfig.servlets = [
                         'FirstServlet': '/services1/*',
                         'SecondServlet': '/services2/*',
                         'AThirdServlet': '/services3/*'
-                ]]
-        def config = [getConfig: {cxfConfig}] as GrailsApplication
-        GrailsCxfUtils.grailsApplication = config
+        ]
 
         when:
+        CxfConfigHandler.instance.cxfConfig.servlet.defaultServlet = 'SecondServlet'
         def artefact = new DefaultGrailsEndpointClass(DefaultEndpoint)
 
         then:
@@ -193,14 +187,11 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
     @Unroll
     def "servletName can be set #servletName = #expectedServletName"() {
         setup:
-        ConfigObject cxfConfig = getCxfConfig.call()
-        cxfConfig.cxf.servlets = [
+            CxfConfigHandler.instance.cxfConfig.servlets = [
                 'FirstServlet': '/services1/*',
                 'SecondServlet': '/services2/*',
                 'AThirdServlet': '/services3/*'
         ]
-        def config = [getConfig: {cxfConfig}] as GrailsApplication
-        GrailsCxfUtils.grailsApplication = config
 
         when:
         SimpleEndpoint.servletName = servletName

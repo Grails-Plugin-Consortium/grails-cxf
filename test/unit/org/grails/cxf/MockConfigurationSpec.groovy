@@ -38,7 +38,7 @@ class MockConfigurationSpec extends Specification {
     BeanBuilder bb
 
     def setup() {
-        GrailsCxfUtils.grailsApplication = grailsApplicationMock
+        //GrailsCxfUtils.grailsApplication = grailsApplicationMock
         bc = new EndpointBeanConfiguration(grailsApplicationMock)
         bb = new BeanBuilder()
     }

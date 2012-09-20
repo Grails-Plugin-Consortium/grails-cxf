@@ -3,9 +3,6 @@ package org.grails.cxf.utils
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.grails.cxf.artefact.EndpointArtefactHandler
 
-/**
- *
- */
 class GrailsCxfUtils {
 
     static final String CFG_LOAD_ON_STARTUP = 'servlet.loadOnStartup'
@@ -13,6 +10,7 @@ class GrailsCxfUtils {
     static final String CFG_SERVLET_MAPPINGS = 'servlets'
     static final String CFG_ENDPOINT_SOAP12 = 'endpoint.soap12Binding'
 
+    //this is injected from bootstrap... ConfigurationHolder is now depreciated
     static GrailsApplication grailsApplication
 
     private GrailsCxfUtils() {
@@ -20,15 +18,15 @@ class GrailsCxfUtils {
     }
 
     static ConfigObject getCxfConfig() {
-        return grailsApplication.config?.cxf
+        CxfConfigHandler.instance.getCxfConfig()
     }
 
     static NavigableConfiguration getCxfNavConfig() {
-        return new NavigableConfiguration(cxfConfig)
+        return new NavigableConfiguration(getCxfConfig())
     }
 
     static Object getConfig(String configPath) {
-        return configPath.tokenize('.').inject(cxfConfig) { cfg, pr -> cfg[pr] }
+        getCxfNavConfig().get(configPath)
     }
 
     static void reloadCxfConfig() {
@@ -47,14 +45,12 @@ class GrailsCxfUtils {
 
     static String getDefaultServletName() {
         Object defaultName = getConfig(CFG_DEFAULT_SERVLET)
-        println getCxfConfig()."servlet.defaultServlet"
-        println getConfig(CFG_DEFAULT_SERVLET)
 
-        if(defaultName instanceof String && !defaultName.isEmpty() && servletsMappings.containsKey(defaultName)) {
+        if(defaultName instanceof String && !defaultName.isEmpty() && getServletsMappings().containsKey(defaultName)) {
             return defaultName
         }
 
-        return new TreeMap<String, String>(servletsMappings).firstKey()
+        return new TreeMap<String, String>(getServletsMappings()).firstKey()
     }
 
     static Boolean getDefaultSoap12Binding() {
