@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.groovy.grails.commons.AbstractInjectableGrailsClass;
 import org.codehaus.groovy.grails.commons.GrailsClassUtils;
+import org.grails.cxf.utils.EndpointType;
 import org.grails.cxf.utils.GrailsCxfUtils;
 
 import javax.xml.transform.TransformerConfigurationException;
@@ -110,7 +111,9 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     protected void setupExposeAs() {
         exposeAs = EndpointExposureType.JAX_WS; // Default to the most common type.
 
-        String manualExposeAs = (String) getPropertyOrStaticPropertyOrFieldValue(PROP_EXPOSE_AS, String.class);
+        Object propExposeAs = getPropertyValue(PROP_EXPOSE_AS);
+        String manualExposeAs = getConfiguredExposeAs(propExposeAs);
+
         if (manualExposeAs != null && !manualExposeAs.equals("")) {
             try {
                 exposeAs = EndpointExposureType.forExposeAs(manualExposeAs);
@@ -124,6 +127,16 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         }
 
         log.debug("Endpoint [" + getFullName() + "] configured to use [" + exposeAs.name() + "].");
+    }
+
+    private String getConfiguredExposeAs( Object propExposeAs) {
+        String manualExposeAs = null;
+        if(propExposeAs instanceof EndpointType){
+            manualExposeAs = ((EndpointType)propExposeAs).toString();
+        } else if(propExposeAs instanceof String){
+            manualExposeAs = (String)propExposeAs;
+        }
+        return manualExposeAs;
     }
 
     protected void buildExclusionSet() {

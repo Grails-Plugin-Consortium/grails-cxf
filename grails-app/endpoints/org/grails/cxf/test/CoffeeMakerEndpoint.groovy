@@ -5,6 +5,7 @@ import org.grails.cxf.test.soap.simple.CoffeeType
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 import org.grails.cxf.adapter.GrailsCxfMapAdapter
+import org.grails.cxf.utils.EndpointType
 
 /**
  * An example of a Simple Cxf SOAP Service.
@@ -16,7 +17,7 @@ import org.grails.cxf.adapter.GrailsCxfMapAdapter
  */
 class CoffeeMakerEndpoint {
 
-    static exposeAs = 'simple'
+    static exposeAs = EndpointType.SIMPLE
 
     AtomicBoolean makerOn = new AtomicBoolean(false)
 

@@ -6,6 +6,7 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 import javax.xml.ws.soap.SOAPBinding
+import javax.jws.WebService
 
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
@@ -174,7 +175,8 @@ class EndpointBeanConfiguration {
     void eachServiceArtefact(final Closure forEachGrailsClass) {
         grailsApplication.serviceClasses.each { service ->
             def exposeAs = GrailsClassUtils.getStaticPropertyValue(service.getClazz(), 'exposeAs')
-            if(exposeAs) {
+            def annotation = service.getClazz().getAnnotation(WebService.class)
+            if(exposeAs || annotation) {
                 forEachGrailsClass(new DefaultGrailsEndpointClass(service.clazz))
             }
         }
