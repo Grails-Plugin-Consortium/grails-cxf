@@ -63,7 +63,6 @@ class GrailsCxfUtils {
      * @return list of artefacts to wire up
      */
     static List configuredArtefacts() {
-//        return [EndpointArtefactHandler, ServiceArtefactHandler]
         return [EndpointArtefactHandler]
     }
 

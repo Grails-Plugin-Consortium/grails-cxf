@@ -3,6 +3,7 @@ package org.grails.cxf.artefact
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 import javax.xml.ws.soap.SOAPBinding
 
@@ -55,6 +56,7 @@ class EndpointBeanConfiguration {
      */
     Closure factoryBeans() {
         return {
+            //wire the endpoints
             eachEndpointArtefact {DefaultGrailsEndpointClass endpointArtefact ->
                 String endpointName = endpointArtefact.propertyName
                 Class endpointClass = endpointArtefact.clazz
@@ -71,28 +73,69 @@ class EndpointBeanConfiguration {
                     serviceBean = ref(endpointName)
                     ignoredMethods = endpointExclusions
 
-                    if (endpointUseWsdl) {
+                    if(endpointUseWsdl) {
                         wsdlLocation = endpointWsdlLocation
                     }
 
-                    if (endpointUseSoap12) {
+                    if(endpointUseSoap12) {
                         bindingId = SOAPBinding.SOAP12HTTP_MTOM_BINDING
                     }
                 }
 
                 debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
                 trace 'Cxf endpoint server factory bean wiring details:' +
-                        "\n\tEndpoint Name:                       $endpointName" +
-                        "\n\tEndpoint Class:                      $endpointClass" +
-                        "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
-                        "\n\tServer Factory - Address:            $endpointAddress" +
-                        "\n\tServer Factory - Service Class:      $endpointClass" +
-                        "\n\tServer Factory - Service Bean:       ref($endpointName)" +
-                        "\n\tServer Factory - Ignored Methods:    $endpointExclusions" +
-                        "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
-                        "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
-                        "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
-                        "\n"
+                      "\n\tEndpoint Name:                       $endpointName" +
+                      "\n\tEndpoint Class:                      $endpointClass" +
+                      "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
+                      "\n\tServer Factory - Address:            $endpointAddress" +
+                      "\n\tServer Factory - Service Class:      $endpointClass" +
+                      "\n\tServer Factory - Service Bean:       ref($endpointName)" +
+                      "\n\tServer Factory - Ignored Methods:    $endpointExclusions" +
+                      "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
+                      "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
+                      "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
+                      "\n"
+            }
+
+            //now wire the services
+            eachServiceArtefact {DefaultGrailsEndpointClass endpointArtefact ->
+                String endpointName = endpointArtefact.propertyName
+                Class endpointClass = endpointArtefact.clazz
+                String endpointAddress = endpointArtefact.address
+                Class endpointFactoryClass = endpointArtefact.exposeAs.factoryBean
+                Set endpointExclusions = endpointArtefact.excludes
+                Boolean endpointUseWsdl = endpointArtefact.hasWsdl()
+                String endpointWsdlLocation = endpointArtefact.wsdl?.toString()
+                Boolean endpointUseSoap12 = endpointArtefact.soap12
+
+                "${endpointName}Factory"(endpointFactoryClass) {
+                    address = endpointAddress
+                    serviceClass = endpointClass
+                    serviceBean = ref(endpointName)
+                    ignoredMethods = endpointExclusions
+
+                    if(endpointUseWsdl) {
+                        wsdlLocation = endpointWsdlLocation
+                    }
+
+                    if(endpointUseSoap12) {
+                        bindingId = SOAPBinding.SOAP12HTTP_MTOM_BINDING
+                    }
+                }
+
+                debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
+                trace 'Cxf endpoint server factory bean wiring details:' +
+                      "\n\tEndpoint Name:                       $endpointName" +
+                      "\n\tEndpoint Class:                      $endpointClass" +
+                      "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
+                      "\n\tServer Factory - Address:            $endpointAddress" +
+                      "\n\tServer Factory - Service Class:      $endpointClass" +
+                      "\n\tServer Factory - Service Bean:       ref($endpointName)" +
+                      "\n\tServer Factory - Ignored Methods:    $endpointExclusions" +
+                      "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
+                      "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
+                      "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
+                      "\n"
             }
         }
     }
@@ -124,9 +167,22 @@ class EndpointBeanConfiguration {
         grailsApplication.getArtefacts(EndpointArtefactHandler.TYPE).each(forEachGrailsClass)
     }
 
+    /**
+     * We only want services with explicit 'exposeAs' wired up.
+     * @param forEachGrailsClass
+     */
+    void eachServiceArtefact(final Closure forEachGrailsClass) {
+        grailsApplication.serviceClasses.each { service ->
+            def exposeAs = GrailsClassUtils.getStaticPropertyValue(service.getClazz(), 'exposeAs')
+            if(exposeAs) {
+                forEachGrailsClass(new DefaultGrailsEndpointClass(service.clazz))
+            }
+        }
+    }
+
     void eachEndpointArtefact(final String servletName, final Closure forEachGrailsClass) {
         eachEndpointArtefact {DefaultGrailsEndpointClass endpointArtefact ->
-            if (endpointArtefact.servletName == servletName) {
+            if(endpointArtefact.servletName == servletName) {
                 forEachGrailsClass(endpointArtefact)
             }
         }
