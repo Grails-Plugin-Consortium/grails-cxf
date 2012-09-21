@@ -13,7 +13,9 @@ import org.grails.cxf.test.soap.simple.Isbn
  */
 class BookStoreEndpoint implements BookStoreService {
 
-    static excludes = ['validateIsbnAndReturnBook']
+    // This is redundant since the Service Iterface is what has
+    // the @WebService defined and only methods there will be exposed
+    //static excludes = ['validateIsbnAndReturnBook']
     static soap12 = true
 
     Book findBookByIsbnNumber(final String number) throws InvalidIsbnFormatException {

@@ -6,8 +6,9 @@ import javax.jws.WebMethod
 @WebService
 class PlaneService {
 
-    //todo: figure out why this isn't working with non-jax-rs type service when @WebService autowired
-    static excludes = ['canFloat', 'ignoreMe']
+    //todo: This will not work unless exposeAs is defined as the default is to not ignore anything... not sure why
+    static excludes = ['ignoreMe']
+    static soap12 = true
 
     @WebMethod Boolean canFly(){
         true
