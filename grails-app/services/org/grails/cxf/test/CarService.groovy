@@ -5,8 +5,21 @@ package org.grails.cxf.test
 class CarService {
 
     static exposeAs = 'simple'
+    static excludes = ['dontHonk']
 
     String honkHorn() {
         "HONK"
+    }
+
+    String dontHonk(){
+        "BEEP"
+    }
+
+    String stop(){
+        "BRAKES"
+    }
+
+    String start(){
+        "GAS"
     }
 }

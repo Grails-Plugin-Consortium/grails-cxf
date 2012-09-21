@@ -186,6 +186,11 @@ class EndpointBeanConfiguration {
                 forEachGrailsClass(endpointArtefact)
             }
         }
-    }
 
+        eachServiceArtefact {DefaultGrailsEndpointClass endpointArtefact ->
+            if(endpointArtefact.servletName == servletName) {
+                forEachGrailsClass(endpointArtefact)
+            }
+        }
+    }
 }
