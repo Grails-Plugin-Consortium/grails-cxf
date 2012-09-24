@@ -4,7 +4,7 @@ class LegacyCxfService {
 
     static expose = ['cxf']
 
-    def legacyMethod(String param) {
-        return "legacy ${param}"
+    String legacyMethod(String param) {
+        return "legacy ${param}".toString()
     }
 }

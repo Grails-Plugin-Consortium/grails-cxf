@@ -9,15 +9,14 @@ import wslite.soap.SOAPVersion
  */
 class CarServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient('http://localhost:8080/cxf/services/car')
+    SOAPClient client = new SOAPClient('http://localhost:8080/cxf/services/carService')
 
     def "honk the horn"() {
         when:
         SOAPResponse response = client.send {
             envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
             body {
-                'test:honkHorn' {
-                }
+                'test:honkHorn' {}
             }
         }
         def methodResponse = response.body.honkHornResponse
@@ -25,12 +24,38 @@ class CarServiceSpec extends GebReportingSpec {
         then:
         200 == response.httpResponse.statusCode
         SOAPVersion.V1_1 == response.soapVersion
-        'The Definitive Book of Awesomeness' == methodResponse.title.text()
-        '1-84356-028-3' == methodResponse.isbn.text()
+        'HONK' == methodResponse.toString()
     }
 
-    def "findBookByIsbn should fault when isbn is invalid"() {
+    def "start the car"() {
+        when:
+        SOAPResponse response = client.send {
+            envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
+            body {
+                'test:start' {}
+            }
+        }
+        def methodResponse = response.body.startResponse
 
+        then:
+        200 == response.httpResponse.statusCode
+        SOAPVersion.V1_1 == response.soapVersion
+        'GAS' == methodResponse.toString()
     }
 
+    def "stop the car"() {
+        when:
+        SOAPResponse response = client.send {
+            envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
+            body {
+                'test:stop' {}
+            }
+        }
+        def methodResponse = response.body.stopResponse
+
+        then:
+        200 == response.httpResponse.statusCode
+        SOAPVersion.V1_1 == response.soapVersion
+        'BRAKES' == methodResponse.toString()
+    }
 }

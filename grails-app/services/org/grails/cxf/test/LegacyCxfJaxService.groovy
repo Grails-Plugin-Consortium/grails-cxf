@@ -10,11 +10,12 @@ class LegacyCxfJaxService {
 
     @WebResult(name="legacyResult")
     @WebMethod(operationName="legacyMethod")
-    def legacyMethod(@WebParam(name="param") String param) {
-        return "legacy ${param}"
+    String legacyMethod(@WebParam(name="param") String param) {
+        //cxf doesn't like GStringImpl so make sure to convert to java.lang.String
+        return "legacy ${param}".toString()
     }
 
-    def hiddenMethod(String param){
-        return "hidden ${param}"
+    String hiddenMethod(String param){
+        return "hidden ${param}".toString()
     }
 }

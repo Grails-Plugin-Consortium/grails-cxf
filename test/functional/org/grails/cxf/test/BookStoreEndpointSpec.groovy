@@ -4,6 +4,7 @@ import geb.spock.GebReportingSpec
 import wslite.soap.SOAPClient
 import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
+import wslite.soap.SOAPFaultException
 
 class BookStoreEndpointSpec extends GebReportingSpec {
 
@@ -31,7 +32,20 @@ class BookStoreEndpointSpec extends GebReportingSpec {
     }
 
     def "findBookByIsbn should fault when isbn is invalid"() {
+        when:
+        SOAPResponse response = client.send {
+            envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
+            body {
+                'test:findBookByIsbn' {
+                    isbn {
+                        number '55378008'
+                    }
+                }
+            }
+        }
 
+        then:
+        def sfe = thrown(SOAPFaultException)
+        sfe.fault == "soap:ServerFault occurred while processing."
     }
-
 }

@@ -22,6 +22,7 @@ import java.util.Set;
 public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass implements GrailsEndpointClass {
 
     private static final String CXFJAX = "cxfjax";
+    private static final String CXFRS = "cxfrs";
     private static final String CXF = "cxf";
     protected EndpointExposureType expose;
     protected Set<String> excludes;
@@ -156,10 +157,12 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
                 String stringProp = prop.toString().toLowerCase();
 
                 //legacy variables cxf and cxfjax
-                if(stringProp.equals(CXF)) {
+                if(CXF.equals(stringProp)) {
                     return EndpointType.SIMPLE.toString();
-                } else if(stringProp.equals(CXFJAX)) {
+                } else if(CXFJAX.equals(stringProp)) {
                     return EndpointType.JAX_WS.toString();
+                } else if(CXFRS.equals(stringProp)){
+                    return EndpointType.JAX_RS.toString();
                 }
 
                 try {

@@ -5,6 +5,6 @@ import javax.xml.bind.annotation.XmlAccessorType
 import javax.xml.ws.WebFault
 
 @WebFault(name="InvalidIsbnFormat")
-@XmlAccessorType(XmlAccessType.NONE)
+@XmlAccessorType(XmlAccessType.FIELD)
 class InvalidIsbnFormatException extends RuntimeException {
 }

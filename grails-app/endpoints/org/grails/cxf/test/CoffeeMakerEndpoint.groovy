@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 import org.grails.cxf.adapter.GrailsCxfMapAdapter
 import org.grails.cxf.utils.EndpointType
+import javax.jws.WebResult
 
 /**
  * An example of a Simple Cxf SOAP Service.
@@ -43,6 +44,7 @@ class CoffeeMakerEndpoint {
     }
 
     @XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)
+    @WebResult(name='entires')
     Map<String, CoffeeType> mapCoffeeLocations() {
         return ['Colombia': CoffeeType.Colombian, 'Ethiopia': CoffeeType.Ethiopian]
     }
