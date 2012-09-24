@@ -5,7 +5,6 @@ import org.apache.cxf.endpoint.AbstractEndpointFactory;
 /**
  */
 public enum EndpointType {
-
         SIMPLE("SIMPLE"),
         JAX_WS("JAX_WS"),
         JAX_WS_WSDL("JAX_WS_WSDL"),
@@ -17,8 +16,8 @@ public enum EndpointType {
         this.endpointType = endpointType;
     }
 
-    static EndpointType forExposeAs(String exposeAs) throws IllegalArgumentException {
-        String name = GrailsCxfUtils.flexibleEnumName(exposeAs);
+    public static EndpointType forExpose(String expose) throws IllegalArgumentException {
+        String name = GrailsCxfUtils.flexibleEnumName(expose);
         try {
             return EndpointType.valueOf(name);
         } catch(Exception e) {

@@ -11,7 +11,7 @@ serviceName = 'CustomerServiceWsdlEndpoint',
 portName = 'CustomerServiceWsdlPort')
 class CustomerServiceWsdlEndpoint {
 
-    static exposeAs = EndpointType.JAX_WS_WSDL
+    static expose = EndpointType.JAX_WS_WSDL
     static wsdl = 'org/grails/cxf/test/soap/CustomerService.wsdl'
 
     CustomerServiceEndpoint customerServiceEndpoint

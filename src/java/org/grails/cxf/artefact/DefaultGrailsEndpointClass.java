@@ -21,7 +21,9 @@ import java.util.Set;
 
 public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass implements GrailsEndpointClass {
 
-    protected EndpointExposureType exposeAs;
+    private static final String CXFJAX = "cxfjax";
+    private static final String CXF = "cxf";
+    protected EndpointExposureType expose;
     protected Set<String> excludes;
     protected String servletName;
     protected URL wsdl;
@@ -31,7 +33,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
 
     public DefaultGrailsEndpointClass(Class clazz) throws TransformerConfigurationException {
         super(clazz, EndpointArtefactHandler.TYPE);
-        setupExposeAs();
+        setupExpose();
         buildExclusionSet();
         setupServletName();
         findWsdl();
@@ -39,14 +41,14 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     /**
-     * This can be configured in the endpoint class by setting {@code static exposeAs = 'CXF'}. Valid strings in the
-     * endpoint class are {@code CXF}, {@code JAXWS}, and {@code JAXRS}. If the {@code exposeAs} property of the
+     * This can be configured in the endpoint class by setting {@code static expose = 'CXF'}. Valid strings in the
+     * endpoint class are {@code CXF}, {@code JAXWS}, and {@code JAXRS}. If the {@code expose} property of the
      * class is not specified, then the default of {@code CXF} will be used.
      *
      * @return @inheritDoc
      */
-    public EndpointExposureType getExposeAs() {
-        return exposeAs;
+    public EndpointExposureType getExpose() {
+        return expose;
     }
 
     /**
@@ -97,7 +99,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     public Boolean hasWsdl() {
-        return exposeAs == EndpointExposureType.JAX_WS_WSDL && wsdl != null;
+        return expose == EndpointExposureType.JAX_WS_WSDL && wsdl != null;
     }
 
     public String getNameNoPostfix() {
@@ -108,35 +110,68 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         return soap12;
     }
 
-    protected void setupExposeAs() {
-        exposeAs = EndpointExposureType.JAX_WS; // Default to the most common type.
+    protected void setupExpose() {
+        expose = EndpointExposureType.JAX_WS; // Default to the most common type.
 
-        Object propExposeAs = getPropertyValue(PROP_EXPOSE_AS);
-        String manualExposeAs = getConfiguredExposeAs(propExposeAs);
+        Object propExpose = getPropertyValue(PROP_EXPOSE);
+        String manualExpose = getConfiguredExpose(propExpose);
 
-        if (manualExposeAs != null && !manualExposeAs.equals("")) {
+        if (manualExpose != null && !manualExpose.equals("")) {
             try {
-                exposeAs = EndpointExposureType.forExposeAs(manualExposeAs);
+                expose = EndpointExposureType.forExpose(manualExpose);
             } catch (IllegalArgumentException e) {
-                log.error("Unsupported endpoint exposure type [" + manualExposeAs + "] for endpoint [" + getFullName() + "]. Using default type.");
+                log.error("Unsupported endpoint exposure type [" + manualExpose + "] for endpoint [" + getFullName() + "]. Using default type.");
             }
         }
 
-        if(exposeAs.equals(EndpointExposureType.SIMPLE)) {
+        if(expose.equals(EndpointExposureType.SIMPLE)) {
             log.warn("Simple Cxf Frontends are generally not recommended. Find out more: http://cxf.apache.org/docs/simple-frontend.html");
         }
 
-        log.debug("Endpoint [" + getFullName() + "] configured to use [" + exposeAs.name() + "].");
+        log.debug("Endpoint [" + getFullName() + "] configured to use [" + expose.name() + "].");
     }
 
-    private String getConfiguredExposeAs( Object propExposeAs) {
-        String manualExposeAs = null;
-        if(propExposeAs instanceof EndpointType){
-            manualExposeAs = ((EndpointType)propExposeAs).toString();
-        } else if(propExposeAs instanceof String){
-            manualExposeAs = (String)propExposeAs;
+    private String getConfiguredExpose(Object propExpose) {
+        String manualExpose = null;
+        if(propExpose instanceof EndpointType){
+            manualExpose = ((EndpointType)propExpose).toString();
+        } else if(propExpose instanceof String){
+            manualExpose = (String)propExpose;
+        } else if(propExpose instanceof List){
+            manualExpose = getListExpose((List) propExpose);
         }
-        return manualExposeAs;
+        return manualExpose;
+    }
+
+    /**
+     * Support legacy static expose = [] style exposure.
+     *
+     * @param propExpose list of values to check
+     * @return string of the service type to wire
+     */
+    private String getListExpose(List propExpose) {
+        String manualExpose = null;
+        for(Object prop : ((List) propExpose)) {
+            if(prop instanceof String || prop instanceof EndpointType) {
+                String stringProp = prop.toString().toLowerCase();
+
+                //legacy variables cxf and cxfjax
+                if(stringProp.equals(CXF)) {
+                    return EndpointType.SIMPLE.toString();
+                } else if(stringProp.equals(CXFJAX)) {
+                    return EndpointType.JAX_WS.toString();
+                }
+
+                try {
+                    EndpointExposureType type = EndpointExposureType.forExpose(stringProp);
+                    manualExpose = type.toString();
+                    break;
+                } catch(IllegalArgumentException e) {
+                    log.debug("could not identify type for " + prop);
+                }
+            }
+        }
+        return manualExpose;
     }
 
     protected void buildExclusionSet() {

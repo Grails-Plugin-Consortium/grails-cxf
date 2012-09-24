@@ -15,7 +15,7 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
 
     private class SimpleEndpoint {
 
-        static exposeAs = ""
+        static expose = ""
         static excludes = []
         static servletName = ""
     }
@@ -36,7 +36,7 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
             new ConfigSlurper().parse(getClass().getClassLoader().loadClass('DefaultCxfConfig')).cxf
 
         // Reset this stuff each go
-        SimpleEndpoint.exposeAs = ""
+        SimpleEndpoint.expose = ""
         SimpleEndpoint.excludes = []
         SimpleEndpoint.servletName = ""
     }
@@ -45,25 +45,25 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
         CxfConfigHandler.instance.cxfConfig = null
     }
 
-    def "exposeAs properly configures by default"() {
+    def "expose properly configures by default"() {
         when:
         def artefact = new DefaultGrailsEndpointClass(DefaultEndpoint)
 
         then:
-        artefact.exposeAs == JAX_WS
+        artefact.expose == JAX_WS
     }
 
     @Unroll
-    def "exposeAs can be configured #exposeAs = #expectedExposeAs"() {
+    def "expose can be configured #expose = #expectedExpose"() {
         when:
-        SimpleEndpoint.exposeAs = exposeAs
+        SimpleEndpoint.expose = expose
         def artefact = new DefaultGrailsEndpointClass(SimpleEndpoint)
 
         then:
-        artefact.exposeAs == expectedExposeAs
+        artefact.expose == expectedExpose
 
         where:
-        exposeAs      | expectedExposeAs
+        expose      | expectedExpose
         ''            | JAX_WS
         null          | JAX_WS
         1234          | JAX_WS

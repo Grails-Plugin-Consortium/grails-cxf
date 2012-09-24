@@ -17,7 +17,7 @@ import org.grails.cxf.utils.EndpointType
  */
 class CoffeeMakerEndpoint {
 
-    static exposeAs = EndpointType.SIMPLE
+    static expose = EndpointType.SIMPLE
 
     AtomicBoolean makerOn = new AtomicBoolean(false)
 

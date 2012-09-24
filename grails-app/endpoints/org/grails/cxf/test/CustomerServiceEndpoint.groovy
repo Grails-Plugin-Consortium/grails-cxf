@@ -10,7 +10,7 @@ import org.grails.cxf.utils.EndpointType
 
 class CustomerServiceEndpoint implements CustomerService {
 
-    static exposeAs = EndpointType.SIMPLE
+    static expose = EndpointType.SIMPLE
 
     static List<Customer> CUSTOMERS = [
             new Customer(name: 'Frank', address: ['1234 Awesomeness St.', 'Chochokacho, Toast'], numOrders: 5,

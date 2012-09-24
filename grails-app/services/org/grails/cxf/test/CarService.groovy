@@ -2,10 +2,10 @@ package org.grails.cxf.test
 
 import org.grails.cxf.utils.EndpointType
 
-//this SHOULD get wired up as a service as it has the exposeAs static property
+//this SHOULD get wired up as a service as it has the expose static property
 class CarService {
 
-    static exposeAs = EndpointType.SIMPLE
+    static expose = [EndpointType.SIMPLE]
     static excludes = ['dontHonk']
 
     String honkHorn() {

@@ -7,6 +7,7 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 import javax.xml.ws.soap.SOAPBinding
 import javax.jws.WebService
+import org.apache.ivy.util.filter.ArtifactTypeFilter
 
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
@@ -62,7 +63,7 @@ class EndpointBeanConfiguration {
                 String endpointName = endpointArtefact.propertyName
                 Class endpointClass = endpointArtefact.clazz
                 String endpointAddress = endpointArtefact.address
-                Class endpointFactoryClass = endpointArtefact.exposeAs.factoryBean
+                Class endpointFactoryClass = endpointArtefact.expose.factoryBean
                 Set endpointExclusions = endpointArtefact.excludes
                 Boolean endpointUseWsdl = endpointArtefact.hasWsdl()
                 String endpointWsdlLocation = endpointArtefact.wsdl?.toString()
@@ -103,7 +104,7 @@ class EndpointBeanConfiguration {
                 String endpointName = endpointArtefact.propertyName
                 Class endpointClass = endpointArtefact.clazz
                 String endpointAddress = endpointArtefact.address
-                Class endpointFactoryClass = endpointArtefact.exposeAs.factoryBean
+                Class endpointFactoryClass = endpointArtefact.expose.factoryBean
                 Set endpointExclusions = endpointArtefact.excludes
                 Boolean endpointUseWsdl = endpointArtefact.hasWsdl()
                 String endpointWsdlLocation = endpointArtefact.wsdl?.toString()
@@ -169,14 +170,14 @@ class EndpointBeanConfiguration {
     }
 
     /**
-     * We only want services with explicit 'exposeAs' wired up.
+     * We only want services with explicit 'expose' wired up.
      * @param forEachGrailsClass
      */
     void eachServiceArtefact(final Closure forEachGrailsClass) {
-        grailsApplication.serviceClasses.each { service ->
-            def exposeAs = GrailsClassUtils.getStaticPropertyValue(service.getClazz(), 'exposeAs')
+        grailsApplication.getServiceClasses()?.each { service ->
+            def expose = GrailsClassUtils.getStaticPropertyValue(service.getClazz(), 'expose')
             def annotation = service.getClazz().getAnnotation(WebService.class)
-            if(exposeAs || annotation) {
+            if(expose || annotation) {
                 forEachGrailsClass(new DefaultGrailsEndpointClass(service.clazz))
             }
         }

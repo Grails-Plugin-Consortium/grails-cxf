@@ -6,7 +6,7 @@ import javax.jws.WebMethod
 @WebService
 class PlaneService {
 
-    //todo: This will not work unless exposeAs is defined as the default is to not ignore anything... not sure why
+    //todo: This will not work unless expose is defined as the default is to not ignore anything... not sure why
     static excludes = ['ignoreMe']
     static soap12 = true
 

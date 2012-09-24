@@ -19,12 +19,13 @@ public enum EndpointExposureType {
         this.factoryBean = factoryBean;
     }
 
-    static EndpointExposureType forExposeAs(String exposeAs) throws IllegalArgumentException {
-        String name = GrailsCxfUtils.flexibleEnumName(exposeAs);
+    static EndpointExposureType forExpose(String expose) throws IllegalArgumentException {
+        String name = GrailsCxfUtils.flexibleEnumName(expose);
         try {
             return EndpointExposureType.valueOf(name);
         } catch(Exception e) {
-            return EndpointExposureType.valueOf("JAX_WS");
+            throw new IllegalArgumentException(e);
+            //return EndpointExposureType.valueOf("JAX_WS");
         }
     }
 }
