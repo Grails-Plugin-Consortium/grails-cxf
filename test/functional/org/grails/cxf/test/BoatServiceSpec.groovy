@@ -40,4 +40,18 @@ class BoatServiceSpec extends GebReportingSpec {
         then:
         thrown(SOAPFaultException)
     }
+
+    def "invoke v1.1 service with soap v1.2 should fail"() {
+        when:
+        client.send {
+            envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
+            version SOAPVersion.V1_2
+            body {
+                'test:waterski' {}
+            }
+        }
+
+        then:
+        thrown(SOAPFaultException)
+    }
 }

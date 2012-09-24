@@ -44,4 +44,21 @@ class PlaneServiceSpec extends GebReportingSpec {
         SOAPVersion.V1_2 == response.soapVersion
         'false' == methodResponse.text()
     }
+
+    def "invoking a soap 1.2 service with 1.1 should be backwards compatible"() {
+        when:
+        SOAPResponse response = client.send {
+            envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
+            version SOAPVersion.V1_1
+            body {
+                'test:canFloat' {}
+            }
+        }
+        def methodResponse = response.body.canFloatResponse.return
+
+        then:
+        200 == response.httpResponse.statusCode
+        SOAPVersion.V1_1 == response.soapVersion
+        'false' == methodResponse.text()
+    }
 }
