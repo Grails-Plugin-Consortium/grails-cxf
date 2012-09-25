@@ -9,18 +9,18 @@ class CarService {
     static excludes = ['dontHonk']
 
     String honkHorn() {
-        "HONK"
+        'HONK'
     }
 
     String dontHonk(){
-        "BEEP"
+        'BEEP'
     }
 
     String stop(){
-        "BRAKES"
+        'BRAKES'
     }
 
     String start(){
-        "GAS"
+        'GAS'
     }
 }

@@ -10,10 +10,10 @@ class BoatService {
 
     @WebMethod
     String waterski() {
-        "SKI"
+        'SKI'
     }
 
     String fish(){
-        "FISH"
+        'FISH'
     }
 }

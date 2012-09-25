@@ -8,9 +8,9 @@ class LegacyCxfJaxService {
 
     static expose = ['cxfjax']
 
-    @WebResult(name="legacyResult")
-    @WebMethod(operationName="legacyMethod")
-    String legacyMethod(@WebParam(name="param") String param) {
+    @WebResult(name='legacyResult')
+    @WebMethod(operationName='legacyMethod')
+    String legacyMethod(@WebParam(name='param') String param) {
         //cxf doesn't like GStringImpl so make sure to convert to java.lang.String
         return "legacy ${param}".toString()
     }

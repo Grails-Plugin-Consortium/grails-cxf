@@ -3,16 +3,17 @@ package org.grails.cxf.utils
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 
 import grails.util.Environment
-import groovy.util.logging.Commons
+import org.apache.commons.logging.LogFactory
+import org.apache.commons.logging.Log
 
 /**
  * Handles the Plugins Configuration
  */
-@Commons
 class CxfConfigHandler {
 
     private static final String CONFIG_PATH = "grails.cxf"
     private static final String DEFAULT_CXF_CONFIG_CLASS = "DefaultCxfConfig"
+    private static final Log log = LogFactory.getLog(CxfConfigHandler)
 
     private ConfigObject config
 
