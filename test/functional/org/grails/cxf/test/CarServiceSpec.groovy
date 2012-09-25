@@ -9,7 +9,7 @@ import wslite.soap.SOAPVersion
  */
 class CarServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient('http://localhost:8080/cxf/services/carService')
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/carService")
 
     def "honk the horn"() {
         when:

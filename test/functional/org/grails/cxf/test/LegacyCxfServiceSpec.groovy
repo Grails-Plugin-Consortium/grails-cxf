@@ -10,7 +10,7 @@ import wslite.soap.SOAPVersion
  */
 class LegacyCxfServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient('http://localhost:8080/cxf/services/legacyCxfService')
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/legacyCxfService")
 
     @Unroll
     def "invoke the exposed method on the legacy cxf service param=#legacyParam"() {

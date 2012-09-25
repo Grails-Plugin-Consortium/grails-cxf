@@ -174,7 +174,7 @@ class EndpointBeanConfiguration {
      * @param forEachGrailsClass
      */
     void eachServiceArtefact(final Closure forEachGrailsClass) {
-        grailsApplication.getServiceClasses()?.each { service ->
+        grailsApplication?.serviceClasses?.each { service ->
             def expose = GrailsClassUtils.getStaticPropertyValue(service.getClazz(), 'expose')
             def annotation = service.getClazz().getAnnotation(WebService.class)
             if(expose || annotation) {
