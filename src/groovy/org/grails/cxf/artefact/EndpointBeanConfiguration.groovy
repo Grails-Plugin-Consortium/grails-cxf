@@ -29,7 +29,7 @@ class EndpointBeanConfiguration {
     Closure cxfBeans() {
         return {
             cxf(org.apache.cxf.bus.spring.SpringBus)
-            debug 'Cxf Bus wired.'
+            log.debug 'Cxf Bus wired.'
         }
     }
 
@@ -45,7 +45,7 @@ class EndpointBeanConfiguration {
                 Class endpointClass = endpointArtefact.clazz
 
                 "${endpointName}"(endpointClass, AUTOWIRED_SINGLETON)
-                debug "Endpoint [${endpointArtefact.fullName}] wired as autowired singleton."
+                log.debug "Endpoint [${endpointArtefact.fullName}] wired as autowired singleton."
             }
         }
     }
@@ -83,8 +83,8 @@ class EndpointBeanConfiguration {
                     }
                 }
 
-                debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
-                trace 'Cxf endpoint server factory bean wiring details:' +
+                log.debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
+                log.trace 'Cxf endpoint server factory bean wiring details:' +
                       "\n\tEndpoint Name:                       $endpointName" +
                       "\n\tEndpoint Class:                      $endpointClass" +
                       "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
@@ -124,8 +124,8 @@ class EndpointBeanConfiguration {
                     }
                 }
 
-                debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
-                trace 'Cxf endpoint server factory bean wiring details:' +
+                log.debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
+                log.trace 'Cxf endpoint server factory bean wiring details:' +
                       "\n\tEndpoint Name:                       $endpointName" +
                       "\n\tEndpoint Class:                      $endpointClass" +
                       "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
@@ -154,7 +154,7 @@ class EndpointBeanConfiguration {
                 String endpointName = endpointArtefact.propertyName
 
                 "${endpointName}Bean"((endpointName + 'Factory'): 'create')
-                debug "Cxf endpoint bean wired for [${endpointArtefact.fullName}] on [${servletName}] servlet."
+                log.debug "Cxf endpoint bean wired for [${endpointArtefact.fullName}] on [${servletName}] servlet."
             }
         }
     }

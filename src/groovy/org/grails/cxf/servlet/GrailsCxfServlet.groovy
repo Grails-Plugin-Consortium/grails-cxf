@@ -34,7 +34,7 @@ class GrailsCxfServlet extends CXFServlet {
      * TODO: Why here? Why are they not found on the normal application context?
      */
     protected void loadAdditionalConfig() {
-        debug "Loading additional bean configuration for [${servletName}]."
+        log.debug "Loading additional bean configuration for [${servletName}]."
 
         ApplicationContext applicationContext = WebApplicationContextUtils.
                 getWebApplicationContext(servletContext);
