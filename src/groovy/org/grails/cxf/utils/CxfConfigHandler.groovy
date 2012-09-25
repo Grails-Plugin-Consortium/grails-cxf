@@ -24,7 +24,7 @@ class CxfConfigHandler {
             reloadCxfConfig()
         }
 
-        return config
+        config
     }
 
     synchronized void setCxfConfig(ConfigObject config) {
@@ -35,7 +35,7 @@ class CxfConfigHandler {
      * Force a reload of the Cxf Plugin configuration.
      */
     void reloadCxfConfig() {
-        config = mergeConfig(getDefinedConfig(), DEFAULT_CXF_CONFIG_CLASS)
+        config = mergeConfig(definedConfig, DEFAULT_CXF_CONFIG_CLASS)
         definedConfig = this.config
     }
 
@@ -44,6 +44,7 @@ class CxfConfigHandler {
         try {
             return (ConfigObject) configObject.get(CONFIG_PATH)
         } catch(NullPointerException npe) {
+            log.error npe
             log.info "config node ${CONFIG_PATH} not found"
             return CH.config
         }
@@ -60,7 +61,7 @@ class CxfConfigHandler {
      * @param className the name of the config class to load
      */
     private ConfigObject mergeConfig(final ConfigObject currentConfig, final String className) {
-        ClassLoader cl = CxfConfigHandler.getClassLoader()
+        ClassLoader cl = CxfConfigHandler.classLoader
         ConfigSlurper slurper = new ConfigSlurper(Environment.current.name)
         ConfigObject secondaryConfig
 
@@ -71,7 +72,7 @@ class CxfConfigHandler {
         }
 
         ConfigObject defaultCxfWsConfig = secondaryConfig.cxf
-        return mergeConfig(currentConfig, defaultCxfWsConfig)
+        mergeConfig(currentConfig, defaultCxfWsConfig)
     }
 
     /**
@@ -85,8 +86,8 @@ class CxfConfigHandler {
      */
     private ConfigObject mergeConfig(final ConfigObject currentConfig, final ConfigObject secondary) {
         ConfigObject config = new ConfigObject()
-        config.putAll(!secondary ? currentConfig : secondary.merge(currentConfig))
-        return config
+        config.putAll(secondary?.merge(currentConfig) ?: currentConfig)
+        config
     }
 
     // Below lies the Singleton implementation

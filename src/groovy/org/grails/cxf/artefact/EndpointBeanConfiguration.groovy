@@ -5,9 +5,8 @@ import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
-import javax.xml.ws.soap.SOAPBinding
 import javax.jws.WebService
-import org.apache.ivy.util.filter.ArtifactTypeFilter
+import javax.xml.ws.soap.SOAPBinding
 
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
@@ -16,7 +15,7 @@ class EndpointBeanConfiguration {
 
     GrailsApplication grailsApplication
 
-    @Delegate private final Log log = LogFactory.getLog(getClass())
+    @Delegate private static final Log log = LogFactory.getLog(EndpointBeanConfiguration)
 
     EndpointBeanConfiguration(final GrailsApplication grailsApplication) {
         this.grailsApplication = grailsApplication
@@ -30,7 +29,7 @@ class EndpointBeanConfiguration {
     Closure cxfBeans() {
         return {
             cxf(org.apache.cxf.bus.spring.SpringBus)
-            debug "Cxf Bus wired."
+            debug 'Cxf Bus wired.'
         }
     }
 
@@ -96,7 +95,7 @@ class EndpointBeanConfiguration {
                       "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
                       "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
                       "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
-                      "\n"
+                      '\n'
             }
 
             //now wire the services
@@ -137,7 +136,7 @@ class EndpointBeanConfiguration {
                       "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
                       "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
                       "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
-                      "\n"
+                      '\n'
             }
         }
     }
@@ -154,7 +153,7 @@ class EndpointBeanConfiguration {
             eachEndpointArtefact(servletName) {DefaultGrailsEndpointClass endpointArtefact ->
                 String endpointName = endpointArtefact.propertyName
 
-                "${endpointName}Bean"((endpointName + 'Factory'): "create")
+                "${endpointName}Bean"((endpointName + 'Factory'): 'create')
                 debug "Cxf endpoint bean wired for [${endpointArtefact.fullName}] on [${servletName}] servlet."
             }
         }
@@ -175,8 +174,8 @@ class EndpointBeanConfiguration {
      */
     void eachServiceArtefact(final Closure forEachGrailsClass) {
         grailsApplication?.serviceClasses?.each { service ->
-            def expose = GrailsClassUtils.getStaticPropertyValue(service.getClazz(), 'expose')
-            def annotation = service.getClazz().getAnnotation(WebService.class)
+            def expose = GrailsClassUtils.getStaticPropertyValue(service.clazz, 'expose')
+            def annotation = service.clazz.getAnnotation(WebService.class)
             if(expose || annotation) {
                 forEachGrailsClass(new DefaultGrailsEndpointClass(service.clazz))
             }

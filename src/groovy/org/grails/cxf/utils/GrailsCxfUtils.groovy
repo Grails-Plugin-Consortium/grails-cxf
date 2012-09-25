@@ -19,15 +19,15 @@ class GrailsCxfUtils {
     }
 
     static ConfigObject getCxfConfig() {
-        CxfConfigHandler.instance.getCxfConfig()
+        CxfConfigHandler.instance.cxfConfig
     }
 
     static NavigableConfiguration getCxfNavConfig() {
-        return new NavigableConfiguration(getCxfConfig())
+        new NavigableConfiguration(cxfConfig)
     }
 
     static Object getConfig(String configPath) {
-        getCxfNavConfig().get(configPath)
+        cxfNavConfig.get(configPath)
     }
 
     static void reloadCxfConfig() {
@@ -35,27 +35,27 @@ class GrailsCxfUtils {
     }
 
     static Integer getLoadOnStartup() {
-        return getConfig(CFG_LOAD_ON_STARTUP) as Integer
+        getConfig(CFG_LOAD_ON_STARTUP) as Integer
     }
 
     static Map<String, String> getServletsMappings() {
         Object mappings = getConfig(CFG_SERVLET_MAPPINGS)
-        assert mappings, "There must be at least one configured servlet."
-        return mappings as Map<String, String>
+        assert mappings, 'There must be at least one configured servlet.'
+        mappings as Map<String, String>
     }
 
     static String getDefaultServletName() {
         Object defaultName = getConfig(CFG_DEFAULT_SERVLET)
 
-        if(defaultName instanceof String && !defaultName.isEmpty() && getServletsMappings().containsKey(defaultName)) {
+        if(defaultName instanceof String && !defaultName.isEmpty() && servletsMappings.containsKey(defaultName)) {
             return defaultName
         }
 
-        return new TreeMap<String, String>(getServletsMappings()).firstKey()
+        new TreeMap<String, String>(servletsMappings).firstKey()
     }
 
     static Boolean getDefaultSoap12Binding() {
-        return getConfig(CFG_ENDPOINT_SOAP12) as Boolean
+        getConfig(CFG_ENDPOINT_SOAP12) as Boolean
     }
 
     /**
@@ -63,10 +63,10 @@ class GrailsCxfUtils {
      * @return list of artefacts to wire up
      */
     static List configuredArtefacts() {
-        return [EndpointArtefactHandler]
+        [EndpointArtefactHandler]
     }
 
     static String flexibleEnumName(String name) {
-        return name.replaceAll(/(\s|\-)/, '_').toUpperCase()
+        name.replaceAll(/(\s|\-)/, '_').toUpperCase()
     }
 }

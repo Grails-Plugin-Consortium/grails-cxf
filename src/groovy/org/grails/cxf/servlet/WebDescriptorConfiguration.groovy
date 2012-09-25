@@ -11,7 +11,7 @@ class WebDescriptorConfiguration {
 
     Object webXml
 
-    @Delegate private final Log log = LogFactory.getLog(getClass())
+    @Delegate private static final Log log = LogFactory.getLog(WebDescriptorConfiguration)
 
     WebDescriptorConfiguration(final Object webXml) {
         this.webXml = webXml
@@ -22,7 +22,7 @@ class WebDescriptorConfiguration {
      */
     Closure configuredServlets() {
         return {
-            GrailsCxfUtils.getServletsMappings().each {name, pattern ->
+            GrailsCxfUtils.servletsMappings.each {name, pattern ->
                 assertServletConfig(name, pattern)
 
                 lastServletDescriptor() + {
@@ -51,16 +51,16 @@ class WebDescriptorConfiguration {
     }
 
     private Integer getLoadOnStartup() {
-        return GrailsCxfUtils.getLoadOnStartup()
+        GrailsCxfUtils.loadOnStartup
     }
 
     private lastServletDescriptor() {
         def servlets = webXml.servlet
-        return servlets[servlets.size() - 1]
+        servlets[servlets.size() - 1]
     }
 
     private lastServletMappingDescriptor() {
         def servletMappings = webXml.'servlet-mapping'
-        return servletMappings[servletMappings.size() - 1]
+        servletMappings[servletMappings.size() - 1]
     }
 }

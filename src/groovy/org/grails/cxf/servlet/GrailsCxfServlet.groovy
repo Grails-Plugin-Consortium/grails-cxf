@@ -17,16 +17,16 @@ import javax.servlet.ServletConfig
  */
 class GrailsCxfServlet extends CXFServlet {
 
-    @Delegate private final Log log = LogFactory.getLog(getClass())
+    @Delegate private static final Log log = LogFactory.getLog(GrailsCxfServlet)
 
-    public void init(final ServletConfig servletConfig) {
+    void init(final ServletConfig servletConfig) {
         super.init(servletConfig)
         assertBusConfigured()
         loadAdditionalConfig()
     }
 
     private void assertBusConfigured() {
-        assert getBus(), "Cxf Bus wasn't found. Things are about to get dicey."
+        assert bus, 'Cxf Bus wasn\'t found. Things are about to get dicey.'
     }
 
     /**
@@ -34,10 +34,10 @@ class GrailsCxfServlet extends CXFServlet {
      * TODO: Why here? Why are they not found on the normal application context?
      */
     protected void loadAdditionalConfig() {
-        debug "Loading additional bean configuration for [${getServletName()}]."
+        debug "Loading additional bean configuration for [${servletName}]."
 
         ApplicationContext applicationContext = WebApplicationContextUtils.
-                getWebApplicationContext(getServletContext());
+                getWebApplicationContext(servletContext);
 
         ApplicationContext childCtx = new GenericApplicationContext(applicationContext)
         BeanBuilder bb = new BeanBuilder(childCtx)
@@ -46,7 +46,7 @@ class GrailsCxfServlet extends CXFServlet {
             EndpointBeanConfiguration beanConfiguration =
                 new EndpointBeanConfiguration(applicationContext.grailsApplication)
 
-            with beanConfiguration.cxfServiceEndpointBeans(getServletName())
+            with beanConfiguration.cxfServiceEndpointBeans(servletName)
         }
 
         childCtx.refresh()

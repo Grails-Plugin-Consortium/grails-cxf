@@ -5,18 +5,18 @@ import javax.xml.bind.annotation.XmlAccessorType
 import javax.xml.bind.annotation.XmlType
 import javax.xml.bind.annotation.XmlElement
 
-@XmlType(name = "GrailsCxfMap")
+@XmlType(name = 'GrailsCxfMap')
 @XmlAccessorType(XmlAccessType.FIELD)
 class GrailsCxfMap {
-    @XmlElement(nillable = false, name = "entry")
-    List<KeyValueEntry> entries = new ArrayList<KeyValueEntry>();
+    @XmlElement(nillable = false, name = 'entry')
+    List<KeyValueEntry> entries = []
 
-    public List getEntries() {
-        return entries;
+    List getEntries() {
+        entries
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "KeyValue")
+    @XmlType(name = 'KeyValue')
     static class KeyValueEntry {
         //Map keys cannot be null
         @XmlElement(required = true, nillable = false)

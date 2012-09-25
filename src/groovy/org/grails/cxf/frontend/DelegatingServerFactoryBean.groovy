@@ -25,18 +25,18 @@ class DelegatingServerFactoryBean implements MethodIgnoringServerFactoryBean {
     void setIgnoredMethods(final Set<String> exclusions) {
         assertCanSetIgnoredMethods()
 
-        getServiceClass().methods.findAll {Method method ->
-            method.name in exclusions || method.name.startsWith("super\$")
+        serviceClass.methods.findAll {Method method ->
+            method.name in exclusions || method.name.startsWith('super$')
         }.each {Method method ->
-            getServiceFactory().getIgnoredMethods().add(method)
+            serviceFactory.ignoredMethods.add(method)
         }
 
         // TODO: Side Effect - Refactor this outa here.
-        getServiceFactory().getIgnoredClasses().add('groovy.lang.MetaClass')
+        serviceFactory.ignoredClasses.add('groovy.lang.MetaClass')
     }
 
     private void assertCanSetIgnoredMethods() {
-        assert getServiceClass(), 'ServiceClass must be set before setting ignoredMethods.'
+        assert serviceClass, 'ServiceClass must be set before setting ignoredMethods.'
     }
 
 }
