@@ -7,15 +7,15 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 import javax.jws.WebService
 import javax.xml.ws.soap.SOAPBinding
+import groovy.util.logging.Commons
 
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
  */
+@Commons
 class EndpointBeanConfiguration {
 
     GrailsApplication grailsApplication
-
-    @Delegate private static final Log log = LogFactory.getLog(EndpointBeanConfiguration)
 
     EndpointBeanConfiguration(final GrailsApplication grailsApplication) {
         this.grailsApplication = grailsApplication

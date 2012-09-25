@@ -2,6 +2,7 @@ package org.grails.cxf.utils
 
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
+import groovy.util.logging.Commons
 
 /**
  * Lets us get and set configuration on {@code ConfigObject} instances by using a string path rather than
@@ -16,10 +17,10 @@ import org.apache.commons.logging.LogFactory
  * TODO see if this could be replaced by something like the following
  * Object constraints = Eval.x(co, "x?.grails?.gorm?.default?.constraints");
  */
+@Commons
 class NavigableConfiguration {
 
     private ConfigObject configObject
-    private static final Log log = LogFactory.getLog(NavigableConfiguration)
 
     NavigableConfiguration(final ConfigObject configObject) {
         this.configObject = configObject

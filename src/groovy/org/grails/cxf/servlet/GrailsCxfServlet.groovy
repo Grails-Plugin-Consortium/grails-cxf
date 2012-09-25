@@ -10,14 +10,14 @@ import org.springframework.context.support.GenericApplicationContext
 import org.springframework.web.context.support.WebApplicationContextUtils
 
 import javax.servlet.ServletConfig
+import groovy.util.logging.Commons
 
 /**
  * A {@code CXFServlet} that loads the service endpoint beans rather than trying to get them from a hard coded
  * spring xml path. The beans are loaded by spring dsl.
  */
+@Commons
 class GrailsCxfServlet extends CXFServlet {
-
-    @Delegate private static final Log log = LogFactory.getLog(GrailsCxfServlet)
 
     void init(final ServletConfig servletConfig) {
         super.init(servletConfig)

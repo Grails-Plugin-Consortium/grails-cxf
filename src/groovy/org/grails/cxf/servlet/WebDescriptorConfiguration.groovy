@@ -3,15 +3,15 @@ package org.grails.cxf.servlet
 import org.grails.cxf.utils.GrailsCxfUtils
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
+import groovy.util.logging.Commons
 
 /**
  * The configuration for the Web Descriptor (web.xml) that adds in our servlets.
  */
+@Commons
 class WebDescriptorConfiguration {
 
     Object webXml
-
-    @Delegate private static final Log log = LogFactory.getLog(WebDescriptorConfiguration)
 
     WebDescriptorConfiguration(final Object webXml) {
         this.webXml = webXml
