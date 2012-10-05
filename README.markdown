@@ -150,7 +150,11 @@ To expose as a jax rest service endpoint <http://cxf.apache.org/docs/jax-rs.html
      static expose = EndpointType.JAX_RS
 ```
 
-Another way to expose a service or endpoint is to simply annotate it with the `@WebService` annotation.  Please note that when exposing using only the annotation, the plugin wiring will not do any of the magic or recognize anything other than the cxf annotations.  You will re reliant entirely on setting all the appropriate annotations to wire up your service.  This may very well be your intention if you choose to go down this path and it is entirely feasable to do this as well.
+*Please note that while possible to use the string literals behind the `EndpointType` constants, using the constant is much preferred and will cause less issues with spellings and upgrade issues in the future.*
+
+*Please note that that using list annotations is also possible such as `static expose = [EndpointType.SIMPLE]` although there should be no need to ever use more than one cxf expose keyword, other plugins may overlap with this keywork and you can add these other keywords to the list.*
+
+Another way to expose a service or endpoint is to simply annotate it with the `@WebService` annotation.  Please note that when exposing using only the annotation, the plugin wiring will not do any of the magic or recognize anything other than the cxf annotations.  You will be reliant entirely on setting all the appropriate annotations to wire up your service.  This may very well be your intention if you choose to go down this path and is entirely a feasable option.
 
 In the example below an interface is annotated and the service class implements that interface.  I would recommend annotated the interface as it makes for a cleaner implementation of which methods you wish to expose via an interface contract and annotations.
 
@@ -191,8 +195,6 @@ class BookStoreEndpoint implements BookStore {
     }
 }
 ```
-
-Please note that while possible to use the string literals behond the `EndpointType` constants, using the constant is much preferred and will cause less issues with spellings and upgrade issues in the future.
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="soap12"></a>
