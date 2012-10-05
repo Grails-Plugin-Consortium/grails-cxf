@@ -6,6 +6,7 @@ CXF CLIENT
 * <a href="#Introduction">Introduction</a>
 * <a href="#Script">Wsdl2java Script</a>
 * <a href="#Plugin">Plugin Configuration</a>
+* <a href="#wsdl">Wsdl First Services</a>
 * <a href="#maps">Handling Map Responses</a>
 * <a href="#Mime">Mime Attachments</a>
 * <a href="#Security">Custom Security Interceptors</a>
@@ -30,14 +31,15 @@ The Grails Cxf plugin makes exposing services as SOAP endpoints easy and painles
 
 Some new things as of version 1.0.0 are as follows:
 
-* New scripts have been added:
-    * create-endpoint, create-endpoint-simple scripts will create cxf artefacts in grails-app\endpoints
-    * create-cxf-service, create-cxf-service-simple will create cxf artefacts in grails-app\services
-* Default endpoints will live in grails-app\endpoints directory instead of grails-app\services
-* The pluing will autowire configured classes in the grails-app\endpoints\** AND the grails-app\services\** directories
+* The suggested pattern to separate cxf endpoints it to have endpoints live in grails-app\endpoints directory instead of grails-app\services
+* The plugin will autowire configured classes in the grails-app\endpoints\** AND the grails-app\services\** directories
+* Endpoint creation scripts create-endpoint, create-endpoint-simple scripts will create cxf artefacts in grails-app\endpoints
+* Service creation scripts create-cxf-service, create-cxf-service-simple will create cxf artefacts in grails-app\services
 * Built in support for simple Map response type handling via `@XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)` method annotation <a href="#maps">example below</a>
 * Many new examples to help with configuration can be found in the source via functional specs and test classes at <https://github.com/thorstadt/grails-cxf>
-*
+* Default plugin configuration is provided via `DefaultCxfConfig.groovy`.  Although unlikely, you can override in your projects Config.groovy
+* The default url for wsdl viewing remains `http://.../[app name if not root]/services` as it was in previous versions.  Multiple cxf servlet endpoints can be configured or the default changed via Config.goovy
+* Wsdl First services are now available to use <a href="#wsdl">example below</a>
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Script"></a>
@@ -47,12 +49,12 @@ Included with the plugin is a convenient script to generate java code from a wsd
 
 ```
 usage: grails wsdl2-java --wsdl=<path to wsdl> [--package=<package>]
-```
 
 Script Options:
   -h, --help           Prints this help message
   -p, --package=arg    The package to put the generated Java objects in.
   -w, --wsdl=arg       The path to the wsdl to use.
+```
 
 See <http://cxf.apache.org/docs/wsdl-to-java.html> for additional options.
 
@@ -60,14 +62,74 @@ See <http://cxf.apache.org/docs/wsdl-to-java.html> for additional options.
 <a name="Plugin"></a>
 PLUGIN CONFIGURATION
 -----------------
-There are many ways to configure the plugin.  The most straight forward way is to use the `static expose = ['cxf']`  in your service class.  That much remains from the previous version.
+There are many ways to configure the plugin.  The most straight forward way is to use the `static expose = ['cxf']`  in your service class.  Legacy support for both cxf and cxf-jax type services remains, but the new preferred way is to use one of the following methods of exposure:
+
+To expose as a simple endpoint <http://cxf.apache.org/docs/simple-frontend-configuration.html> add the following to your endpoint or service class:
+
+```groovy
+    static expose = EndpointType.SIMPLE
+```
+
+To expose as a jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html> add the following to your endpoint or service class:
+
+```groovy
+    static expose = EndpointType.JAX_WS
+```
+
+To expose as a wsdl first jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html> add the following to your endpoint or service class:
+
+```groovy
+     static expose = EndpointType.JAX_WS_WSDL
+     static wsdl = 'org/grails/cxf/test/soap/CustomerService.wsdl' //your path (preferred) or url to wsdl
+```
+
+To expose as a jax rest service endpoint <http://cxf.apache.org/docs/jax-rs.html> add the following to your endpoint or service class:
+
+```groovy
+     static expose = EndpointType.JAX_RS
+```
+
+Please note that while possible to use the string literals behond the `EndpointType` constants, using the constant is much preferred and will cause less issues with spellings and upgrade issues in the future.
+
+
+<p align="right"><a href="#Top">Top</a></p>
+<a name="wsdl"></a>
+WSDL FIRST SERVICES
+-----------------
+You can now configure cxf services to look at wsdl's for endpoint generation by adding the following to the service or endpoint
+
+```groovy
+    static expose = EndpointType.JAX_WS_WSDL
+    static wsdl = 'org/grails/cxf/test/soap/CustomerService.wsdl'
+```
+
+A complete example is below:
+
+```groovy
+import javax.jws.WebService
+import org.grails.cxf.utils.EndpointType
+
+@WebService(name = 'CustomerServiceWsdlEndpoint',
+targetNamespace = 'http://test.cxf.grails.org/',
+serviceName = 'CustomerServiceWsdlEndpoint',
+portName = 'CustomerServiceWsdlPort')
+class CustomerServiceWsdlEndpoint {
+
+    static expose = EndpointType.JAX_WS_WSDL
+    static wsdl = 'org/grails/cxf/test/soap/CustomerService.wsdl'
+
+    List<Customer> getCustomersByName(final String name) {
+        ... do work ...
+    }
+}
+```
 
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="maps"></a>
 HANDLING MAP RESPONSES
 -----------------
-Provided with the plugin is a default `XmlJavaTypeAdapter` to help handle map types.  You can write your own if you wish to change the name or object type support.  Using the file `GrailsCxfMapAdapter.groovy` as a baseline will help get you started should you need more complex support than is provided.  Please note that the class `GrailsCxfMapAdapter` will use the toString() for the key and value in the map in the response.  If you want to use specific object property types that are compound or don't support toString() you will need to create your own adapter.
+Provided with the plugin is a default `XmlJavaTypeAdapter` to help handle map types.  You can write your own if you wish to change the name or object type support.  Using the file `GrailsCxfMapAdapter.groovy` as a baseline will help get you started should you need more complex support than is provided.  Please note that the class `GrailsCxfMapAdapter` will use the toString() for the keys and values in the map for the response.  If you want to use specific object property types that are compound or don't support toString() you will need to create your own adapter.
 
 ```groovy
 class CoffeeMakerEndpoint {

@@ -19,5 +19,4 @@ class CustomerServiceWsdlEndpoint {
     List<Customer> getCustomersByName(final String name) {
         customerServiceEndpoint.getCustomersByName(name)
     }
-
 }
