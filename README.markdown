@@ -5,18 +5,12 @@ CXF CLIENT
 
 * <a href="#Introduction">Introduction</a>
 * <a href="#Script">Wsdl2java Script</a>
-* <a href="#Plugin">Plugin Configuration</a>
+* <a href="#plugin">Plugin Configuration</a>
+* <a href="#soap">Exposing Classes via SOAP</a>
+* <a href="#soap12">Using SOAP 1.2</a>
 * <a href="#wsdl">Wsdl First Services</a>
 * <a href="#maps">Handling Map Responses</a>
-* <a href="#Mime">Mime Attachments</a>
-* <a href="#Security">Custom Security Interceptors</a>
-* <a href="#In">Custom In Interceptors</a>
-* <a href="#Out">Custom Out Interceptors</a>
-* <a href="#Fault">Custom Out Fault Interceptors</a>
-* <a href="#Custom">Custom Http Client Policy</a>
-* <a href="#Exceptions">Dealing With Exceptions</a>
-* <a href="#Beans">User Client Beans Anywhere</a>
-* <a href="#Endpoints">Retrieving and Updating Endpoints</a>
+* <a href="#security">Custom Security Interceptors</a>
 * <a href="#Demo">Demo Project</a>
 * <a href="#Issues">Issues</a>
 * <a href="#Change">Change Log</a>
@@ -58,11 +52,78 @@ Script Options:
 
 See <http://cxf.apache.org/docs/wsdl-to-java.html> for additional options.
 
+
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Plugin"></a>
 PLUGIN CONFIGURATION
 -----------------
-There are many ways to configure the plugin.  The most straight forward way is to use the `static expose = ['cxf']`  in your service class.  Legacy support for both cxf and cxf-jax type services remains, but the new preferred way is to use one of the following methods of exposure:
+The plugin not includes the ability to configure some defaults like telling all services to default to soap 1.2 or specifying the cxf servlet runtime url.  The default config is in `DefaultCxfConfig.groovy` and may be overridden in your projects Config.groovy by changing any of the node values via standard config closure or dot configuration.
+
+If you wish to override a single value such as soap 1.2 default you would add the following to your Config.groovy:
+
+```
+cxf.endpoint.soap12Binding = true
+```
+
+Here are the defaults in their entirety:
+
+```groovy
+/**
+ * Default configuration values for the plugin.  You can override in Config.groovy
+ */
+cxf {
+    servlet {
+
+        /**
+         * cxf.servlet.loadOnStartup
+         * <p>
+         * Specifies the order in which to load the servlet. Lower positive
+         * values load first, while negative or unspecified mean that the
+         * sevlet can be loaded at anytime.
+         */
+        loadOnStartup = 10
+
+        /**
+         * cxf.servlet.defaultServlet
+         * <p>
+         * When multiple servlets are defined by the {@code cxf.servlets}
+         * configuration value this specifies the default binding for endpoints
+         * that don't explicitly define a {@code static servlet = name}. If
+         * this value is not set then the first alphabetically will be used.
+         */
+        //defaultServlet = 'CxfServlet'
+    }
+
+    /**
+     * cxf.servlets
+     * <p>
+     * A map of Servlet Name -> Servlet Mapping Pattern. If multiple Cxf
+     * servlets are required or a different mapping pattern is needed this
+     * configuration allows that.
+     */
+    servlets = [
+            CxfServlet: '/services/*'
+    ]
+
+    endpoint {
+
+        /**
+         * cxf.endpoint.soap12Binding
+         * <p>
+         * Sets the Cxf Server Factory to generate a Soap 1.2 binding. This can
+         * also be set on a per endpoint basis using
+         * {@code static soap12 = true}.
+         */
+        soap12Binding = false
+    }
+}
+```
+
+<p align="right"><a href="#Top">Top</a></p>
+<a name="soap"></a>
+EXPOSING CLASSES VIA SOAP
+-----------------
+There are many ways to configure the plugin.  The legacy way is to use the `static expose = ['cxf']` in your service class.  Legacy support for both `static expose = ['cxf']` and `static expose = ['cxf-jax']` services remains, but the new preferred way is to use one of the following methods of exposure:
 
 To expose as a simple endpoint <http://cxf.apache.org/docs/simple-frontend-configuration.html> add the following to your endpoint or service class:
 
@@ -89,8 +150,65 @@ To expose as a jax rest service endpoint <http://cxf.apache.org/docs/jax-rs.html
      static expose = EndpointType.JAX_RS
 ```
 
+Another way to expose a service or endpoint is to simply annotate it with the `@WebService` annotation.  In the example below an interface is annotated and the service class implements that interface.  I would recommend annotated the interface as it makes for a cleaner implementation of which methods you wish to expose via an interface contract and annotations.
+
+```groovy
+@WebService
+interface BookStore {
+    @WebResult(name='book')
+    @WebMethod Book findBookByIsbnNumber(
+            @WebParam(name="number") String number
+    ) throws InvalidIsbnFormatException
+
+    @WebResult(name='book')
+    @WebMethod Book findBookByIsbn(
+            @WebParam(name="isbn") Isbn isbn
+    ) throws InvalidIsbnFormatException
+}
+```
+
+```groovy
+class BookStoreEndpoint implements BookStore {
+
+    static soap12 = true
+
+    Book findBookByIsbnNumber(final String number) throws InvalidIsbnFormatException {
+        Isbn isbn = new Isbn(number: number)
+        return validateIsbnAndReturnBook(isbn)
+    }
+
+    Book findBookByIsbn(final Isbn isbn) throws InvalidIsbnFormatException {
+        return validateIsbnAndReturnBook(isbn)
+    }
+
+    //this is not exposed via cxf as it is not annotated or part of the interface
+    Book validateIsbnAndReturnBook(final Isbn isbn) {
+        isbn.validate()
+
+        return new Book(title: 'The Definitive Book of Awesomeness',
+                authors: ['The Definitive Author of Awesomeness', 'Bob'],
+                isbn: isbn)
+    }
+}
+```
+
 Please note that while possible to use the string literals behond the `EndpointType` constants, using the constant is much preferred and will cause less issues with spellings and upgrade issues in the future.
 
+<p align="right"><a href="#Top">Top</a></p>
+<a name="soap12"></a>
+USING SOAP 1.2
+-----------------
+To tell a service to default to SOAP 1.2 instead of 1.1 simply add the following line to your service class:
+
+```
+    static soap12 = true
+```
+
+If you wish to use SOAP 1.2 as the default in ALL of your services you can add the above line to all exposed classes or simply change the default via Config.groovy
+
+```
+cxf.endpoint.soap12Binding = true
+```
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="wsdl"></a>
@@ -123,7 +241,6 @@ class CustomerServiceWsdlEndpoint {
     }
 }
 ```
-
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="maps"></a>
@@ -164,20 +281,43 @@ The Response will look similar to the following (note the nodes `key` and `value
 </soap:Envelope>
 ```
 
+<p align="right"><a href="#Top">Top</a></p>
+<a name="security"></a>
+CUSTOM SECURITY INTERCEPTORS
+---------------
+Until the next version of the plugin supports better integration for wiring interceptors you can hook up in/out interceptors at boot time in BootStrap.config as follows (mileage may vary).  When a service class or endpoint is wired via cxf a factory class will be created with the name pattern of `[className]Factory`.  Meaning that an endpoint named `FooEndpoint` would wire up a `fooEndpointFactory` class and `FooService` will wire a `fooServiceFactory`.
 
+In the example below we would be wiring up a simple username/password interceptor to a service named SecureService.  The exmple below is for any version of cxf 2.4+.  At this time the plugin is on version 2.6.1.  Previous to version 2.3.9 wiring this was a bit different.  See <http://www.christianoestreich.com/2012/04/grails-cxf-interceptor-injection/> for more details.
 
+```groovy
+    def init = { servletContext ->
 
+        Map<String, Object> inProps = [:]
+        inProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+        inProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
+        Map<QName, Validator> validatorMap = new HashMap<QName, Validator>();
+        validatorMap.put(WSSecurityEngine.USERNAME_TOKEN, new UsernameTokenValidator() {
 
-
-
+            @Override
+            protected void verifyPlaintextPassword(org.apache.ws.security.message.token.UsernameToken usernameToken, org.apache.ws.security.handler.RequestData data) throws org.apache.ws.security.WSSecurityException {
+                if(data.username == "wsuser" && usernameToken.password != "secret") {
+                    throw new WSSecurityException("password mismatch")
+                } else {
+                    println "user name and password were correct!"
+                }
+            }
+        });
+        inProps.put(WSS4JInInterceptor.VALIDATOR_MAP, validatorMap);
+        secureServiceFactory.getInInterceptors().add(new WSS4JInInterceptor(inProps))
+    }
+```
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Future"></a>
 FUTURE REVISIONS
 ---------------
 
-Currently taking submissions for improvements.
-
+* Easier support for intercetors via class level definition with something like `static inIntercetors = [InterceptorOne, InterceptorTwo]` for example
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="License"></a>
