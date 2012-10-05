@@ -1,13 +1,11 @@
 package org.grails.cxf.artefact
 
-import org.apache.commons.logging.Log
-import org.apache.commons.logging.LogFactory
+import groovy.util.logging.Commons
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 import javax.jws.WebService
 import javax.xml.ws.soap.SOAPBinding
-import groovy.util.logging.Commons
 
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
@@ -85,17 +83,17 @@ class EndpointBeanConfiguration {
 
                 log.debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
                 log.trace 'Cxf endpoint server factory bean wiring details:' +
-                      "\n\tEndpoint Name:                       $endpointName" +
-                      "\n\tEndpoint Class:                      $endpointClass" +
-                      "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
-                      "\n\tServer Factory - Address:            $endpointAddress" +
-                      "\n\tServer Factory - Service Class:      $endpointClass" +
-                      "\n\tServer Factory - Service Bean:       ref($endpointName)" +
-                      "\n\tServer Factory - Ignored Methods:    $endpointExclusions" +
-                      "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
-                      "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
-                      "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
-                      '\n'
+                          "\n\tEndpoint Name:                       $endpointName" +
+                          "\n\tEndpoint Class:                      $endpointClass" +
+                          "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
+                          "\n\tServer Factory - Address:            $endpointAddress" +
+                          "\n\tServer Factory - Service Class:      $endpointClass" +
+                          "\n\tServer Factory - Service Bean:       ref($endpointName)" +
+                          "\n\tServer Factory - Ignored Methods:    $endpointExclusions" +
+                          "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
+                          "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
+                          "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
+                          '\n'
             }
 
             //now wire the services
@@ -126,17 +124,17 @@ class EndpointBeanConfiguration {
 
                 log.debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
                 log.trace 'Cxf endpoint server factory bean wiring details:' +
-                      "\n\tEndpoint Name:                       $endpointName" +
-                      "\n\tEndpoint Class:                      $endpointClass" +
-                      "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
-                      "\n\tServer Factory - Address:            $endpointAddress" +
-                      "\n\tServer Factory - Service Class:      $endpointClass" +
-                      "\n\tServer Factory - Service Bean:       ref($endpointName)" +
-                      "\n\tServer Factory - Ignored Methods:    $endpointExclusions" +
-                      "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
-                      "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
-                      "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
-                      '\n'
+                          "\n\tEndpoint Name:                       $endpointName" +
+                          "\n\tEndpoint Class:                      $endpointClass" +
+                          "\n\tServer Factory Class:                $endpointFactoryClass.simpleName" +
+                          "\n\tServer Factory - Address:            $endpointAddress" +
+                          "\n\tServer Factory - Service Class:      $endpointClass" +
+                          "\n\tServer Factory - Service Bean:       ref($endpointName)" +
+                          "\n\tServer Factory - Ignored Methods:    $endpointExclusions" +
+                          "\n\tServer Factory - Wsdl Defined:       $endpointUseWsdl" +
+                          "\n\tServer Factory - Wsdl Location:      $endpointWsdlLocation" +
+                          "\n\tServer Factory - Soap 1.2 Binding:   $endpointUseSoap12" +
+                          '\n'
             }
         }
     }
@@ -175,7 +173,7 @@ class EndpointBeanConfiguration {
     void eachServiceArtefact(final Closure forEachGrailsClass) {
         grailsApplication?.serviceClasses?.each { service ->
             def expose = GrailsClassUtils.getStaticPropertyValue(service.clazz, 'expose')
-            def annotation = service.clazz.getAnnotation(WebService.class)
+            def annotation = service.clazz.getAnnotation(WebService)
             if(expose || annotation) {
                 forEachGrailsClass(new DefaultGrailsEndpointClass(service.clazz))
             }

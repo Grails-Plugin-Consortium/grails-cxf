@@ -1,7 +1,5 @@
 package org.grails.cxf.utils
 
-import org.apache.commons.logging.Log
-import org.apache.commons.logging.LogFactory
 import groovy.util.logging.Commons
 
 /**
@@ -34,7 +32,7 @@ class NavigableConfiguration {
      */
     Object get(String path) {
         path.tokenize('.').inject(configObject) {ConfigObject node, String key ->
-            return node."$key"
+            node."$key"
         }
     }
 
@@ -69,10 +67,9 @@ class NavigableConfiguration {
             if(c instanceof ConfigObject) {
                 config = c
                 return false
-            } else {
-                // We should throw here, its an error...
-                return true
             }
+            // We should throw here, its an error...
+            return true
         }
 
         if(overwriteExisting || (config instanceof ConfigObject)) {
