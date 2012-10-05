@@ -236,5 +236,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         if(soap12setting != null) {
             soap12 = soap12setting;
         }
+
+        log.debug("Endpoint [" + getFullName() + "] configured to use soap 1.2 [" + soap12 + "].");
     }
 }

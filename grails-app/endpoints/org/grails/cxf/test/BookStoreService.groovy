@@ -11,7 +11,6 @@ import javax.jws.WebService
 
 @WebService
 interface BookStoreService {
-
     @WebResult(name='book')
     @WebMethod Book findBookByIsbnNumber(
             @WebParam(name="number") String number
@@ -21,5 +20,4 @@ interface BookStoreService {
     @WebMethod Book findBookByIsbn(
             @WebParam(name="isbn") Isbn isbn
     ) throws InvalidIsbnFormatException
-
 }

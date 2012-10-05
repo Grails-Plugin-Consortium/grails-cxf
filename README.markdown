@@ -123,7 +123,7 @@ cxf {
 <a name="soap"></a>
 EXPOSING CLASSES VIA SOAP
 -----------------
-There are many ways to configure the plugin.  The legacy way is to use the `static expose = ['cxf']` in your service class.  Legacy support for both `static expose = ['cxf']` and `static expose = ['cxf-jax']` services remains, but the new preferred way is to use one of the following methods of exposure:
+There are many ways to configure the plugin.  The legacy way is to use the `static expose = ['cxf']` in your service class.  Legacy support for both `static expose = ['cxf']` and `static expose = ['cxfjax']` services remains, but the new preferred way is to use one of the following methods of exposure:
 
 To expose as a simple endpoint <http://cxf.apache.org/docs/simple-frontend-configuration.html> add the following to your endpoint or service class:
 
@@ -150,7 +150,9 @@ To expose as a jax rest service endpoint <http://cxf.apache.org/docs/jax-rs.html
      static expose = EndpointType.JAX_RS
 ```
 
-Another way to expose a service or endpoint is to simply annotate it with the `@WebService` annotation.  In the example below an interface is annotated and the service class implements that interface.  I would recommend annotated the interface as it makes for a cleaner implementation of which methods you wish to expose via an interface contract and annotations.
+Another way to expose a service or endpoint is to simply annotate it with the `@WebService` annotation.  Please note that when exposing using only the annotation, the plugin wiring will not do any of the magic or recognize anything other than the cxf annotations.  You will re reliant entirely on setting all the appropriate annotations to wire up your service.  This may very well be your intention if you choose to go down this path and it is entirely feasable to do this as well.
+
+In the example below an interface is annotated and the service class implements that interface.  I would recommend annotated the interface as it makes for a cleaner implementation of which methods you wish to expose via an interface contract and annotations.
 
 ```groovy
 @WebService
@@ -169,8 +171,6 @@ interface BookStore {
 
 ```groovy
 class BookStoreEndpoint implements BookStore {
-
-    static soap12 = true
 
     Book findBookByIsbnNumber(final String number) throws InvalidIsbnFormatException {
         Isbn isbn = new Isbn(number: number)
