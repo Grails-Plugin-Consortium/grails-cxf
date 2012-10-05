@@ -314,20 +314,20 @@ In the example below we would be wiring up a simple username/password intercepto
     }
 ```
 
-<p align="right"><a href="#Demo">Top</a></p>
-<a name="Future"></a>
+<p align="right"><a href="#Top">Top</a></p>
+<a name="Demo"></a>
 DEMO PROJECT
 ---------------
 The best way to play around with wiring up services/endpoints is to clone this project and then `grails run-app` or `grails test-app` on it.  There are a lot of sample endpoints and services available in the source that are not included inthe plugin bundle.
 
-<p align="right"><a href="#Issues">Top</a></p>
-<a name="Future"></a>
+<p align="right"><a href="#Top">Top</a></p>
+<a name="Issues"></a>
 ISSUES
 ---------------
 I will be using the github issue tracker <https://github.com/thorstadt/grails-cxf/issues> for issues and questions.
 
-<p align="right"><a href="#Change">Top</a></p>
-<a name="Future"></a>
+<p align="right"><a href="#Top">Top</a></p>
+<a name="Change"></a>
 CHANGE LOG
 ---------------
 * Version 1.0.0 - Initial re-release of the grails cxf plugin with ground up rewrite.  Thanks goes out to Ben Doerr <https://github.com/bendoerr> who was pivital in getting this project off the ground again.

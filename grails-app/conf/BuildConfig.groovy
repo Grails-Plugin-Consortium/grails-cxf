@@ -91,6 +91,11 @@ grails.project.dependency.resolution = {
 
     plugins {
         /* Grails required plugins ********************************************/
+        build name: "release",
+              version: '2.0.4',
+              group: pluginsGroup,
+              exportLibs
+
         runtime name: 'hibernate',
                 version: grailsVersion,
                 group: pluginsGroup,
