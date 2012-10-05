@@ -42,7 +42,7 @@ private wsdl2Java() {
 }
 
 private createCli() {
-    String usageText = '''grails wsdl-to-java --wsdl=<path to wsdl> [--package=<package>]'''
+    String usageText = '''grails wsdl2-java --wsdl=<path to wsdl> [--package=<package>]'''
 
     String usageHeaderText = '''
 Script Options:'''
