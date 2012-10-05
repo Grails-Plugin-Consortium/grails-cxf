@@ -3,8 +3,6 @@ package org.grails.cxf.utils
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 
 import grails.util.Environment
-import org.apache.commons.logging.LogFactory
-import org.apache.commons.logging.Log
 import groovy.util.logging.Commons
 
 /**
@@ -13,8 +11,8 @@ import groovy.util.logging.Commons
 @Commons
 class CxfConfigHandler {
 
-    private static final String CONFIG_PATH = "grails.cxf"
-    private static final String DEFAULT_CXF_CONFIG_CLASS = "DefaultCxfConfig"
+    private static final String CONFIG_PATH = 'grails.cxf'
+    private static final String DEFAULT_CXF_CONFIG_CLASS = 'DefaultCxfConfig'
 
     private ConfigObject config
 
@@ -42,7 +40,7 @@ class CxfConfigHandler {
     }
 
     private ConfigObject getDefinedConfig() {
-        def configObject =  new NavigableConfiguration(CH.config)
+        def configObject = new NavigableConfiguration(CH.config)
         try {
             return (ConfigObject) configObject.get(CONFIG_PATH)
         } catch(NullPointerException npe) {
