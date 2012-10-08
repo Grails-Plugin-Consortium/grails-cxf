@@ -9,6 +9,7 @@ GRAILS CXF PLUGIN
 * <a href="#soap">Exposing Classes via SOAP</a>
 * <a href="#soap12">Using SOAP 1.2</a>
 * <a href="#wsdl">Wsdl First Services</a>
+* <a href="#lists">Handling List Responses</a>
 * <a href="#maps">Handling Map Responses</a>
 * <a href="#security">Custom Security Interceptors</a>
 * <a href="#Demo">Demo Project</a>
@@ -57,7 +58,7 @@ See <http://cxf.apache.org/docs/wsdl-to-java.html> for additional options.
 <a name="Plugin"></a>
 PLUGIN CONFIGURATION
 -----------------
-The plugin not includes the ability to configure some defaults like telling all services to default to soap 1.2 or specifying the cxf servlet runtime url.  The default config is in `DefaultCxfConfig.groovy` and may be overridden in your projects Config.groovy by changing any of the node values via standard config closure or dot configuration.
+The plugin not includes the ability to configure some defaults such as defaulting all services to soap 1.2 or specifying the cxf servlet runtime url.  The default config is in `DefaultCxfConfig.groovy`.  The properties contained within may be overridden in your project's Config.groovy by changing any of the node values via standard config closure or dot configuration.
 
 If you wish to override a single value such as soap 1.2 default you would add the following to your Config.groovy:
 
@@ -123,7 +124,7 @@ cxf {
 <a name="soap"></a>
 EXPOSING CLASSES VIA SOAP
 -----------------
-There are many ways to configure the plugin.  The legacy way is to use the `static expose = ['cxf']` in your service class.  Legacy support for both `static expose = ['cxf']` and `static expose = ['cxfjax']` services remains, but the new preferred way is to use one of the following methods of exposure:
+There are many ways to configure the plugin.  The legacy way was to use the `static expose = ['cxf']` in your service classes.  Legacy support for both `static expose = ['cxf']` , `static expose = ['cxfjax']` and `static expose = [''cxfrs'']` services remains, but the new preferred way is to use one of the following methods of exposure:
 
 To expose as a simple endpoint <http://cxf.apache.org/docs/simple-frontend-configuration.html> add the following to your endpoint or service class:
 
@@ -154,7 +155,9 @@ To expose as a jax rest service endpoint <http://cxf.apache.org/docs/jax-rs.html
 
 *Please note that that using list annotations is also possible such as `static expose = [EndpointType.SIMPLE]` although there should be no need to ever use more than one cxf expose keyword, other plugins may overlap with this keywork and you can add these other keywords to the list.*
 
-Another way to expose a service or endpoint is to simply annotate it with the `@WebService` annotation.  Please note that when exposing using only the annotation, the plugin wiring will not do any of the magic or recognize anything other than the cxf annotations.  You will be reliant entirely on setting all the appropriate annotations to wire up your service.  This may very well be your intention if you choose to go down this path and is entirely a feasable option.
+**Using Apache CXF Without Plugin Wiring**
+
+Since all the appropriate apache cxf libs are included with this plugin, another way to expose a service or endpoint is to simply annotate it with the `@WebService` annotation.  Please note that when exposing using only the annotation, the plugin wiring will not do any of the magic or recognize anything other than the cxf annotations.  You will be reliant entirely on setting all the appropriate annotations to wire up your service.  This may very well be your intention if you choose to go down this path and is entirely a feasable option.
 
 In the example below an interface is annotated and the service class implements that interface.  I would recommend annotated the interface as it makes for a cleaner implementation of which methods you wish to expose via an interface contract and annotations.
 
@@ -206,7 +209,7 @@ To tell a service to default to SOAP 1.2 instead of 1.1 simply add the following
     static soap12 = true
 ```
 
-If you wish to use SOAP 1.2 as the default in ALL of your services you can add the above line to all exposed classes or simply change the default via Config.groovy
+If you wish to use SOAP 1.2 as the default in ALL of your services/endpoints you can add the above line to all exposed classes or simply change the default via Config.groovy
 
 ```
 cxf.endpoint.soap12Binding = true
@@ -241,6 +244,26 @@ class CustomerServiceWsdlEndpoint {
     List<Customer> getCustomersByName(final String name) {
         ... do work ...
     }
+}
+```
+
+<p align="right"><a href="#Top">Top</a></p>
+<a name="lists"></a>
+HANDLING LIST RESPONSES
+-----------------
+As with the previous version of the plugin, it is necessary to annotate your domain classes with the following annotation to allow JAXB to correctly serialize/deserialize your domain ojbects.
+
+```java
+@XmlAccessorType(XmlAccessType.FIELD)
+```
+
+Example:
+```groovy
+@XmlAccessorType(XmlAccessType.FIELD)
+class Book {
+    String title
+    List<String> authors
+    Isbn isbn
 }
 ```
 

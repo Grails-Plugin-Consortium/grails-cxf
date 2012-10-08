@@ -2,9 +2,9 @@ package org.grails.cxf.test
 
 import geb.spock.GebReportingSpec
 import wslite.soap.SOAPClient
+import wslite.soap.SOAPFaultException
 import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
-import wslite.soap.SOAPFaultException
 
 class BookStoreEndpointSpec extends GebReportingSpec {
 
@@ -23,6 +23,25 @@ class BookStoreEndpointSpec extends GebReportingSpec {
             }
         }
         def methodResponse = response.body.findBookByIsbnResponse.book
+
+        then:
+        200 == response.httpResponse.statusCode
+        SOAPVersion.V1_1 == response.soapVersion
+        'The Definitive Book of Awesomeness' == methodResponse.title.text()
+        '1-84356-028-3' == methodResponse.isbn.text()
+    }
+
+    def "findBookByIsbnNumber should return the book of awesomeness given a valid isbn"() {
+        when:
+        SOAPResponse response = client.send {
+            envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/'
+            body {
+                'test:findBookByIsbnNumber' {
+                    number '1-84356-028-3'
+                }
+            }
+        }
+        def methodResponse = response.body.findBookByIsbnNumberResponse.book
 
         then:
         200 == response.httpResponse.statusCode
