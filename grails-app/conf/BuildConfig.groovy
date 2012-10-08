@@ -1,7 +1,7 @@
-grails.project.work.dir = "target"
-grails.project.class.dir = "target/classes"
-grails.project.test.class.dir = "target/test-classes"
-grails.project.test.reports.dir = "target/test-reports"
+grails.project.work.dir = 'target'
+grails.project.class.dir = 'target/classes'
+grails.project.test.class.dir = 'target/test-classes'
+grails.project.test.reports.dir = 'target/test-reports'
 
 grails.project.dependency.resolution = {
 
@@ -16,9 +16,9 @@ grails.project.dependency.resolution = {
     def pluginsGroup = 'org.grails.plugins'
     def grailsVersion = '2.1.0'
 
-    inherits("global") {}
+    inherits('global') {}
 
-    log "warn"
+    log 'warn'
 
     repositories {
         grailsPlugins()
@@ -91,10 +91,15 @@ grails.project.dependency.resolution = {
 
     plugins {
         /* Grails required plugins ********************************************/
-        build name: "release",
-              version: '2.0.4',
-              group: pluginsGroup,
-              exportLibs
+        // WTF... this still an issue?!?
+        // http://grails.1312388.n4.nabble.com/Geb-and-Release-plugin-httpclient-conflicts-td4295238.html
+//        build name: 'release',
+//              version: '2.0.4',
+//              group: pluginsGroup,
+//              {
+//                  with exportLibs
+//                  with excludeHttpBuilder
+//              }
 
         runtime name: 'hibernate',
                 version: grailsVersion,
@@ -131,16 +136,16 @@ grails.project.dependency.resolution = {
 
 coverage {
     xml = true
-    exclusions = ["**/*Tests*"]
+    exclusions = ['**/*Tests*']
 }
 
 codenarc {
     processTestUnit = false
     processTestIntegration = false
     propertiesFile = 'codenarc.properties'
-    ruleSetFiles = "file:grails-app/conf/codenarc.groovy"
+    ruleSetFiles = 'file:grails-app/conf/codenarc.groovy'
     reports = {
-        CxfClientReport('xml') {                    // The report name "MyXmlReport" is user-defined; Report type is 'xml'
+        CxfClientReport('xml') {                    // The report name 'MyXmlReport' is user-defined; Report type is 'xml'
             outputFile = 'target/codenarc.xml'      // Set the 'outputFile' property of the (XML) Report
             title = 'Grails CXF Plugin'             // Set the 'title' property of the (XML) Report
         }
