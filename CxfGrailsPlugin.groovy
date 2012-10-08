@@ -58,8 +58,8 @@ class CxfGrailsPlugin {
 
     def author = 'Christian Oestreich'
     def authorEmail = 'acetrike@gmail.com'
-    def title = 'CXF Server and Client plug-in for Grails'
-    def description = ''
+    def title = 'CXF plug-in for Grails'
+    def description = 'Brings easy exposure of service and endpoint classes as Apache CXF SOAP Services to Grails.'
 
     def developers = [
             [name: "Christian Oestreich", email: "acetrike@gmail.com"],
