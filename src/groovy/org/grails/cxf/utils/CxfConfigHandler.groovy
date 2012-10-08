@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 
 import grails.util.Environment
 import groovy.util.logging.Commons
+import groovy.transform.Synchronized
 
 /**
  * Handles the Plugins Configuration
@@ -19,7 +20,8 @@ class CxfConfigHandler {
     /**
      * @return The groovy ConfigObject representation of this plugins configuration.
      */
-    synchronized ConfigObject getCxfConfig() {
+    @Synchronized
+    ConfigObject getCxfConfig() {
         if(config == null) {
             reloadCxfConfig()
         }
@@ -27,7 +29,8 @@ class CxfConfigHandler {
         config
     }
 
-    synchronized void setCxfConfig(ConfigObject config) {
+    @Synchronized
+    void setCxfConfig(ConfigObject config) {
         this.config = config
     }
 
