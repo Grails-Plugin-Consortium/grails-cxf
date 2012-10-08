@@ -2,6 +2,7 @@ package org.grails.cxf.test
 
 import javax.jws.WebService
 import javax.jws.WebMethod
+import javax.jws.WebResult
 
 @WebService
 class PlaneService {
