@@ -30,7 +30,7 @@ finished = {String message -> event('StatusFinal', [message])}
 errorMessage = { String message -> event('StatusError', [message]) }
 
 private wsdl2Java() {
-    ant.java(fork: true, classpathref: "classpath", classname: 'org.apache.cxf.tools.wsdlto.WSDLToJava') {
+    ant.java(classname: 'org.apache.cxf.tools.wsdlto.WSDLToJava') {
         arg(value: '-verbose')
         arg(value: '-d')
         arg(value: javaSourceDir)
@@ -42,7 +42,7 @@ private wsdl2Java() {
 }
 
 private createCli() {
-    String usageText = '''grails wsdl2-java --wsdl=<path to wsdl> [--package=<package>]'''
+    String usageText = '''grails wsdl-to-java --wsdl=<path to wsdl> [--package=<package>]'''
 
     String usageHeaderText = '''
 Script Options:'''

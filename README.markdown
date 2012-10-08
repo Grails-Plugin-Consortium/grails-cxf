@@ -1,6 +1,6 @@
 <a name="Top"></a>
 
-CXF CLIENT
+GRAILS CXF PLUGIN
 ======
 
 * <a href="#Introduction">Introduction</a>
@@ -21,17 +21,17 @@ CXF CLIENT
 INTRODUCTION
 ---------------
 
-The Grails Cxf plugin makes exposing services as SOAP endpoints easy and painless.  Since version 1.0.0, it was rewritten and enhanced to support more features including the migration to grails 2.0+.
+The Grails Cxf plugin makes exposing classes (services and endpoints) as SOAP web services easy and painless.  Since version 1.0.0, it has been rewritten and enhanced to support more features including the migration to grails 2.x.
 
 Some new things as of version 1.0.0 are as follows:
 
-* The suggested pattern to separate cxf endpoints it to have endpoints live in grails-app\endpoints directory instead of grails-app\services
 * The plugin will autowire configured classes in the grails-app\endpoints\** AND the grails-app\services\** directories
 * Endpoint creation scripts create-endpoint, create-endpoint-simple scripts will create cxf artefacts in grails-app\endpoints
 * Service creation scripts create-cxf-service, create-cxf-service-simple will create cxf artefacts in grails-app\services
+* The suggested pattern to separate cxf endpoints is to have endpoints live in grails-app\endpoints directory instead of grails-app\services
 * Built in support for simple Map response type handling via `@XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)` method annotation <a href="#maps">example below</a>
 * Many new examples to help with configuration can be found in the source via functional specs and test classes at <https://github.com/thorstadt/grails-cxf>
-* Default plugin configuration is provided via `DefaultCxfConfig.groovy`.  Although unlikely, you can override in your projects Config.groovy
+* Default plugin configuration is provided via `DefaultCxfConfig.groovy`.  Although usually not necessary, you can override in your project's Config.groovy
 * The default url for wsdl viewing remains `http://.../[app name if not root]/services` as it was in previous versions.  Multiple cxf servlet endpoints can be configured or the default changed via Config.goovy
 * Wsdl First services are now available to use <a href="#wsdl">example below</a>
 
@@ -39,10 +39,10 @@ Some new things as of version 1.0.0 are as follows:
 <a name="Script"></a>
 WSDL2JAVA SCRIPT
 ---------------
-Included with the plugin is a convenient script to generate java code from a wsdl.  Please note that the grails cxf-client also includes a similar script albeit using different configuration to create java files from Config.groovy instead of command line params.
+Included with the plugin is a convenient script to generate java code from a wsdl.  Please note that the grails cxf-client plugin also includes a similar script (wsdl2java) albeit using different configuration to create java files from Config.groovy instead of command line params.
 
 ```
-usage: grails wsdl2-java --wsdl=<path to wsdl> [--package=<package>]
+usage: grails wsdl-to-java --wsdl=<path to wsdl> [--package=<package>]
 
 Script Options:
   -h, --help           Prints this help message
