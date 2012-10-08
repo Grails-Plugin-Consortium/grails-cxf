@@ -1,3 +1,10 @@
 stacktrace.log
 docs
 docs/*
+.idea/
+global-groovy.log
+*.zip
+*.iml
+soapui-errors.log
+soapui.log
+target/
