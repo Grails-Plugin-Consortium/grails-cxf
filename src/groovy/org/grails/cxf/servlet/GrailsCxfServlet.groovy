@@ -1,8 +1,7 @@
 package org.grails.cxf.servlet
 
 import grails.spring.BeanBuilder
-import org.apache.commons.logging.Log
-import org.apache.commons.logging.LogFactory
+import groovy.util.logging.Commons
 import org.apache.cxf.transport.servlet.CXFServlet
 import org.grails.cxf.artefact.EndpointBeanConfiguration
 import org.springframework.context.ApplicationContext
@@ -10,7 +9,6 @@ import org.springframework.context.support.GenericApplicationContext
 import org.springframework.web.context.support.WebApplicationContextUtils
 
 import javax.servlet.ServletConfig
-import groovy.util.logging.Commons
 
 /**
  * A {@code CXFServlet} that loads the service endpoint beans rather than trying to get them from a hard coded
