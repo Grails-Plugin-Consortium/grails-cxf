@@ -1,108 +1,101 @@
-import org.codehaus.groovy.grails.commons.GrailsClassUtils
+import org.grails.cxf.artefact.EndpointBeanConfiguration
+import org.grails.cxf.servlet.WebDescriptorConfiguration
+import org.grails.cxf.utils.GrailsCxfUtils
+import grails.util.GrailsUtil
 
 class CxfGrailsPlugin {
-  // the plugin version
-  def version = "0.10.0"
-  // the version or versions of Grails the plugin is designed for
-  def grailsVersion = "2.0.0 > *"
-  // the other plugins this plugin depends on
-  def loadAfter = ['hibernate']
-  def observe = ['hibernate']
-  def dependsOn = [hibernate: '2.0.0 > *']
 
-  // resources that are excluded from plugin packaging
-  def pluginExcludes = [
-          "grails-app/views/error.gsp",
-          "grails-app/services/test/**",
-          "web-app/**",
-          "src/test/**",
-          "src/java/test/**",
-          "test/**",
-          "spock-0.6"
-  ]
+    /* **********************************************************************
+     * The important things first.
+     * **********************************************************************/
 
-  def author = "Ryan Crum"
-  def authorEmail = "ryan.j.crum@gmail.com"
-  def title = "CXF plug-in for Grails"
-  def description = 'Add SOAP exposure to Grails services using Apache CXF.'
-  def developers = [
-          [name: "Ryan Crum", email: "ryan.j.crum@gmail.com"],
-          [name: "Christian Oestreich", email: "acetrike@gmail.com"]]
-
-  // URL to the plugin's documentation
-  def documentation = "http://grails.org/plugin/cxf"
-
-  def doWithSpring = {
-    //In 2.5.2 the CXFServlet has some hard coded paths to "/WEB-INF/cxf-servlet.xml"
-    //probably don't want to create that file, so just wire up the cxf bean here.
-    cxf(org.apache.cxf.bus.spring.SpringBus)
-
-    if(application.serviceClasses) {
-      application.serviceClasses.each { service ->
-        def srvClass = service.getClazz()
-        def exposes = GrailsClassUtils.getStaticPropertyValue(srvClass, 'expose')
-        if(exposes?.contains('cxf')) {
-          def wsName = service.propertyName
-          "${wsName}Factory"(org.grails.cxf.GrailsCXFServerFactoryBean, wsName, srvClass) {
-            address = "/${wsName.replace("Service", "")}"
-            serviceBean = ref("${service.propertyName}")
-          }
-        } else if(exposes?.contains('cxfjax')) { // can't do both!
-          def wsName = service.propertyName
-          "${wsName}Factory"(org.grails.cxf.GrailsCXFJaxWsServerFactoryBean, wsName, srvClass) {
-            address = "/${wsName.replace("Service", "")}"
-            serviceBean = ref("${service.propertyName}")
-          }
-        } else if(exposes?.contains('cxfrs')) { // can't do both!
-          def wsName = service.propertyName
-          "${wsName}Factory"(org.grails.cxf.GrailsCXFRSServerFactoryBean, wsName, srvClass) {
-            address = "/${wsName.replace("Service", "")}"
-            serviceBeans = [ref("${service.propertyName}")]
-          }
-
-        }
-      }
+    def doWithWebDescriptor = { xml ->
+        WebDescriptorConfiguration wdc = new WebDescriptorConfiguration(xml)
+        with wdc.configuredServlets()
     }
 
-  }
+    def classes = []
 
-  def doWithApplicationContext = { applicationContext ->
-  }
+    def artefacts = GrailsCxfUtils.configuredArtefacts()
 
-  def doWithWebDescriptor = { xml ->
-    def filters = xml.filter
-    def filterMappings = xml.'filter-mapping'
-    def servlets = xml.servlet
-    def servletMappings = xml.'servlet-mapping'
+    def doWithSpring = {
+        EndpointBeanConfiguration bc = new EndpointBeanConfiguration(application)
 
-    servlets[servlets.size() - 1] + {
-      servlet {
-        'servlet-name'('CXFServlet')
-        'servlet-class'('org.grails.cxf.GrailsCXFServlet')
-        'load-on-startup'(1)
-      }
+        with bc.cxfBeans()
+        with bc.endpointBeans()
+        with bc.factoryBeans()
     }
 
-    servletMappings[servletMappings.size() - 1] + {
-      'servlet-mapping' {
-        'servlet-name'('CXFServlet')
-        'url-pattern'("/services/*")
-      }
+    def doWithApplicationContext = { applicationContext ->
     }
-  }
 
-  def doWithDynamicMethods = { ctx ->
-    // TODO Implement registering dynamic methods to classes (optional)
-  }
+    def doWithDynamicMethods = { ctx ->
+    }
 
-  def onChange = { event ->
-    // TODO Implement code that is executed when any artefact that this plugin is
-    // watching is modified and reloaded. The event contains: event.source,
-    // event.application, event.manager, event.ctx, and event.plugin.
-  }
+    def watchedResources = [
+            'file:./grails-app/endpoints/**/*',
+            'file:./grails-app/services/**/*',
+            'file:./grails-app/conf/*Config.groovy'
+    ]
 
-  def onConfigChange = { event ->
-    // TODO Implement code that is executed when the project configuration changes.
-    // The event is the same as for 'onChange'.
-  }
+    def onChange = { event ->
+        // TODO Implement code that is executed when any artefact that this plugin is
+        // watching is modified and reloaded. The event contains: event.source,
+        // event.application, event.manager, event.ctx, and event.plugin.
+    }
+
+    def onConfigChange = { event ->
+        // TODO Implement code that is executed when the project configuration changes.
+        // The event is the same as for 'onChange'.
+    }
+
+    /* **********************************************************************
+     * Plugin Metadata Down-under
+     * **********************************************************************/
+
+    def version = '1.0.0'
+    def grailsVersion = '1.3.7 > *'
+
+    def author = 'Christian Oestreich'
+    def authorEmail = 'acetrike@gmail.com'
+    def title = 'CXF Server and Client plug-in for Grails'
+    def description = ''
+
+    def developers = [
+            [name: "Christian Oestreich", email: "acetrike@gmail.com"],
+            [name: "Ryan Crum", email: "ryan.j.crum@gmail.com"],
+            [name: "Ben Doerr", email: "craftsman@bendoerr.me"]]
+
+    def documentation = "http://grails.org/plugin/cxf"
+    def license = ''
+
+    def issueManagement = [system: 'JIRA', url: '']
+    def scm = [url: "http://grails.org/plugin/cxf"]
+
+    def loadAfter = ['hibernate']                   // TODO: Is hibernate really necessary?
+    def observe = ['hibernate']                     // Maybe in the future we add some logging domain class?
+    def dependsOn = [hibernate: '1.3.7 > *']        // But really right now who cares?
+
+    def pluginExcludes = [
+            'grails-app/conf/hibernate',
+            'grails-app/conf/spring',
+            'grails-app/conf/DataSource.groovy',
+            'grails-app/conf/UrlMappings.groovy',
+            'grails-app/conf/codenarc.groovy',
+            'grails-app/conf/codenarc.ruleset.all.groovy.txt',
+            'grails-app/controllers/**',
+            'grails-app/domain/**',
+            'grails-app/endpoints/**',
+            'grails-app/i18n/**',
+            'grails-app/services/**',
+            'grails-app/taglib/**',
+            'grails-app/utils/**',
+            'grails-app/views/**',
+            'src/groovy/org/grails/cxf/test/**',
+            'src/java/org/grails/cxf/test/**',
+            'lib/**',
+            'target/**',
+            'web-app/**',
+            'codenarc.properties'
+    ]
 }
