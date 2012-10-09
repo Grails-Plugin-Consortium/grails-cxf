@@ -5,9 +5,6 @@ grails.project.test.reports.dir = 'target/test-reports'
 
 grails.project.dependency.resolution = {
 
-    def exportLibs = { export: false }
-    def excludeConflicting = { excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis' }
-
     def cxfGroup = 'org.apache.cxf'
     def cxfVersion = '2.6.1'
 
@@ -28,109 +25,79 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
+        build('commons-cli:commons-cli:1.2')
 
-        build name: 'commons-cli',
-              version: '1.2',
-              group: 'commons-cli'
+        build("${cxfGroup}:cxf-tools-wsdlto-core:${cxfVersion}") {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+        }
 
-        /* Dependencies for the Wsdl To Java script ***************************/
-        build name: 'cxf-tools-wsdlto-core',
-              version: cxfVersion,
-              group: cxfGroup,
-              excludeConflicting
+        build("${cxfGroup}:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}") {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+        }
 
-        build name: 'cxf-tools-wsdlto-frontend-jaxws',
-              version: cxfVersion,
-              group: cxfGroup,
-              excludeConflicting
+        build("${cxfGroup}:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}") {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+        }
 
-        build name: 'cxf-tools-wsdlto-databinding-jaxb',
-              version: cxfVersion,
-              group: cxfGroup,
-              excludeConflicting
+        build("${cxfGroup}:cxf-rt-frontend-jaxws:${cxfVersion}") {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+        }
 
-        /* Dependencies for the Cxf Runtime ***********************************/
-        compile name: 'cxf-rt-frontend-jaxws',
-                version: cxfVersion,
-                group: cxfGroup,
-                excludeConflicting
-
-        compile name: 'cxf-rt-frontend-jaxrs',
-                version: cxfVersion,
-                group: cxfGroup,
-                excludeConflicting
+        build("${cxfGroup}:cxf-rt-frontend-jaxrs:${cxfVersion}") {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+        }
 
         /* Some Testing Help **************************************************/
-        test name: 'groovy-wslite',
-             version: '0.7.0',
-             group: 'com.github.groovy-wslite',
-             exportLibs
+        test("com.github.groovy-wslite:groovy-wslite:0.7.0") {
+            export = false
+        }
 
-        test name: 'geb-spock',
-             version: gebVersion,
-             group: 'org.codehaus.geb',
-             exportLibs
+        test("org.codehaus.geb:geb-spock:${gebVersion}") {
+            export = false
+        }
 
-        test name: 'selenium-htmlunit-driver',
-             version: '2.25.0',
-             group: 'org.seleniumhq.selenium', {
-                    with exportLibs
-                    with excludeConflicting
-                }
+        test('org.seleniumhq.selenium:selenium-htmlunit-driver:2.25.0') {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+            export = false
+        }
 
-        test name: 'selenium-firefox-driver',
-             version: '2.20.0',
-             group: 'org.seleniumhq.selenium',
-             exportLibs
+        test('org.seleniumhq.selenium:selenium-chrome-driver:2.20.0') {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+            export = false
+        }
 
-        test name: 'selenium-chrome-driver',
-             version: '2.20.0',
-             group: 'org.seleniumhq.selenium',
-             exportLibs
+        test('org.seleniumhq.selenium:selenium-firefox-driver:2.20.0') {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+            export = false
+        }
     }
 
     plugins {
         /* Grails required plugins ********************************************/
-        // WTF... this still an issue?!?
-        // http://grails.1312388.n4.nabble.com/Geb-and-Release-plugin-httpclient-conflicts-td4295238.html
-//        build name: 'release',
-//              version: '2.0.4',
-//              group: pluginsGroup,
-//              {
-//                  with exportLibs
-//                  with excludeHttpBuilder
-//              }
+        runtime("${pluginsGroup}:hibernate:${grailsVersion}") {
+            export = false
+        }
 
-        runtime name: 'hibernate',
-                version: grailsVersion,
-                group: pluginsGroup,
-                exportLibs
-
-        runtime name: 'tomcat',
-                version: grailsVersion,
-                group: pluginsGroup,
-                exportLibs
+        runtime("${pluginsGroup}:tomcat:${grailsVersion}") {
+            export = false
+        }
 
         /* Spock and Geb for Testing ******************************************/
-        test name: 'spock',
-             version: '0.6',
-             group: pluginsGroup,
-             exportLibs
+        runtime("${pluginsGroup}:spock:0.6") {
+            export = false
+        }
 
-        test name: 'geb',
-             version: gebVersion,
-             group: pluginsGroup,
-             exportLibs
+        runtime("${pluginsGroup}:geb:${gebVersion}") {
+            export = false
+        }
 
-        test name: 'code-coverage',
-             version: '1.2.5',
-             group: pluginsGroup,
-             exportLibs
+        runtime("${pluginsGroup}:code-coverage:1.2.5") {
+            export = false
+        }
 
-        test name: 'codenarc',
-             version: '0.17',
-             group: pluginsGroup,
-             exportLibs
+        runtime("${pluginsGroup}:codenarc:0.17") {
+            export = false
+        }
     }
 }
 

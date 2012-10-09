@@ -72,9 +72,9 @@ class CxfGrailsPlugin {
     def issueManagement = [system: 'JIRA', url: '']
     def scm = [url: "http://grails.org/plugin/cxf"]
 
-    def loadAfter = ['hibernate']                   // TODO: Is hibernate really necessary?
-    def observe = ['hibernate']                     // Maybe in the future we add some logging domain class?
-    def dependsOn = [hibernate: '1.3.7 > *']        // But really right now who cares?
+    //def loadAfter = ['hibernate']                   // TODO: Is hibernate really necessary?
+    //def observe = ['hibernate']                     // Maybe in the future we add some logging domain class?
+    //def dependsOn = [hibernate: '1.3.7 > *']        // But really right now who cares?
 
     def pluginExcludes = [
             'grails-app/conf/hibernate',
