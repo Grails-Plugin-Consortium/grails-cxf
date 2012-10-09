@@ -1,4 +1,4 @@
-<plugin name='cxf' version='1.0.2' grailsVersion='1.3.7 &gt; *'>
+<plugin name='cxf' version='1.0.3' grailsVersion='1.3.7 &gt; *'>
   <author>Christian Oestreich</author>
   <authorEmail>acetrike@gmail.com</authorEmail>
   <title>CXF plug-in for Grails</title>
@@ -31,19 +31,19 @@
   </repositories>
   <dependencies>
     <test>
-      <dependency group='com.github.groovy-wslite' name='groovy-wslite' version='0.7.0' />
       <dependency group='org.seleniumhq.selenium' name='selenium-htmlunit-driver' version='2.25.0' />
-      <dependency group='org.seleniumhq.selenium' name='selenium-firefox-driver' version='2.20.0' />
+      <dependency group='org.seleniumhq.selenium' name='selenium-firefox-driver' version='2.25.0' />
       <dependency group='org.codehaus.geb' name='geb-spock' version='0.7.2' />
-      <dependency group='org.seleniumhq.selenium' name='selenium-chrome-driver' version='2.20.0' />
+      <dependency group='org.seleniumhq.selenium' name='selenium-chrome-driver' version='2.25.0' />
+      <dependency group='com.github.groovy-wslite' name='groovy-wslite' version='0.7.0' />
     </test>
     <compile>
-      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-core' version='2.6.1' />
-      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.6.1' />
-      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-databinding-jaxb' version='2.6.1' />
-      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-frontend-jaxws' version='2.6.1' />
-      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.6.1' />
+      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-core' version='2.6.2' />
+      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.6.2' />
       <dependency group='commons-cli' name='commons-cli' version='1.2' />
+      <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.6.2' />
+      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-databinding-jaxb' version='2.6.2' />
+      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-frontend-jaxws' version='2.6.2' />
     </compile>
   </dependencies>
   <plugins />
