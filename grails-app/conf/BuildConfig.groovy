@@ -5,7 +5,7 @@ grails.project.test.reports.dir = 'target/test-reports'
 
 grails.project.dependency.resolution = {
 
-    def cxfVersion = '2.6.1'
+    def cxfVersion = '2.6.2'
     def gebVersion = '0.7.2'
     def grailsVersion = '2.1.0'
 
@@ -57,12 +57,12 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test('org.seleniumhq.selenium:selenium-chrome-driver:2.20.0') {
+        test('org.seleniumhq.selenium:selenium-chrome-driver:2.25.0') {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
             export = false
         }
 
-        test('org.seleniumhq.selenium:selenium-firefox-driver:2.20.0') {
+        test('org.seleniumhq.selenium:selenium-firefox-driver:2.25.0') {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
             export = false
         }
