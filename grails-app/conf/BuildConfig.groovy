@@ -73,6 +73,13 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
+        //remove this before committing.  Only used to release...not test.
+        // This still an issue?!?
+        // http://grails.1312388.n4.nabble.com/Geb-and-Release-plugin-httpclient-conflicts-td4295238.html
+//        build("${pluginsGroup}:release:2.0.4") {
+//            export = false
+//        }
+
         /* Grails required plugins ********************************************/
         runtime("${pluginsGroup}:hibernate:${grailsVersion}") {
             export = false
