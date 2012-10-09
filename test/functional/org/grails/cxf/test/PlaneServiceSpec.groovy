@@ -9,7 +9,7 @@ import wslite.soap.SOAPVersion
  */
 class PlaneServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/planeService")
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/plane")
 
     def "invoke a boolean method on the plane service using soap 1.2"() {
         when:

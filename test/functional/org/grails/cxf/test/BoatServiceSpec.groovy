@@ -10,7 +10,7 @@ import wslite.soap.SOAPFaultException
  */
 class BoatServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/boatService")
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/boat")
 
     def "invoke the exposed method on the boat service"() {
         when:
