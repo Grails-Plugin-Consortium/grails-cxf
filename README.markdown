@@ -24,13 +24,15 @@ INTRODUCTION
 
 The Grails Cxf plugin makes exposing classes (services and endpoints) as SOAP web services easy and painless.  Since version 1.0.0, it has been rewritten and enhanced to support more features including the migration to grails 2.x.
 
+The current cxf version is [2.6.2](https://issues.apache.org/jira/secure/ReleaseNote.jspa?projectId=12310511&styleName=Html&Create=Create&version=12321668)
+
 Some new things as of version 1.0.0 are as follows:
 
 * The plugin will autowire configured classes in the grails-app\endpoints\** AND the grails-app\services\** directories
-* Endpoint creation scripts create-endpoint, create-endpoint-simple scripts will create cxf artefacts in grails-app\endpoints
-* Service creation scripts create-cxf-service, create-cxf-service-simple will create cxf artefacts in grails-app\services
-* The suggested pattern to separate cxf endpoints is to have endpoints live in grails-app\endpoints directory instead of grails-app\services
-* Built in support for simple Map response type handling via `@XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)` method annotation <a href="#maps">example below</a>
+* Endpoint creation scripts create-endpoint and create-endpoint-simple will create cxf artefacts in grails-app\endpoints
+* Service creation scripts create-cxf-service and create-cxf-service-simple will create cxf artefacts in grails-app\services
+* The suggested pattern to isolate cxf endpoints is to have endpoints live in grails-app/endpoints directory (or you can use grails-app/services for overlapping and shared services)
+* Built in support for simple Map response type handling via `@XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)` method annotation has been included to use or to kick start your own map adapter creation
 * Many new examples to help with configuration can be found in the source via functional specs and test classes at <https://github.com/thorstadt/grails-cxf>
 * Default plugin configuration is provided via `DefaultCxfConfig.groovy`.  Although usually not necessary, you can override in your project's Config.groovy
 * The default url for wsdl viewing remains `http://.../[app name if not root]/services` as it was in previous versions.  Multiple cxf servlet endpoints can be configured or the default changed via Config.goovy
@@ -312,7 +314,7 @@ CUSTOM SECURITY INTERCEPTORS
 ---------------
 Until the next version of the plugin supports better integration for wiring interceptors you can hook up in/out interceptors at boot time in BootStrap.config as follows (mileage may vary).  When a service class or endpoint is wired via cxf a factory class will be created with the name pattern of `[className]Factory`.  Meaning that an endpoint named `FooEndpoint` would wire up a `fooEndpointFactory` class and `FooService` will wire a `fooServiceFactory`.
 
-In the example below we would be wiring up a simple username/password interceptor to a service named SecureService.  The exmple below is for any version of cxf 2.4+.  At this time the plugin is on version 2.6.1.  Previous to version 2.3.9 wiring this was a bit different.  See <http://www.christianoestreich.com/2012/04/grails-cxf-interceptor-injection/> for more details.
+In the example below we would be wiring up a simple username/password interceptor to a service named SecureService.  The exmple below is for any version of cxf 2.4+.  At this time the plugin is on version 2.6.x.  Previous to version 2.3.9 wiring this was a bit different.  See <http://www.christianoestreich.com/2012/04/grails-cxf-interceptor-injection/> for more details.
 
 ```groovy
     def init = { servletContext ->
