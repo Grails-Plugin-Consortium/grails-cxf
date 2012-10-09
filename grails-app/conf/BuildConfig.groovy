@@ -5,12 +5,8 @@ grails.project.test.reports.dir = 'target/test-reports'
 
 grails.project.dependency.resolution = {
 
-    def cxfGroup = 'org.apache.cxf'
     def cxfVersion = '2.6.1'
-
     def gebVersion = '0.7.2'
-
-    def pluginsGroup = 'org.grails.plugins'
     def grailsVersion = '2.1.0'
 
     inherits('global') {}
@@ -25,25 +21,25 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
-        build('commons-cli:commons-cli:1.2')
+        compile('commons-cli:commons-cli:1.2')
 
-        build("${cxfGroup}:cxf-tools-wsdlto-core:${cxfVersion}") {
+        compile("org.apache.cxf:cxf-tools-wsdlto-core:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
         }
 
-        build("${cxfGroup}:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}") {
+        compile("org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
         }
 
-        build("${cxfGroup}:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}") {
+        compile("org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
         }
 
-        build("${cxfGroup}:cxf-rt-frontend-jaxws:${cxfVersion}") {
+        compile("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
         }
 
-        build("${cxfGroup}:cxf-rt-frontend-jaxrs:${cxfVersion}") {
+        compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
         }
 
@@ -76,33 +72,33 @@ grails.project.dependency.resolution = {
         //remove this before committing.  Only used to release...not test.
         // This still an issue?!?
         // http://grails.1312388.n4.nabble.com/Geb-and-Release-plugin-httpclient-conflicts-td4295238.html
-//        build("${pluginsGroup}:release:2.0.4") {
+//        build(":release:2.0.4") {
 //            export = false
 //        }
 
         /* Grails required plugins ********************************************/
-        runtime("${pluginsGroup}:hibernate:${grailsVersion}") {
+        runtime(":hibernate:${grailsVersion}") {
             export = false
         }
 
-        runtime("${pluginsGroup}:tomcat:${grailsVersion}") {
+        runtime(":tomcat:${grailsVersion}") {
             export = false
         }
 
         /* Spock and Geb for Testing ******************************************/
-        runtime("${pluginsGroup}:spock:0.6") {
+        compile(":spock:0.6") {
             export = false
         }
 
-        runtime("${pluginsGroup}:geb:${gebVersion}") {
+        compile(":geb:${gebVersion}") {
             export = false
         }
 
-        runtime("${pluginsGroup}:code-coverage:1.2.5") {
+        compile(":code-coverage:1.2.5") {
             export = false
         }
 
-        runtime("${pluginsGroup}:codenarc:0.17") {
+        compile(":codenarc:0.17") {
             export = false
         }
     }
