@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.groovy.grails.commons.AbstractInjectableGrailsClass;
 import org.codehaus.groovy.grails.commons.GrailsClassUtils;
+import org.codehaus.groovy.grails.commons.ServiceArtefactHandler;
 import org.grails.cxf.utils.EndpointType;
 import org.grails.cxf.utils.GrailsCxfUtils;
 
@@ -104,7 +105,12 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     public String getNameNoPostfix() {
-        return StringUtils.removeEnd(getPropertyName(), EndpointArtefactHandler.TYPE);
+        if(getPropertyName().endsWith(ServiceArtefactHandler.TYPE)){
+            return StringUtils.removeEnd(getPropertyName(), ServiceArtefactHandler.TYPE);
+        } else if(getPropertyName().endsWith(EndpointArtefactHandler.TYPE)){
+            return StringUtils.removeEnd(getPropertyName(), EndpointArtefactHandler.TYPE);
+        }
+        return getPropertyName();
     }
 
     public Boolean isSoap12() {
