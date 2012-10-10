@@ -76,8 +76,9 @@ class EndpointBeanConfiguration {
                         wsdlLocation = endpointWsdlLocation
                     }
 
+                    //Simple server doesn't like MTOM binding
                     if(endpointUseSoap12) {
-                        bindingId = SOAPBinding.SOAP12HTTP_MTOM_BINDING
+                        bindingId = (endpointArtefact.expose == EndpointExposureType.SIMPLE ? SOAPBinding.SOAP12HTTP_BINDING : SOAPBinding.SOAP12HTTP_MTOM_BINDING)
                     }
                 }
 
@@ -117,8 +118,9 @@ class EndpointBeanConfiguration {
                         wsdlLocation = endpointWsdlLocation
                     }
 
+                    //Simple server doesn't like MTOM binding
                     if(endpointUseSoap12) {
-                        bindingId = SOAPBinding.SOAP12HTTP_MTOM_BINDING
+                        bindingId = (endpointArtefact.expose == EndpointExposureType.SIMPLE ? SOAPBinding.SOAP12HTTP_BINDING : SOAPBinding.SOAP12HTTP_MTOM_BINDING)
                     }
                 }
 
@@ -139,13 +141,13 @@ class EndpointBeanConfiguration {
         }
     }
 
-    /**
-     * Each of the endpoints get their own Cxf service bean created by the Cxf factory beans. These beans are specific
-     * to a particular servlet.
-     *
-     * @param servletName configured for the endpoint artefacts.
-     * @return spring dsl for the endpoint service beans.
-     */
+/**
+ * Each of the endpoints get their own Cxf service bean created by the Cxf factory beans. These beans are specific
+ * to a particular servlet.
+ *
+ * @param servletName configured for the endpoint artefacts.
+ * @return spring dsl for the endpoint service beans.
+ */
     Closure cxfServiceEndpointBeans(final String servletName) {
         return {
             eachEndpointArtefact(servletName) {DefaultGrailsEndpointClass endpointArtefact ->
@@ -166,10 +168,10 @@ class EndpointBeanConfiguration {
         grailsApplication.getArtefacts(EndpointArtefactHandler.TYPE).each(forEachGrailsClass)
     }
 
-    /**
-     * We only want services with explicit 'expose' wired up.
-     * @param forEachGrailsClass
-     */
+/**
+ * We only want services with explicit 'expose' wired up.
+ * @param forEachGrailsClass
+ */
     void eachServiceArtefact(final Closure forEachGrailsClass) {
         grailsApplication?.serviceClasses?.each { service ->
             def expose = GrailsClassUtils.getStaticPropertyValue(service.clazz, 'expose')
@@ -193,4 +195,5 @@ class EndpointBeanConfiguration {
             }
         }
     }
+
 }
