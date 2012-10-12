@@ -1,6 +1,5 @@
 package org.grails.cxf.utils
 
-import groovy.util.logging.Commons
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 

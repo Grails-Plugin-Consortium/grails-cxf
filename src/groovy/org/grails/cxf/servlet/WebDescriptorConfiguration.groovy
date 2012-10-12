@@ -1,9 +1,8 @@
 package org.grails.cxf.servlet
 
-import org.grails.cxf.utils.GrailsCxfUtils
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
-import groovy.util.logging.Commons
+import org.grails.cxf.utils.GrailsCxfUtils
 
 /**
  * The configuration for the Web Descriptor (web.xml) that adds in our servlets.

@@ -1,13 +1,12 @@
 package org.grails.cxf.artefact
 
-import groovy.util.logging.Commons
+import org.apache.commons.logging.Log
+import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
 
 import javax.jws.WebService
 import javax.xml.ws.soap.SOAPBinding
-import org.apache.commons.logging.Log
-import org.apache.commons.logging.LogFactory
 
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
