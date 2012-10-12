@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory
 class EndpointBeanConfiguration {
 
     GrailsApplication grailsApplication
-    private Log log = LogFactory.getLog(getClass())
+    private static final Log log = LogFactory.getLog(EndpointBeanConfiguration.getClass())
 
     EndpointBeanConfiguration(final GrailsApplication grailsApplication) {
         this.grailsApplication = grailsApplication

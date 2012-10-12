@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory
  */
 class GrailsCxfServlet extends CXFServlet {
 
-    private Log log = LogFactory.getLog(getClass())
+    private static final Log log = LogFactory.getLog(GrailsCxfServlet.getClass())
 
     void init(final ServletConfig servletConfig) {
         super.init(servletConfig)

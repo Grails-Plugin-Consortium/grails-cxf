@@ -11,7 +11,7 @@ import groovy.util.logging.Commons
 class WebDescriptorConfiguration {
 
     Object webXml
-    private Log log = LogFactory.getLog(getClass())
+    private static final Log log = LogFactory.getLog(WebDescriptorConfiguration.getClass())
 
     WebDescriptorConfiguration(final Object webXml) {
         this.webXml = webXml
