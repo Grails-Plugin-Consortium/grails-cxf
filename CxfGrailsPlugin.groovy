@@ -53,7 +53,7 @@ class CxfGrailsPlugin {
      * Plugin Metadata Down-under
      * **********************************************************************/
 
-    def version = '1.0.4'
+    def version = '1.0.5'
     def grailsVersion = '1.3.7 > *'
 
     def author = 'Christian Oestreich'
@@ -66,11 +66,11 @@ class CxfGrailsPlugin {
             [name: "Ryan Crum", email: "ryan.j.crum@gmail.com"],
             [name: "Ben Doerr", email: "craftsman@bendoerr.me"]]
 
-    def documentation = "http://grails.org/plugin/cxf"
+    def documentation = "https://github.com/thorstadt/grails-cxf"
     def license = ''
 
     def issueManagement = [system: 'JIRA', url: '']
-    def scm = [url: "http://grails.org/plugin/cxf"]
+    def scm = [url: "https://github.com/thorstadt/grails-cxf"]
 
     //def loadAfter = ['hibernate']                   // TODO: Is hibernate really necessary?
     //def observe = ['hibernate']                     // Maybe in the future we add some logging domain class?
