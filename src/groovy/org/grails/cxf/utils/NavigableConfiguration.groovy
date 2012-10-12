@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory
 class NavigableConfiguration {
 
     private ConfigObject configObject
-    private static final Log log = LogFactory.getLog(NavigableConfiguration.getClass())
+    private static final Log log = LogFactory.getLog(NavigableConfiguration)
 
     NavigableConfiguration(final ConfigObject configObject) {
         this.configObject = configObject
