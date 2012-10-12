@@ -355,7 +355,13 @@ I will be using the github issue tracker <https://github.com/thorstadt/grails-cx
 <a name="Change"></a>
 CHANGE LOG
 ---------------
-* Version 1.0.0 - Initial re-release of the grails cxf plugin with ground up rewrite.  Thanks goes out to Ben Doerr <https://github.com/bendoerr> who was pivital in getting this project off the ground again.
+* v1.0.5
+    * Removing @Commons to retain compatibility with grails 1.3.x+
+
+* v1.0.1 - 1.0.4
+    * Several successive releases to address issues raised after deployment
+
+* v1.0.0 - Initial re-release of the grails cxf plugin with ground up rewrite.  Thanks goes out to Ben Doerr <https://github.com/bendoerr> who was pivital in getting this project off the ground again.
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Future"></a>
