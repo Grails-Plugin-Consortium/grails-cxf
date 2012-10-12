@@ -8,10 +8,10 @@ import groovy.util.logging.Commons
 /**
  * The configuration for the Web Descriptor (web.xml) that adds in our servlets.
  */
-@Commons
 class WebDescriptorConfiguration {
 
     Object webXml
+    private Log log = LogFactory.getLog(getClass())
 
     WebDescriptorConfiguration(final Object webXml) {
         this.webXml = webXml
