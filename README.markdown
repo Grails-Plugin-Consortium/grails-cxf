@@ -377,18 +377,10 @@ class Word implements Serializable {
     <name>test1</name>
     <number>2</number>
     <words>
-       <word>
-          <text>i</text>
-       </word>
-       <word>
-          <text>am</text>
-       </word>
-       <word>
-          <text>the</text>
-       </word>
-       <word>
-          <text>doctor</text>
-       </word>
+        <word><text>i</text></word>
+        <word><text>am</text></word>
+        <word><text>the</text></word>
+        <word><text>doctor</text></word>
     </words>
  </page>
 ```
@@ -424,10 +416,10 @@ class Word implements Serializable {
 <page>
     <name>test1</name>
     <number>2</number>
-       <words><text>i</text></words>
-       <words><text>am</text></words>
-       <words><text>the</text></words>
-       <words><text>doctor</text></words>
+    <words><text>i</text></words>
+    <words><text>am</text></words>
+    <words><text>the</text></words>
+    <words><text>doctor</text></words>
  </page>
 ```
 
