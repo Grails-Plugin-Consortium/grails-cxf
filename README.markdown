@@ -9,7 +9,9 @@ GRAILS CXF PLUGIN
 * <a href="#soap">Exposing Classes via SOAP</a>
 * <a href="#soap12">Using SOAP 1.2</a>
 * <a href="#wsdl">Wsdl First Services</a>
+* <a href="#jax">JAX Web Service Gotcha's</a>
 * <a href="#lists">Handling List Responses</a>
+* <a href="#hasMany">Handling hasMany Mappings</a>
 * <a href="#maps">Handling Map Responses</a>
 * <a href="#security">Custom Security Interceptors</a>
 * <a href="#Demo">Demo Project</a>
@@ -128,11 +130,19 @@ EXPOSING CLASSES VIA SOAP
 -----------------
 There are many ways to configure the plugin.  The legacy way was to use the `static expose = ['cxf']` in your service classes.  Legacy support for both `static expose = ['cxf']` , `static expose = ['cxfjax']` and `static expose = [''cxfrs'']` services remains, but the new preferred way is to use one of the following methods of exposure:
 
+**SIMPLE SERVICES**
+
 To expose as a simple endpoint <http://cxf.apache.org/docs/simple-frontend-configuration.html> add the following to your endpoint or service class:
 
 ```groovy
     static expose = EndpointType.SIMPLE
 ```
+
+It states clearly in the documentation at <http://cxf.apache.org/docs/simple-frontend.html> the following:
+
+*There is a known issue for the JAXB data binding with POJO, please see Dan Kulp's comment in <https://issues.apache.org/jira/browse/CXF-897>.  If you want to use JAXB binding you should use the JAX-WS Frontend. Mixing Simple Frontend and JAXB binding leads to problems. The article A simple JAX-WS service shows a code first JAX-WS service that is almost as easy to use as the Simple Frontend.*
+
+**JAX WEB SERVICES**
 
 To expose as a jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html> add the following to your endpoint or service class:
 
@@ -140,12 +150,16 @@ To expose as a jax web service endpoint <http://cxf.apache.org/docs/jax-ws-confi
     static expose = EndpointType.JAX_WS
 ```
 
+**JAX WEB WSDL SERVICES**
+
 To expose as a wsdl first jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html> add the following to your endpoint or service class:
 
 ```groovy
      static expose = EndpointType.JAX_WS_WSDL
      static wsdl = 'org/grails/cxf/test/soap/CustomerService.wsdl' //your path (preferred) or url to wsdl
 ```
+
+**JAX REST SERVICES**
 
 To expose as a jax rest service endpoint <http://cxf.apache.org/docs/jax-rs.html> add the following to your endpoint or service class:
 
@@ -250,6 +264,48 @@ class CustomerServiceWsdlEndpoint {
 ```
 
 <p align="right"><a href="#Top">Top</a></p>
+<a name="jax"></a>
+JAX WEB SERVICE GOTCHA'S
+-----------------
+Currently there seems to be an issue dealing with `List` response types and services exposed via 'cxfjax' and EndpointType.JAX_WS.  Wiring will fail if you try and use `@XmlAccessorType(XmlAccessType.FIELD)`.  You must use `@XmlAccessorType(XmlAccessType.NONE)` and specifically annotate your fields explicitly that you want exposed.  I am currently looking into this issue, but currently there is no other resolution to this at the moment.
+
+This also means that you will have to add the properties you want exposed that would normally be auto exposed via the FIELD type such as `Long id`, `Long version`, etc.
+
+Service class:
+```groovy
+@WebResult(name = 'page')
+@WebMethod(operationName = 'getMeSomePages')
+List<Page> getMeSomePages() {
+    ...
+}
+```
+
+Domain Object:
+```groovy
+@XmlAccessorType(XmlAccessType.NONE)
+class Page implements Serializable {
+    @XmlElement
+    Long id
+    @XmlElement
+    String name
+    @XmlElement
+    Integer number
+    @XmlElement
+    Long version
+
+    static hasMany = [words: Word]
+
+    @XmlElementWrapper(name="words")
+    @XmlElement(name="word")
+    List<Word> words
+
+    static mapping = {
+        version true
+    }
+}
+```
+
+<p align="right"><a href="#Top">Top</a></p>
 <a name="lists"></a>
 HANDLING LIST RESPONSES
 -----------------
@@ -268,6 +324,125 @@ class Book {
     Isbn isbn
 }
 ```
+
+
+<p align="right"><a href="#Top">Top</a></p>
+<a name="hasMany"></a>
+HANDLING HASMANY MAPPINGS
+-----------------
+If your domain object contains a `static hasMany = [foos:Foo]` and you would like to have these foos included in a service response you will need to do a bit of extra work in the domain object containing the hasMany clause.  Given the following scenario:
+
+To get the hasMany mappings to show up you will need to add the typed (List, Set, SortedSet, etc) variable to your class along with the hasMany statement like such:
+
+```groovy
+    static hasMany = [words: Word]
+
+    @XmlElement(name="words")
+    List<Word> words
+```
+
+*Note If you are using a SortedSet, your object must implement the `Comparable` interface!*
+
+The following are additional ways you can control your xml schema.
+
+This would configuration using an `XmlElementWrapper` would map the xml similar to the following:
+
+```groovy
+@XmlAccessorType(XmlAccessType.NONE)
+class Page implements Serializable {
+    @XmlElement
+    String name
+    @XmlElement
+    Integer number
+
+    static hasMany = [words: Word]
+
+    @XmlElementWrapper(name="words")
+    @XmlElement(name="word")
+    List<Word> words
+
+    static mapping = {
+        version true
+    }
+}
+
+@XmlAccessorType(XmlAccessType.NONE)
+class Word implements Serializable {
+    @XmlElement
+    String text
+
+}
+```
+
+```xml
+<page>
+    <name>test1</name>
+    <number>2</number>
+    <words>
+       <word>
+          <text>i</text>
+       </word>
+       <word>
+          <text>am</text>
+       </word>
+       <word>
+          <text>the</text>
+       </word>
+       <word>
+          <text>doctor</text>
+       </word>
+    </words>
+ </page>
+```
+
+If you do not want a wrapper element and prefer to deal with multiples at the root you could use the following code:
+
+```groovy
+@XmlAccessorType(XmlAccessType.NONE)
+class Page implements Serializable {
+    @XmlElement
+    String name
+    @XmlElement
+    Integer number
+
+    static hasMany = [words: Word]
+
+    @XmlElement(name="words")
+    List<Word> words
+
+    static mapping = {
+        version true
+    }
+}
+
+@XmlAccessorType(XmlAccessType.NONE)
+class Word implements Serializable {
+    @XmlElement
+    String text
+}
+```
+
+```xml
+<page>
+    <name>test1</name>
+    <number>2</number>
+       <words>
+          <text>i</text>
+       </words>
+       <words>
+          <text>am</text>
+       </words>
+       <words>
+          <text>the</text>
+       </words>
+       <words>
+          <text>doctor</text>
+       </words>
+ </page>
+```
+
+Remember that you can use either `@XmlAttribute` for an xml attribute like `<words text="blah" />` or like above with `@XmlElement` where each property annotated as such is a new element node.
+
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="maps"></a>
