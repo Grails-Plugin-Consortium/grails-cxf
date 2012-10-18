@@ -267,7 +267,7 @@ class CustomerServiceWsdlEndpoint {
 <a name="jax"></a>
 JAX WEB SERVICE GOTCHA'S
 -----------------
-Currently there seems to be an issue dealing with `List` response types and services exposed via 'cxfjax' and EndpointType.JAX_WS.  Wiring will fail if you try and use `@XmlAccessorType(XmlAccessType.FIELD)`.  You must use `@XmlAccessorType(XmlAccessType.NONE)` and specifically annotate your fields explicitly that you want exposed.  I am currently looking into this issue, but currently there is no other resolution to this at the moment.
+Currently there seems to be an issue dealing with `List` response types and services exposed via 'cxfjax' and EndpointType.JAX_WS.  Wiring will fail if you try and use `@XmlAccessorType(XmlAccessType.FIELD)`.  You must use `@XmlAccessorType(XmlAccessType.NONE)` and annotate your fields explicitly that you want exposed.  I am looking into this issue, but currently I know of no other way to make Lists work.
 
 This also means that you will have to add the properties you want exposed that would normally be auto exposed via the FIELD type such as `Long id`, `Long version`, etc.
 
@@ -330,7 +330,7 @@ class Book {
 <a name="hasMany"></a>
 HANDLING HASMANY MAPPINGS
 -----------------
-If your domain object contains a `static hasMany = [foos:Foo]` and you would like to have these foos included in a service response you will need to do a bit of extra work in the domain object containing the hasMany clause.  Given the following scenario:
+If your domain object contains a `static hasMany = [foos:Foo]` and you would like to have these foos included in a service response you will need to do a bit of extra work in the domain object containing the hasMany clause.
 
 To get the hasMany mappings to show up you will need to add the typed (List, Set, SortedSet, etc) variable to your class along with the hasMany statement like such:
 
@@ -345,7 +345,7 @@ To get the hasMany mappings to show up you will need to add the typed (List, Set
 
 The following are additional ways you can control your xml schema.
 
-This would configuration using an `XmlElementWrapper` would map the xml similar to the following:
+You can specify a nested list schema using an `XmlElementWrapper` which would map the xml similar to the following:
 
 ```groovy
 @XmlAccessorType(XmlAccessType.NONE)
