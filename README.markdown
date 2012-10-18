@@ -343,9 +343,7 @@ To get the hasMany mappings to show up you will need to add the typed (List, Set
 
 *Note If you are using a SortedSet, your object must implement the `Comparable` interface!*
 
-The following are additional ways you can control your xml schema.
-
-You can specify a nested list schema using an `XmlElementWrapper` which would map the xml similar to the following:
+You may also choose to control the way your xml schema looks for these hasMany objects.  You can specify a nested list schema using an `XmlElementWrapper` which would map the xml similar to the following:
 
 ```groovy
 @XmlAccessorType(XmlAccessType.NONE)
@@ -395,7 +393,7 @@ class Word implements Serializable {
  </page>
 ```
 
-If you do not want a wrapper element and prefer to deal with multiples at the root you could use the following code:
+If you do not want a wrapper element and prefer to deal with these lists as flattened multiple elements you could use the following code:
 
 ```groovy
 @XmlAccessorType(XmlAccessType.NONE)
@@ -426,18 +424,10 @@ class Word implements Serializable {
 <page>
     <name>test1</name>
     <number>2</number>
-       <words>
-          <text>i</text>
-       </words>
-       <words>
-          <text>am</text>
-       </words>
-       <words>
-          <text>the</text>
-       </words>
-       <words>
-          <text>doctor</text>
-       </words>
+       <words><text>i</text></words>
+       <words><text>am</text></words>
+       <words><text>the</text></words>
+       <words><text>doctor</text></words>
  </page>
 ```
 
