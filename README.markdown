@@ -269,7 +269,7 @@ JAX WEB SERVICE GOTCHA'S
 -----------------
 Currently there seems to be an issue dealing with `List` response types and services exposed via 'cxfjax' and EndpointType.JAX_WS.  Wiring will fail if you try and use `@XmlAccessorType(XmlAccessType.FIELD)`.  You must use `@XmlAccessorType(XmlAccessType.NONE)` and annotate your fields explicitly that you want exposed.  I am looking into this issue, but currently I know of no other way to make Lists work.
 
-This also means that you will have to add the properties you want exposed that would normally be auto exposed via the FIELD type such as `Long id`, `Long version`, etc.
+You will have to add the properties you want exposed that would normally be auto exposed via the FIELD type such as `Long id`, `Long version`, etc.  If you specify the service method return type as `def` you will probably see JAXB complain about not knowing about ArrayLists.
 
 Service class:
 ```groovy
@@ -332,7 +332,7 @@ HANDLING HASMANY MAPPINGS
 -----------------
 If your domain object contains a `static hasMany = [foos:Foo]` and you would like to have these foos included in a service response you will need to do a bit of extra work in the domain object containing the hasMany clause.
 
-To get the hasMany mappings to show up you will need to add the typed (List, Set, SortedSet, etc) variable to your class along with the hasMany statement like such:
+To get the hasMany mappings to show up you will need to add the typed (List, Set, SortedSet, etc) variable to your class along with the hasMany statement like below.  See <http://grails.org/doc/latest/guide/GORM.html#5.2.4%20Sets,%20Lists%20and%20Maps> for more details.
 
 ```groovy
     static hasMany = [words: Word]
