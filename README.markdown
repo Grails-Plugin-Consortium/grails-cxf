@@ -267,6 +267,49 @@ class CustomerServiceWsdlEndpoint {
 <a name="jax"></a>
 JAX WEB SERVICE GOTCHA'S
 -----------------
+
+**Issue**
+Do not try and annotate methods with default params as CXF chokes on these due to groovy actually adding multiple methods under the cover with the same name and annotations which causes CXF to puke when it tried to add these duplicated named web service method to the binding.
+
+This will **not** work!
+
+```groovy
+
+static expose = EndpointType.JAX_WS
+
+@WebResult(name = 'data')
+@WebMethod(operationName = 'getData')
+List<Medication> getData(@WebParam(name = 'id') String id, @WebParam(name = 'type') String type, @WebParam(name = 'isGeneric') Boolean isGeneric = true) {
+    ...
+}
+```
+
+You should instead create a new method(s) with params defined that you need and pass through to the base service.
+
+```groovy
+
+static expose = EndpointType.JAX_WS
+
+@WebResult(name = 'data')
+@WebMethod(operationName = 'getDataWithGeneric')
+List<Medication> getDataWithGeneric(@WebParam(name = 'id') String id, @WebParam(name = 'type') String type, @WebParam(name = 'isGeneric') Boolean isGeneric) {
+    this.getData(id, type, isGeneric)
+}
+
+@WebResult(name = 'data')
+@WebMethod(operationName = 'getDataNoGeneric')
+List<Medication> getDataNoGeneric(@WebParam(name = 'id') String id, @WebParam(name = 'type') String type) {
+    this.getData(id, type)
+}
+
+List<Medication> getData(String id, String type, Boolean isGeneric = true) {
+    ...
+}
+```
+
+
+**Issue**
+
 Currently there seems to be an issue dealing with `List` response types and services exposed via 'cxfjax' and EndpointType.JAX_WS.  Wiring will fail if you try and use `@XmlAccessorType(XmlAccessType.FIELD)`.  You must use `@XmlAccessorType(XmlAccessType.NONE)` and annotate your fields explicitly that you want exposed.  I am looking into this issue, but currently I know of no other way to make Lists work.
 
 You will have to add the properties you want exposed that would normally be auto exposed via the FIELD type such as `Long id`, `Long version`, etc.  If you specify the service method return type as `def` you will probably see JAXB complain about not knowing about ArrayLists.
