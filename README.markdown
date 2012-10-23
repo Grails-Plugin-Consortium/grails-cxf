@@ -308,6 +308,42 @@ List<Medication> getData(String id, String type, Boolean isGeneric = true) {
 }
 ```
 
+Or if you want to leave your default params on your service, make an interface for your service and annotated that.  Then simply implement the interface on your service.  The wiring will be done against the interface for these methods.  **All methods to be exposed (not just the ones with defaults) must then be defined and annotated in the interface**.  You must include the `@WebService` annotation on the service and the `expose` on the service class.
+
+```groovy
+//Interface annotation is REQUIRED!
+@WebService
+public interface DataServiceContract {
+    @WebMethod(operationName="getTypes")
+    @WebResult(name="types")
+    @XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)
+    Map<String, Integer> getTypes()
+
+    @WebResult(name = 'datas')
+    @WebMethod(operationName = 'getData')
+    List<Data> getData(@WebParam(name='type') String type, @WebParam(name='loadChildren') Boolean traverse, @WebParam(name='loadMedications') Boolean medications)
+}
+
+//Service class
+class DataService implements DataServiceContract {
+
+    //this is REQUIRED!
+    static expose = EndpointType.JAX_WS
+
+    @Cacheable("ClassificationServiceCache")
+    Map<String, Integer> getTypes() {
+       //do work
+    }
+
+    //can use default params, but not from cxf endpoint...
+    //funny things might happen if you invoke service will nulls and expect some value like true|false
+    List<Data> getData(String type, Boolean traverse = true, Boolean isGoodData = false){
+        //do work
+    }
+}
+```
+
+--------------------
 
 **Gotcha**
 
