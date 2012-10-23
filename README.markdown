@@ -340,6 +340,10 @@ class DataService implements DataServiceContract {
     List<Data> getData(String type, Boolean traverse = true, Boolean isGoodData = false){
         //do work
     }
+
+    def notExposed(){
+        //do work
+    }
 }
 ```
 
