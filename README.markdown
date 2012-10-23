@@ -268,7 +268,8 @@ class CustomerServiceWsdlEndpoint {
 JAX WEB SERVICE GOTCHA'S
 -----------------
 
-**Issue**
+**Gotcha**
+
 Do not try and annotate methods with default params as CXF chokes on these due to groovy actually adding multiple methods under the cover with the same name and annotations which causes CXF to puke when it tried to add these duplicated named web service method to the binding.
 
 This will **not** work!
@@ -308,7 +309,7 @@ List<Medication> getData(String id, String type, Boolean isGeneric = true) {
 ```
 
 
-**Issue**
+**Gotcha**
 
 Currently there seems to be an issue dealing with `List` response types and services exposed via 'cxfjax' and EndpointType.JAX_WS.  Wiring will fail if you try and use `@XmlAccessorType(XmlAccessType.FIELD)`.  You must use `@XmlAccessorType(XmlAccessType.NONE)` and annotate your fields explicitly that you want exposed.  I am looking into this issue, but currently I know of no other way to make Lists work.
 
