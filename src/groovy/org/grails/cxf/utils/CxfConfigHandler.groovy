@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory
 class CxfConfigHandler {
 
     private static final Log log = LogFactory.getLog(CxfConfigHandler)
-    private static final String CONFIG_PATH = 'grails.cxf'
+    private static final String CONFIG_PATH = 'cxf'
     private static final String DEFAULT_CXF_CONFIG_CLASS = 'DefaultCxfConfig'
 
     private ConfigObject config
