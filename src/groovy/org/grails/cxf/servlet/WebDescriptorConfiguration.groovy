@@ -27,7 +27,7 @@ class WebDescriptorConfiguration {
                 lastServletDescriptor() + {
                     servlet {
                         'servlet-name'(name)
-                        'servlet-class'('org.grails.cxf.servlet.GrailsCxfServlet')
+                        'servlet-class'(pattern.clazz)
                         'load-on-startup'(loadOnStartup)
                     }
                 }
@@ -35,18 +35,19 @@ class WebDescriptorConfiguration {
                 lastServletMappingDescriptor() + {
                     'servlet-mapping' {
                         'servlet-name'(name)
-                        'url-pattern'(pattern)
+                        'url-pattern'(pattern.url)
                     }
                 }
             }
         }
     }
 
-    private void assertServletConfig(String name, String pattern) {
+    private void assertServletConfig(String name, Map pattern) {
         assert name, 'Servlet configuration requires a name.'
-        assert pattern, 'Servlet configuration requires a url-pattern.'
+        assert pattern.url, 'Servlet configuration requires a url-pattern.'
+        assert pattern.clazz, 'Servlet configuration requires a class.'
 
-        log.debug "Creating web.xml entries for servlet [$name] at [$pattern]."
+        log.debug "Creating web.xml entries for servlet [$name] at [${pattern.url}] and class [${pattern.clazz}]."
     }
 
     private Integer getLoadOnStartup() {

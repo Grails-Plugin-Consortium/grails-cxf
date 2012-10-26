@@ -1,9 +1,7 @@
 package org.grails.cxf.artefact
 
-import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.grails.cxf.MockConfigurationSpec
 import org.grails.cxf.utils.CxfConfigHandler
-import org.grails.cxf.utils.GrailsCxfUtils
 import spock.lang.Unroll
 
 import static org.grails.cxf.artefact.EndpointExposureType.*
@@ -63,7 +61,7 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
         artefact.expose == expectedExpose
 
         where:
-        expose      | expectedExpose
+        expose        | expectedExpose
         ''            | JAX_WS
         null          | JAX_WS
         1234          | JAX_WS
@@ -155,10 +153,10 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
 
     def "servletName defaults to alphabetical on multiple configuration"() {
         setup:
-            CxfConfigHandler.instance.cxfConfig.servlets = [
-                'FirstServlet': '/services1/*',
-                'SecondServlet': '/services2/*',
-                'AThirdServlet': '/services3/*'
+        CxfConfigHandler.instance.cxfConfig.servlets = [
+                'FirstServlet': [url: '/services1/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet'],
+                'SecondServlet': [url: '/services2/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet'],
+                'AThirdServlet': [url: '/services3/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet']
         ]
 
         when:
@@ -171,9 +169,9 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
     def "servletName default can be changed"() {
         setup:
         CxfConfigHandler.instance.cxfConfig.servlets = [
-                        'FirstServlet': '/services1/*',
-                        'SecondServlet': '/services2/*',
-                        'AThirdServlet': '/services3/*'
+                'FirstServlet': [url: '/services1/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet'],
+                'SecondServlet': [url: '/services2/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet'],
+                'AThirdServlet': [url: '/services3/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet']
         ]
 
         when:
@@ -187,10 +185,10 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
     @Unroll
     def "servletName can be set #servletName = #expectedServletName"() {
         setup:
-            CxfConfigHandler.instance.cxfConfig.servlets = [
-                'FirstServlet': '/services1/*',
-                'SecondServlet': '/services2/*',
-                'AThirdServlet': '/services3/*'
+        CxfConfigHandler.instance.cxfConfig.servlets = [
+                'FirstServlet': [url: '/services1/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet'],
+                'SecondServlet': [url: '/services2/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet'],
+                'AThirdServlet': [url: '/services3/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet']
         ]
 
         when:

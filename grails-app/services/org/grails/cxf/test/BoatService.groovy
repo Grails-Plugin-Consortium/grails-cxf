@@ -9,6 +9,7 @@ class BoatService {
 
     //jsx_ws requires @WebMethod for exposure of service methods
     static expose = EndpointType.JAX_WS
+    static servlet = "AnotherCxfServlet"
 
     def truckService
 

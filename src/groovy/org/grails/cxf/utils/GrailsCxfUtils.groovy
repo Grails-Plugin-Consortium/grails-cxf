@@ -38,10 +38,10 @@ class GrailsCxfUtils {
         getConfig(CFG_LOAD_ON_STARTUP) as Integer
     }
 
-    static Map<String, String> getServletsMappings() {
+    static Map<String, Map> getServletsMappings() {
         Object mappings = getConfig(CFG_SERVLET_MAPPINGS)
         assert mappings, 'There must be at least one configured servlet.'
-        mappings as Map<String, String>
+        mappings as Map<String, Map>
     }
 
     static String getDefaultServletName() {
