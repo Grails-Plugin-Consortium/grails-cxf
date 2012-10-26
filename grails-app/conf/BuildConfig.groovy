@@ -86,19 +86,19 @@ grails.project.dependency.resolution = {
         }
 
         /* Spock and Geb for Testing ******************************************/
-        compile(":spock:0.6") {
+        test(":spock:0.6") {
             export = false
         }
 
-        compile(":geb:${gebVersion}") {
+        test(":geb:${gebVersion}") {
             export = false
         }
 
-        compile(":code-coverage:1.2.5") {
+        test(":code-coverage:1.2.5") {
             export = false
         }
 
-        compile(":codenarc:0.17") {
+        test(":codenarc:0.17") {
             export = false
         }
     }
