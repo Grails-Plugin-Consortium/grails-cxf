@@ -33,7 +33,7 @@ cxf {
      * configuration allows that.
      */
     servlets = [
-            CxfServlet: [url: '/services/*', clazz: 'org.grails.cxf.servlet.GrailsCxfServlet']
+            CxfServlet: '/services/*'
     ]
 
     endpoint {

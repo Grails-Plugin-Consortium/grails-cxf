@@ -29,7 +29,7 @@ grails.views.default.codec = "none" // none, html, base64
 grails.views.gsp.encoding = "UTF-8"
 
 cxf.servlets = [
-        AnotherCxfServlet: [url: '/services/v1/*', clazz: 'org.grails.cxf.test.soap.simple.AnotherGrailsCxfServlet']
+        AnotherCxfServlet: '/services/v1/*'
 ]
 
 cxf.servlet.defaultServlet = 'CxfServlet'
