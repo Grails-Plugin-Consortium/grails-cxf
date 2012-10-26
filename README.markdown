@@ -596,6 +596,9 @@ I will be using the github issue tracker <https://github.com/thorstadt/grails-cx
 <a name="Change"></a>
 CHANGE LOG
 ---------------
+* v1.0.6
+    * Config slurper was looking for base grails.cxf instead of cxf.  Fixed to use cxf as root for overrides.
+
 * v1.0.5
     * Removing @Commons to retain compatibility with grails 1.3.x+
 
