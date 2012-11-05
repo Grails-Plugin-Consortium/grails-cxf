@@ -1,4 +1,4 @@
-<plugin name='cxf' version='1.0.6' grailsVersion='1.3.7 &gt; *'>
+<plugin name='cxf' version='1.0.7' grailsVersion='1.3.7 &gt; *'>
   <author>Christian Oestreich</author>
   <authorEmail>acetrike@gmail.com</authorEmail>
   <title>CXF plug-in for Grails</title>
@@ -28,6 +28,7 @@
     <resource>org.grails.cxf.test.PageSimpleService</resource>
     <resource>org.grails.cxf.test.PlaneService</resource>
     <resource>org.grails.cxf.test.RemoteReportService</resource>
+    <resource>org.grails.cxf.test.SimpleExceptionService</resource>
     <resource>org.grails.cxf.test.SoapOneTwoSimpleService</resource>
     <resource>org.grails.cxf.test.TruckService</resource>
   </resources>
@@ -45,12 +46,14 @@
       <dependency group='org.seleniumhq.selenium' name='selenium-htmlunit-driver' version='2.25.0' />
     </test>
     <compile>
-      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-core' version='2.6.2' />
-      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-databinding-jaxb' version='2.6.2' />
       <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxrs' version='2.6.2' />
-      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-frontend-jaxws' version='2.6.2' />
-      <dependency group='commons-cli' name='commons-cli' version='1.2' />
       <dependency group='org.apache.cxf' name='cxf-rt-frontend-jaxws' version='2.6.2' />
+      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-core' version='2.6.2' />
+      <dependency group='com.sun.xml.bind' name='jaxb-xjc' version='2.2.6' />
+      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-frontend-jaxws' version='2.6.2' />
+      <dependency group='org.apache.cxf' name='cxf-tools-wsdlto-databinding-jaxb' version='2.6.2' />
+      <dependency group='com.sun.xml.bind' name='jaxb-impl' version='2.2.6' />
+      <dependency group='commons-cli' name='commons-cli' version='1.2' />
     </compile>
   </dependencies>
   <plugins />

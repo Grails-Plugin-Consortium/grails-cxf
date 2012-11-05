@@ -67,9 +67,9 @@ class CxfGrailsPlugin {
             [name: "Ben Doerr", email: "craftsman@bendoerr.me"]]
 
     def documentation = "https://github.com/thorstadt/grails-cxf"
-    def license = ''
+    def license = 'APACHE'
 
-    def issueManagement = [system: 'JIRA', url: '']
+    def issueManagement = [system: 'JIRA', url: 'https://github.com/thorstadt/grails-cxf/issues']
     def scm = [url: "https://github.com/thorstadt/grails-cxf"]
 
     //def loadAfter = ['hibernate']                   // TODO: Is hibernate really necessary?
