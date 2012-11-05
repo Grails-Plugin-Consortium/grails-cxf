@@ -6,6 +6,7 @@ grails.project.test.reports.dir = 'target/test-reports'
 grails.project.dependency.resolution = {
 
     def cxfVersion = '2.6.2'
+    def jaxbVersion = '2.2.6'
     def gebVersion = '0.7.2'
     def grailsVersion = '2.1.0'
 
@@ -24,24 +25,26 @@ grails.project.dependency.resolution = {
         compile('commons-cli:commons-cli:1.2')
 
         compile("org.apache.cxf:cxf-tools-wsdlto-core:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl'
         }
 
         compile("org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl'
         }
 
         compile("org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl'
         }
 
         compile("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl'
         }
 
         compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl'
         }
+
+        compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
 
         /* Some Testing Help **************************************************/
         test("com.github.groovy-wslite:groovy-wslite:0.7.0") {
