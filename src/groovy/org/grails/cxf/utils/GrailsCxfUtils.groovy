@@ -2,7 +2,6 @@ package org.grails.cxf.utils
 
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.grails.cxf.artefact.EndpointArtefactHandler
-import org.codehaus.groovy.grails.commons.ServiceArtefactHandler
 
 class GrailsCxfUtils {
 

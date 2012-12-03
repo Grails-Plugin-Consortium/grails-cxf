@@ -1,8 +1,9 @@
 package org.grails.cxf.test
 
-import javax.jws.WebResult
-import org.grails.cxf.utils.EndpointType
 import javax.jws.WebMethod
+import javax.jws.WebResult
+
+import org.grails.cxf.utils.EndpointType
 
 class RemoteReportService {
 

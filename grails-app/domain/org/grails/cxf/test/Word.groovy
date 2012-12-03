@@ -12,9 +12,6 @@ class Word implements Serializable { //, Comparable<Word> {
     @XmlAttribute
     String text
 
-    static constraints = {
-    }
-
     //If this is a SortedSet in the parent class
 //    int compareTo(Word o) {
 //        this.text <=> o.text

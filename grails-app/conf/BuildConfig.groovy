@@ -1,23 +1,18 @@
 grails.project.work.dir = 'target'
-grails.project.class.dir = 'target/classes'
-grails.project.test.class.dir = 'target/test-classes'
-grails.project.test.reports.dir = 'target/test-reports'
+grails.project.source.level = 1.6
 
 grails.project.dependency.resolution = {
 
-    def cxfVersion = '2.6.2'
-    def jaxbVersion = '2.2.6'
-    def gebVersion = '0.7.2'
-    def grailsVersion = '2.1.0'
+    String cxfVersion = '2.6.2'
+    String jaxbVersion = '2.2.6'
+    String gebVersion = '0.7.2'
 
-    inherits('global') {}
-
+    inherits 'global'
     log 'warn'
 
     repositories {
-        grailsPlugins()
-        grailsHome()
         grailsCentral()
+        mavenLocal()
         mavenCentral()
     }
 
@@ -77,11 +72,10 @@ grails.project.dependency.resolution = {
         //remove this before committing.  Only used to release...not test.
         // This still an issue?!?
         // http://grails.1312388.n4.nabble.com/Geb-and-Release-plugin-httpclient-conflicts-td4295238.html
-//        build(":release:2.0.4") {
+//        build(":release:2.0.4", ':rest-client-builder:1.0.2') {
 //            export = false
 //        }
 
-        /* Grails required plugins ********************************************/
         runtime(":hibernate:${grailsVersion}") {
             export = false
         }
