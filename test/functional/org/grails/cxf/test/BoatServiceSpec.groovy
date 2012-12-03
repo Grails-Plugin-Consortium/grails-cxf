@@ -1,13 +1,12 @@
 package org.grails.cxf.test
 
 import geb.spock.GebReportingSpec
+
 import wslite.soap.SOAPClient
+import wslite.soap.SOAPFaultException
 import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
-import wslite.soap.SOAPFaultException
 
-/**
- */
 class BoatServiceSpec extends GebReportingSpec {
 
     SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/boat")

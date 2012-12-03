@@ -1,6 +1,9 @@
 package org.grails.cxf.test
 
-import javax.xml.bind.annotation.*
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlElementWrapper
 
 @XmlAccessorType(XmlAccessType.NONE)
 class Page implements Serializable {
@@ -18,8 +21,4 @@ class Page implements Serializable {
     @XmlElementWrapper(name="words")
     @XmlElement(name="word")
     List<Word> words
-
-    static mapping = {
-        version true
-    }
 }

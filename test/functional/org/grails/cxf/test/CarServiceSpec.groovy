@@ -1,12 +1,11 @@
 package org.grails.cxf.test
 
 import geb.spock.GebReportingSpec
+
 import wslite.soap.SOAPClient
 import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
 
-/**
- */
 class CarServiceSpec extends GebReportingSpec {
 
     SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/car")

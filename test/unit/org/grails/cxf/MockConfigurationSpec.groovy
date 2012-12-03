@@ -1,19 +1,15 @@
 package org.grails.cxf
 
-import spock.lang.Specification
-import spock.lang.Shared
-import org.grails.cxf.artefact.EndpointArtefactHandler
-import org.grails.cxf.artefact.DefaultGrailsEndpointClass
-import org.codehaus.groovy.grails.commons.GrailsClass
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.grails.cxf.artefact.EndpointBeanConfiguration
 import grails.spring.BeanBuilder
-import org.grails.cxf.utils.GrailsCxfUtils
-import org.grails.cxf.test.BoatService
-import org.grails.cxf.test.CarService
 
-/**
- */
+import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.codehaus.groovy.grails.commons.GrailsClass
+import org.grails.cxf.artefact.DefaultGrailsEndpointClass
+import org.grails.cxf.artefact.EndpointArtefactHandler
+import org.grails.cxf.artefact.EndpointBeanConfiguration
+
+import spock.lang.Specification
+
 class MockConfigurationSpec extends Specification {
 
     protected class TestOneEndpoint {}

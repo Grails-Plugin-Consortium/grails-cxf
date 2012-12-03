@@ -4,26 +4,14 @@ log4j = {
         error stdout: "StackTrace"
     }
 
-    error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
-          'org.codehaus.groovy.grails.web.pages', //  GSP
-          'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-          'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-          'org.codehaus.groovy.grails.web.mapping', // URL mapping
-          'org.codehaus.groovy.grails.commons', // core / classloading
-          'org.codehaus.groovy.grails.plugins', // plugins
-          'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+    error 'org.codehaus.groovy.grails',
           'org.springframework',
           'org.hibernate',
           'net.sf.ehcache.hibernate'
-
-    warn 'org.mortbay.log'
 
     trace 'org.grails.cxf',
           'org.grails.cxf.artefact',
           'org.grails.cxf.frontend',
           'org.grails.cxf.servlet',
           'org.grails.cxf.utils'
-
 }
-grails.views.default.codec = "none" // none, html, base64
-grails.views.gsp.encoding = "UTF-8"

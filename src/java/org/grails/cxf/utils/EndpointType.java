@@ -1,9 +1,5 @@
 package org.grails.cxf.utils;
 
-import org.apache.cxf.endpoint.AbstractEndpointFactory;
-
-/**
- */
 public enum EndpointType {
         SIMPLE("SIMPLE"),
         JAX_WS("JAX_WS"),
