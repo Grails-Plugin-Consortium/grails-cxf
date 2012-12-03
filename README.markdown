@@ -592,6 +592,14 @@ ISSUES
 ---------------
 I will be using the github issue tracker <https://github.com/thorstadt/grails-cxf/issues> for issues and questions.
 
+
+<p align="right"><a href="#Top">Top</a></p>
+<a name="Change"></a>
+BUILD SERVER
+-----------------
+
+When making changes, builds will be run on trunk and branches at <http://www.tricharts.com/jenkins/job/grails-cxf/>.
+
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Change"></a>
 CHANGE LOG
