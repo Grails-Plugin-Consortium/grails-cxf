@@ -8,7 +8,7 @@ import wslite.soap.SOAPVersion
 
 class SimpleExceptionServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/simpleException")
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/grails-cxf/services/simpleException")
 
     def "invoke the pass method"() {
         when:

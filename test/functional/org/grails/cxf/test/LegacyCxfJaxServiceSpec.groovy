@@ -10,7 +10,7 @@ import wslite.soap.SOAPVersion
 
 class LegacyCxfJaxServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/legacyCxfJax")
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/grails-cxf/services/legacyCxfJax")
 
     @Unroll
     def "invoke the exposed method on the legacy cxf jax service param=#legacyParam"() {

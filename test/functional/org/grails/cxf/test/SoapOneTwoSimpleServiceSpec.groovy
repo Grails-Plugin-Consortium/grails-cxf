@@ -8,7 +8,7 @@ import wslite.soap.SOAPVersion
 
 class SoapOneTwoSimpleServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/soapOneTwoSimple")
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/grails-cxf/services/soapOneTwoSimple")
 
     def "invoke a method on the service using soap 1.2"() {
         when:

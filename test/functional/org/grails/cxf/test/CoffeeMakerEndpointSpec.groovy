@@ -12,7 +12,7 @@ import wslite.soap.SOAPVersion
 
 class CoffeeMakerEndpointSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/cxf/services/coffeeMaker")
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/grails-cxf/services/coffeeMaker")
 
     def "get coffee locations map"() {
         when:
