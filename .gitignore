@@ -1,10 +1,8 @@
-stacktrace.log
-docs
-docs/*
+*.log
+docs/
 .idea/
-global-groovy.log
 *.zip
 *.iml
-soapui-errors.log
-soapui.log
 target/
+.settings/
+plugin.xml

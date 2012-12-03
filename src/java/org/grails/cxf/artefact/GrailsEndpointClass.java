@@ -8,13 +8,13 @@ import java.util.Set;
 
 public interface GrailsEndpointClass {
 
-    public static final String PROP_EXPOSE = "expose";
-    public static final String PROP_EXCLUDES = "excludes";
-    public static final String PROP_SERVLET_NAME = "servletName";
-    public static final String PROP_WSDL = "wsdl";
-    public static final String PROP_SOAP12 = "soap12";
+    String PROP_EXPOSE = "expose";
+    String PROP_EXCLUDES = "excludes";
+    String PROP_SERVLET_NAME = "servletName";
+    String PROP_WSDL = "wsdl";
+    String PROP_SOAP12 = "soap12";
 
-    public static final Set<String> DEFAULT_GROOVY_EXCLUDES =
+    Set<String> DEFAULT_GROOVY_EXCLUDES =
             Collections.unmodifiableSet(
                     new HashSet<String>(Arrays.asList(
                             // Standard list of GroovyObject methods.
