@@ -596,6 +596,9 @@ I will be using the github issue tracker <https://github.com/thorstadt/grails-cx
 <a name="Change"></a>
 CHANGE LOG
 ---------------
+* v1.0.8
+    * No logical code changes, code cleanup and removal of unused items - burtbeckwith
+
 * v1.0.7
     * Use jaxb 2.2.6 due to bug fix for exception marshaling <http://java.net/jira/browse/JAXB-814>
     * Added functional tests for ensuring methods that return exceptions object (not thrown) don't fail in marshaling.
