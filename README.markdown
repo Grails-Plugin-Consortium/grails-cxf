@@ -16,6 +16,7 @@ GRAILS CXF PLUGIN
 * <a href="#security">Custom Security Interceptors</a>
 * <a href="#Demo">Demo Project</a>
 * <a href="#Issues">Issues</a>
+* <a href="#Build">Build</a>
 * <a href="#Change">Change Log</a>
 * <a href="#Future">Future Revisions</a>
 * <a href="#License">License</a>
@@ -594,11 +595,11 @@ I will be using the github issue tracker <https://github.com/thorstadt/grails-cx
 
 
 <p align="right"><a href="#Top">Top</a></p>
-<a name="Change"></a>
+<a name="Build"></a>
 BUILD SERVER
 -----------------
 
-When making changes, builds will be run on trunk and branches at <http://www.tricharts.com/jenkins/job/grails-cxf/>.
+When making changes, builds will be run on trunk and branches at <http://build.christianoestreich.com/jenkins/job/grails-cxf/>.
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Change"></a>
