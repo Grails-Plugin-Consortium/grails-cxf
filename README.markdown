@@ -606,7 +606,7 @@ When making changes, builds will be run on trunk and branches at <http://build.c
 CHANGE LOG
 ---------------
 * v1.0.8
-    * No logical code changes, code cleanup and removal of unused items - burtbeckwith
+    * No logical code changes, code cleanup and removal of unused items - thanks @burtbeckwith
 
 * v1.0.7
     * Use jaxb 2.2.6 due to bug fix for exception marshaling <http://java.net/jira/browse/JAXB-814>
