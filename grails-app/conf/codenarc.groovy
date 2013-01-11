@@ -14,8 +14,6 @@ ruleset {
         JavaIoPackageAccess      ( enabled : false )
         ThrowRuntimeException    ( enabled : false )
         CatchException           ( enabled : false )
-
-//        AbcMetric            ( maxMethodComplexity : 70  )
         LineLength               ( length              : 220 )
         MethodName               ( regex               : /[a-z][\w\s'\(\)]*/ ) // Spock method names
     }
