@@ -6,7 +6,8 @@ GRAILS CXF PLUGIN
 * <a href="#Introduction">Introduction</a>
 * <a href="#Script">Wsdl2java Script</a>
 * <a href="#plugin">Plugin Configuration</a>
-* <a href="#soap">Exposing Classes via SOAP</a>
+* <a href="#soapannotation">Exposing Classes via Annotation</a>
+* <a href="#soap">Exposing Classes via Properties</a>
 * <a href="#soap12">Using SOAP 1.2</a>
 * <a href="#wsdl">Wsdl First Services</a>
 * <a href="#jax">JAX Web Service Gotcha's</a>
@@ -28,6 +29,8 @@ INTRODUCTION
 The Grails Cxf plugin makes exposing classes (services and endpoints) as SOAP web services easy and painless.  Since version 1.0.0, it has been rewritten and enhanced to support more features including the migration to grails 2.x.
 
 The current cxf version is [2.6.2](https://issues.apache.org/jira/secure/ReleaseNote.jspa?projectId=12310511&styleName=Html&Create=Create&version=12321668)
+
+New in 1.1.0 is the ability to define custom names and addressing for the services as well as the ability to wire via a single annotation instead of multiple static properties.
 
 Some new things as of version 1.0.0 are as follows:
 
@@ -126,10 +129,27 @@ cxf {
 ```
 
 <p align="right"><a href="#Top">Top</a></p>
-<a name="soap"></a>
-EXPOSING CLASSES VIA SOAP
+<a name="soapannotation"></a>
+EXPOSING CLASSES VIA ANNOTATION
 -----------------
-There are many ways to configure the plugin.  The legacy way was to use the `static expose = ['cxf']` in your service classes.  Legacy support for both `static expose = ['cxf']` , `static expose = ['cxfjax']` and `static expose = [''cxfrs'']` services remains, but the new preferred way is to use one of the following methods of exposure:
+Added in version 1.1.0 was the ability to expose classes via the new `@GrailsCxfEndpoint()` annotation.  The following are available to configure via the annotation:
+
+
+
+
+<p align="right"><a href="#Top">Top</a></p>
+<a name="soap"></a>
+EXPOSING CLASSES VIA PROPERTIES
+-----------------
+There are many ways to configure the plugin using static properties.  The legacy way was to use the `static expose = ['cxf']` in your service classes.  Legacy support for both `static expose = ['cxf']` , `static expose = ['cxfjax']` and `static expose = ['cxfrs']` services remains, but the new preferred way is to use one of the following methods of exposure.
+
+The properties available for use are:
+
+expose
+soap12
+address
+wsdl
+excludes
 
 **SIMPLE SERVICES**
 
@@ -605,6 +625,12 @@ When making changes, builds will be run on trunk and branches at <http://build.c
 <a name="Change"></a>
 CHANGE LOG
 ---------------
+* v1.1.0
+    * Adding support for versioning through use of the `static address = '/v2/#name'` property (#name is special and will use the default service name)
+    * Adding support to override the service name (address) through `static address = '/path/v2/customName'`
+    * Adding support to use annotation driven service configuration via `@GrailsCxfEndpoint(...)` instead of several static properties in the class
+    * Added a crap-ton of new specs to test these scenarios
+
 * v1.0.8
     * No logical code changes, code cleanup and removal of unused items - thanks @burtbeckwith
 
