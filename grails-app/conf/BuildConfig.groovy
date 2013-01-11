@@ -112,6 +112,7 @@ codenarc {
     processTestUnit = false
     processTestIntegration = false
     processServices = false
+    processDomain = false
     propertiesFile = 'codenarc.properties'
     ruleSetFiles = 'file:grails-app/conf/codenarc.groovy'
     reports = {
