@@ -97,7 +97,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test(":codenarc:0.17") {
+        test(":codenarc:0.18") {
             export = false
         }
     }

@@ -20,3 +20,6 @@ ruleset {
         MethodName               ( regex               : /[a-z][\w\s'\(\)]*/ ) // Spock method names
     }
 }
+
+codenarc.processTestIntegration=false
+codenarc.processTestUnit =false
