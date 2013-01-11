@@ -16,5 +16,6 @@ ruleset {
         CatchException           ( enabled : false )
         LineLength               ( length              : 220 )
         MethodName               ( regex               : /[a-z][\w\s'\(\)]*/ ) // Spock method names
+
     }
 }
