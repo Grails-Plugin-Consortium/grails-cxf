@@ -111,6 +111,7 @@ coverage {
 codenarc {
     processTestUnit = false
     processTestIntegration = false
+    processServices = false
     propertiesFile = 'codenarc.properties'
     ruleSetFiles = 'file:grails-app/conf/codenarc.groovy'
     reports = {
