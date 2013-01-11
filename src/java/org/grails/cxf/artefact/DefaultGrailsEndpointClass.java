@@ -8,17 +8,13 @@ import org.codehaus.groovy.grails.commons.AbstractInjectableGrailsClass;
 import org.codehaus.groovy.grails.commons.GrailsClassUtils;
 import org.codehaus.groovy.grails.commons.ServiceArtefactHandler;
 import org.grails.cxf.utils.EndpointType;
+import org.grails.cxf.utils.GrailsCxfEndpoint;
 import org.grails.cxf.utils.GrailsCxfUtils;
 
 import javax.xml.transform.TransformerConfigurationException;
 import java.lang.reflect.Modifier;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass implements GrailsEndpointClass {
 
@@ -30,6 +26,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     protected String servletName;
     protected URL wsdl;
     protected Boolean soap12;
+    protected String address;
 
     private static final Log log = LogFactory.getLog(DefaultGrailsEndpointClass.class);
 
@@ -37,6 +34,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         super(clazz, EndpointArtefactHandler.TYPE);
         setupExpose();
         buildExclusionSet();
+        setupAddress();
         setupServletName();
         findWsdl();
         setupSoap12Binding();
@@ -56,10 +54,10 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     /**
      * Setting the property {@code static excludes = ['myPublicMethod']} on the endpoint class will allow clients to
      * add additional method names to be excluded from exposure.
-     * <p>
+     * <p/>
      * By default all of the GroovyObject methods and getters and setters for properties will be excluded and setting
      * the excludes property on the endpoint class will add to this set.
-     * <p>
+     * <p/>
      * TODO: I think this is only relevant to SIMPLE Cxf Frontends.
      *
      * @return @inheritDoc
@@ -71,7 +69,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     /**
      * Since the plugin allows us to configure and use multiple CXF servlets, this property allows us to choose which
      * servlet to use. The servlet name can be configured by using the property servletName on the endpoint class.
-     * <p>
+     * <p/>
      * By default the first alphabetically will be used.
      *
      * @return @inheritDoc
@@ -82,13 +80,13 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
 
     /**
      * Gets the address that will be set on the Cxf ServerFactoryBean.
-     * <p>
+     * <p/>
      * TODO Should also allow overriding and basic configuration?
      *
      * @return @inheritDoc
      */
     public String getAddress() {
-        return "/" + getNameNoPostfix();
+        return address;
     }
 
     /**
@@ -105,9 +103,9 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     public String getNameNoPostfix() {
-        if(getPropertyName().endsWith(ServiceArtefactHandler.TYPE)){
+        if(getPropertyName().endsWith(ServiceArtefactHandler.TYPE)) {
             return StringUtils.removeEnd(getPropertyName(), ServiceArtefactHandler.TYPE);
-        } else if(getPropertyName().endsWith(EndpointArtefactHandler.TYPE)){
+        } else if(getPropertyName().endsWith(EndpointArtefactHandler.TYPE)) {
             return StringUtils.removeEnd(getPropertyName(), EndpointArtefactHandler.TYPE);
         }
         return getPropertyName();
@@ -117,18 +115,39 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         return soap12;
     }
 
+    protected void setupAddress() {
+        address = "/" + getNameNoPostfix();
+
+        GrailsCxfEndpoint annotation = getClazz().getAnnotation(GrailsCxfEndpoint.class);
+        if(annotation != null && !annotation.address().equals("")) {
+            setupAddressViaAnnotation(annotation);
+        } else {
+            setupAddressViaProperty();
+        }
+
+        log.debug("Endpoint [" + getFullName() + "] configured to use address [" + address + "].");
+    }
+
+    private void setupAddressViaProperty() {
+        Object propAddress = getPropertyValue(PROP_ADDRESS);
+        if(propAddress != null && propAddress instanceof String){
+            address = ((((String)propAddress).startsWith("/")) ? "" : "/") + ((String)propAddress).replace("#name", getNameNoPostfix());
+        }
+    }
+
+    private void setupAddressViaAnnotation(GrailsCxfEndpoint annotation) {
+        String annotationAddress = annotation.address();
+        address = ((annotationAddress.startsWith("/")) ? "" : "/") + annotationAddress.replace("#name", annotation.name() != null ? annotation.name() : getNameNoPostfix());
+    }
+
     protected void setupExpose() {
         expose = EndpointExposureType.JAX_WS; // Default to the most common type.
 
-        Object propExpose = getPropertyValue(PROP_EXPOSE);
-        String manualExpose = getConfiguredExpose(propExpose);
-
-        if (manualExpose != null && !manualExpose.equals("")) {
-            try {
-                expose = EndpointExposureType.forExpose(manualExpose);
-            } catch (IllegalArgumentException e) {
-                log.error("Unsupported endpoint exposure type [" + manualExpose + "] for endpoint [" + getFullName() + "]. Using default type.");
-            }
+        GrailsCxfEndpoint annotation = getClazz().getAnnotation(GrailsCxfEndpoint.class);
+        if(annotation != null) {
+            setupExposeViaAnnotation(annotation);
+        } else {
+            setupExposeViaProperty();
         }
 
         if(expose.equals(EndpointExposureType.SIMPLE)) {
@@ -138,13 +157,36 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         log.debug("Endpoint [" + getFullName() + "] configured to use [" + expose.name() + "].");
     }
 
+    private void setupExposeViaProperty() {
+        Object propExpose = getPropertyValue(PROP_EXPOSE);
+        String manualExpose = getConfiguredExpose(propExpose);
+
+        if(manualExpose != null && !manualExpose.equals("")) {
+            try {
+                expose = EndpointExposureType.forExpose(manualExpose);
+            } catch(IllegalArgumentException e) {
+                log.error("Unsupported endpoint exposure type [" + manualExpose + "] for endpoint [" + getFullName() + "].  Using default type.");
+            }
+        }
+    }
+
+    private void setupExposeViaAnnotation(GrailsCxfEndpoint annotation) {
+        EndpointType exposes = annotation.expose();
+        try {
+            expose = EndpointExposureType.forExpose(exposes.toString());
+        } catch(IllegalArgumentException e) {
+            log.error("Unsupported endpoint exposure type [" + exposes.toString() + "] for endpoint [" + getFullName() + "].  Using default type.");
+        }
+    }
+
     private String getConfiguredExpose(Object propExpose) {
         String manualExpose = null;
-        if(propExpose instanceof EndpointType){
-            manualExpose = ((EndpointType)propExpose).toString();
-        } else if(propExpose instanceof String){
-            manualExpose = (String)propExpose;
-        } else if(propExpose instanceof List){
+
+        if(propExpose instanceof EndpointType) {
+            manualExpose = ((EndpointType) propExpose).toString();
+        } else if(propExpose instanceof String) {
+            manualExpose = (String) propExpose;
+        } else if(propExpose instanceof List) {
             manualExpose = getListExpose((List) propExpose);
         }
         return manualExpose;
@@ -167,7 +209,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
                     return EndpointType.SIMPLE.toString();
                 } else if(CXFJAX.equals(stringProp)) {
                     return EndpointType.JAX_WS.toString();
-                } else if(CXFRS.equals(stringProp)){
+                } else if(CXFRS.equals(stringProp)) {
                     return EndpointType.JAX_RS.toString();
                 }
 
@@ -185,25 +227,18 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
 
     protected void buildExclusionSet() {
         final Set<String> groovyExcludes = DEFAULT_GROOVY_EXCLUDES;
-
-        List<String> automaticExcludes = new ArrayList<String>();
-        for (MetaProperty prop : getMetaClass().getProperties()) {
-            int modifiers = prop.getModifiers();
-            if (Modifier.isPublic(modifiers) && !Modifier.isStatic(modifiers)) {
-                automaticExcludes.add(GrailsClassUtils.getGetterName(prop.getName()));
-                automaticExcludes.add(GrailsClassUtils.getSetterName(prop.getName()));
-            }
-        }
-
-        // Get the the methods that are specified for manual exclusion.
-        Collection<String> manualExcludes = (Collection<String>) getPropertyOrStaticPropertyOrFieldValue(PROP_EXCLUDES, Collection.class);
-
+        GrailsCxfEndpoint annotation = getClazz().getAnnotation(GrailsCxfEndpoint.class);
         Set<String> aggExcludes = new HashSet<String>();
+
+        List<String> automaticExcludes = buildAutomaticExcludes();
+
         aggExcludes.addAll(groovyExcludes);
         aggExcludes.addAll(automaticExcludes);
-        if (manualExcludes != null && !manualExcludes.isEmpty()) {
-            manualExcludes.remove("");
-            aggExcludes.addAll(manualExcludes);
+
+        if(annotation != null && annotation.excludes().length > 0) {
+            buildExclusionSetFromAnnotation(aggExcludes, annotation);
+        } else {
+            buildExclusionSetFromProperty(aggExcludes);
         }
 
         excludes = Collections.unmodifiableSet(aggExcludes);
@@ -211,10 +246,36 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         log.debug("Endpoint [" + getFullName() + "] configured to exclude methods " + excludes + ".");
     }
 
+    private List<String> buildAutomaticExcludes() {
+        List<String> automaticExcludes = new ArrayList<String>();
+        for(MetaProperty prop : getMetaClass().getProperties()) {
+            int modifiers = prop.getModifiers();
+            if(Modifier.isPublic(modifiers) && !Modifier.isStatic(modifiers)) {
+                automaticExcludes.add(GrailsClassUtils.getGetterName(prop.getName()));
+                automaticExcludes.add(GrailsClassUtils.getSetterName(prop.getName()));
+            }
+        }
+        return automaticExcludes;
+    }
+
+    private void buildExclusionSetFromAnnotation(Set<String> aggExcludes, GrailsCxfEndpoint annotation) {
+        Collections.addAll(aggExcludes, annotation.excludes());
+    }
+
+    private void buildExclusionSetFromProperty(Set<String> aggExcludes) {
+        // Get the the methods that are specified for manual exclusion.
+        Collection<String> manualExcludes = (Collection<String>) getPropertyOrStaticPropertyOrFieldValue(PROP_EXCLUDES, Collection.class);
+
+        if(manualExcludes != null && !manualExcludes.isEmpty()) {
+            manualExcludes.remove("");
+            aggExcludes.addAll(manualExcludes);
+        }
+    }
+
     protected void setupServletName() {
         String manualServletName = (String) getPropertyOrStaticPropertyOrFieldValue(PROP_SERVLET_NAME, String.class);
 
-        if (manualServletName != null && !manualServletName.equals("") && GrailsCxfUtils.getServletsMappings().containsKey(manualServletName)) {
+        if(manualServletName != null && !manualServletName.equals("") && GrailsCxfUtils.getServletsMappings().containsKey(manualServletName)) {
             servletName = manualServletName;
         } else {
             servletName = GrailsCxfUtils.getDefaultServletName();
@@ -224,8 +285,16 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     }
 
     protected void findWsdl() {
-        String wsdlLocation = (String) getPropertyOrStaticPropertyOrFieldValue(PROP_WSDL, String.class);
-        if (wsdlLocation != null && !wsdlLocation.equals("")) {
+        String wsdlLocation = null;
+        GrailsCxfEndpoint annotation = getClazz().getAnnotation(GrailsCxfEndpoint.class);
+
+        if(annotation != null && !annotation.wsdl().equals("")) {
+            wsdlLocation = annotation.wsdl();
+        } else {
+            wsdlLocation = (String) getPropertyOrStaticPropertyOrFieldValue(PROP_WSDL, String.class);
+        }
+
+        if(wsdlLocation != null && !wsdlLocation.equals("")) {
             wsdl = getClass().getClassLoader().getResource(wsdlLocation);
             if(wsdl == null) {
                 log.error("Endpoint [" + getFullName() + "] as WSDL at [" + wsdlLocation + "] but it couldn't be found. Will try to generate the Cxf Service from the endpoint class.");
@@ -238,11 +307,25 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     protected void setupSoap12Binding() {
         soap12 = GrailsCxfUtils.getDefaultSoap12Binding();
 
+        GrailsCxfEndpoint annotation = getClazz().getAnnotation(GrailsCxfEndpoint.class);
+
+        if(annotation != null) {
+            setupSoap12BindingViaAnnotation(annotation);
+        } else {
+            setupSoap12BindingViaProperty();
+        }
+
+        log.debug("Endpoint [" + getFullName() + "] configured to use soap 1.2 [" + soap12 + "].");
+    }
+
+    private void setupSoap12BindingViaProperty() {
         Boolean soap12setting = (Boolean) getPropertyOrStaticPropertyOrFieldValue(PROP_SOAP12, Boolean.class);
         if(soap12setting != null) {
             soap12 = soap12setting;
         }
+    }
 
-        log.debug("Endpoint [" + getFullName() + "] configured to use soap 1.2 [" + soap12 + "].");
+    private void setupSoap12BindingViaAnnotation(GrailsCxfEndpoint annotation) {
+        soap12 = annotation.soap12();
     }
 }

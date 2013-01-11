@@ -1,16 +1,14 @@
 package org.grails.cxf.test
 
 import geb.spock.GebReportingSpec
-
 import wslite.soap.SOAPClient
 import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
-import javax.xml.soap.SOAPException
 import wslite.soap.SOAPFaultException
 
-class CarServiceSpec extends GebReportingSpec {
+class AnnotatedExcludesMixedCarServiceSpec extends GebReportingSpec {
 
-    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/grails-cxf/services/car")
+    SOAPClient client = new SOAPClient("http://localhost:${System.getProperty("server.port", "8080")}/grails-cxf/services/annotatedExcludesMixedCar")
 
     def "honk the horn"() {
         when:

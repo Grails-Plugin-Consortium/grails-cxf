@@ -9,6 +9,7 @@ import java.util.Set;
 public interface GrailsEndpointClass {
 
     String PROP_EXPOSE = "expose";
+    String PROP_ADDRESS = "address";
     String PROP_EXCLUDES = "excludes";
     String PROP_SERVLET_NAME = "servletName";
     String PROP_WSDL = "wsdl";
