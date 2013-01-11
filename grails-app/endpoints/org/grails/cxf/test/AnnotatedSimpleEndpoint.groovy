@@ -5,7 +5,7 @@ import org.grails.cxf.utils.EndpointType
 
 /**
  */
-@GrailsCxfEndpoint(address = "/v2/#name", name = "renamed", expose = EndpointType.SIMPLE, soap12 = true)
+@GrailsCxfEndpoint(address = "/v2/renamed", expose = EndpointType.SIMPLE, soap12 = true)
 class AnnotatedSimpleEndpoint {
 
     String simpleMethod(String param) {

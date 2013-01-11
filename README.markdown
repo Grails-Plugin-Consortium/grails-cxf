@@ -139,7 +139,6 @@ Added in version 1.1.0 was the ability to expose classes via the new `@GrailsCxf
 @Target(ElementType.TYPE)
 public @interface GrailsCxfEndpoint {
     String address() default ""
-    String name() default ""
     EndpointType expose() default EndpointType.JAX_WS
     boolean soap12() default false
     String wsdl() default ""

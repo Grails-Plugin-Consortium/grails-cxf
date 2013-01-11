@@ -137,7 +137,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
 
     private void setupAddressViaAnnotation(GrailsCxfEndpoint annotation) {
         String annotationAddress = annotation.address();
-        address = ((annotationAddress.startsWith("/")) ? "" : "/") + annotationAddress.replace("#name", annotation.name() != null ? annotation.name() : getNameNoPostfix());
+        address = ((annotationAddress.startsWith("/")) ? "" : "/") + annotationAddress.replace("#name", getNameNoPostfix());
     }
 
     protected void setupExpose() {
