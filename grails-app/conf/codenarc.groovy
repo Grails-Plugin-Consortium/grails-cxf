@@ -15,7 +15,7 @@ ruleset {
         ThrowRuntimeException    ( enabled : false )
         CatchException           ( enabled : false )
 
-        AbcComplexity            ( maxMethodComplexity : 70  )
+//        AbcMetric            ( maxMethodComplexity : 70  )
         LineLength               ( length              : 220 )
         MethodName               ( regex               : /[a-z][\w\s'\(\)]*/ ) // Spock method names
     }
