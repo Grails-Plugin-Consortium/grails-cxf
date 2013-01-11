@@ -222,21 +222,32 @@ class AnnotatedCustomerServiceWsdlEndpoint {
 }
 ```
 
-Example is available at <http://cxf.apache.org/docs/jax-ws-configuration.html>.
+Example is available at <https://github.com/thorstadt/grails-cxf/blob/master/grails-app/endpoints/org/grails/cxf/test/AnnotatedCustomerServiceWsdlEndpoint.groovy>.
+
+**Conclusion**
+Using the annotation will help reduce the clutter of having many static properties in your class to configure cxf.
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="soap"></a>
 EXPOSING CLASSES VIA PROPERTIES
 -----------------
+*v1.1.0 Note: The usage of the static properties is considered deprecated and switching to the new <a href="#soapannotation">annotation</a> is a cleaner implementation.*
+
 There are many ways to configure the plugin using static properties.  The legacy way was to use the `static expose = ['cxf']` in your service classes.  Legacy support for both `static expose = ['cxf']` , `static expose = ['cxfjax']` and `static expose = ['cxfrs']` services remains, but the new preferred way is to use one of the following methods of exposure.
 
 The properties available for use are:
 
-expose
-soap12
-address
-wsdl
-excludes
+```
+static expose = ...
+static soap12 = ...
+static address = ...
+static wsdl = ...
+static excludes = ...
+```
+
+See the description above in the <a href="#soapannotation">Exposing Classes via Annotation</a> section for more details on the meanings the of properties.  The end result of the static properties is the same as the equivalent annotation properties.
+
+*Note: While you can mix the `@GrailsCxfEndpoint` annotation and the static properties, anything defined in the annotation will override any static property value that you set.*
 
 **SIMPLE SERVICES**
 
@@ -327,6 +338,8 @@ class BookStoreEndpoint implements BookStore {
 <a name="soap12"></a>
 USING SOAP 1.2
 -----------------
+*v1.1.0+ Note: Make sure to read <a href="#soapannotation">Exposing Classes via Annotation</a>*
+
 To tell a service to default to SOAP 1.2 instead of 1.1 simply add the following line to your service class:
 
 ```
@@ -343,6 +356,8 @@ cxf.endpoint.soap12Binding = true
 <a name="wsdl"></a>
 WSDL FIRST SERVICES
 -----------------
+*v1.1.0+ Note: Make sure to read <a href="#soapannotation">Exposing Classes via Annotation</a>*
+
 You can now configure cxf services to look at wsdl's for endpoint generation by adding the following to the service or endpoint
 
 ```groovy
