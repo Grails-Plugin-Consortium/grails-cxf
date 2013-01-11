@@ -6,11 +6,14 @@ import java.lang.annotation.ElementType
 import java.lang.annotation.Target
 
 /**
+ * Annotation to be use to expose a Service or Endpoint class as a CXF Service via Grails.
+ * This may also be achieved through static properties (legacy), but this is simplier and
+ * requires less clutter and one line of code instead of one or more lines to configure
+ * the service properties.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface GrailsCxfEndpoint {
-    //address="/v2/#name", name="SimpleOneTwo", expose=[EndpointType.SIMPLE], soap12=true
     String address() default ""
     String name() default ""
     EndpointType expose() default EndpointType.JAX_WS

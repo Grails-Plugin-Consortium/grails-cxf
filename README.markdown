@@ -135,11 +135,16 @@ EXPOSING CLASSES VIA ANNOTATION
 Added in version 1.1.0 was the ability to expose classes via the new `@GrailsCxfEndpoint()` annotation.  When using the annotation, the property values will only be used if the annotation values are not provided or is set to the default value.  The following are available to configure via the annotation:
 
 ```groovy
-String address() default ""
-EndpointType expose() default EndpointType.JAX_WS
-boolean soap12() default false
-String wsdl() default ""
-String[] excludes() default []
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface GrailsCxfEndpoint {
+    String address() default ""
+    String name() default ""
+    EndpointType expose() default EndpointType.JAX_WS
+    boolean soap12() default false
+    String wsdl() default ""
+    String[] excludes() default []
+}
 ```
 
 ***address***
