@@ -728,9 +728,9 @@ When making changes, builds will be run on trunk and branches at <http://build.c
 CHANGE LOG
 ---------------
 * v1.1.0
+    * Adding support to use annotation driven service configuration via `@GrailsCxfEndpoint(...)` instead of several static properties in the class
     * Adding support for versioning through use of the `static address = '/v2/#name'` property (#name is special and will use the default service name)
     * Adding support to override the service name (address) through `static address = '/path/v2/customName'`
-    * Adding support to use annotation driven service configuration via `@GrailsCxfEndpoint(...)` instead of several static properties in the class
     * Added a crap-ton of new specs to test these scenarios
 
 * v1.0.8
