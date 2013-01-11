@@ -132,7 +132,7 @@ cxf {
 <a name="soapannotation"></a>
 EXPOSING CLASSES VIA ANNOTATION
 -----------------
-Added in version 1.1.0 was the ability to expose classes via the new `@GrailsCxfEndpoint()` annotation.  When using the annotation, the property values will only be used if the annotation values are not provided or is set to the default value.  The following are available to configure via the annotation:
+Added in version 1.1.0 was the ability to expose classes via the new `@GrailsCxfEndpoint()` annotation.  When using the annotation, the property values will only be used if the corresponding annotation value is not provided or is set to the default value.  The following are available to configure via the annotation:
 
 ```groovy
 @Retention(RetentionPolicy.RUNTIME)
@@ -146,7 +146,7 @@ public @interface GrailsCxfEndpoint {
 }
 ```
 
-***address***
+**address**
 The address property is used to adjust the endpoint address that the service will be deployed to.  By default if not provided or is the value is empty (""), this will be the name of the Service or Endpoint with the first letter lowercase and the work Endpoint or Service removed from the end of the name.  The default behavior would deploy the `BoatService` as `/services/boat` and the VeryGoodEndpoint as `/services/veryGood`.
 
 If you wish to override this and provide your own service name or address (for versioning support for example) you may set this value.
@@ -171,7 +171,7 @@ class CarService {
 
 This would be deployed as `/services/v2/car`
 
-***expose***
+**expose**
 The `expose` property will tell the plugin how you wish to expose.  The default is `EndpointType.JAX_WS` which is the same as the following:
 
 ```groovy
@@ -183,7 +183,7 @@ class CarService {
 
 *Please note that using the JAX_WS type requires you to annotate your methods with `@WebMethod`, `@WebResult` and `@WebParam`.*
 
-***soap12***
+**soap12**
 To tell a service to default to SOAP 1.2 instead of 1.1 simply set this to `true`. The default value is `false` which will use SOAP 1.1.
 
 ```groovy
@@ -193,7 +193,7 @@ class CarService {
 }
 ```
 
-***excludes***
+**excludes**
 If you wish to exclude a bunch of methods from exposure when using `EndpointType.SIMPLE` simply provide an array of method name strings to the excludes param.  The groovy methods are ignored by default and no action is necessary to remove the groovy/meta stuff.
 
 ```groovy
@@ -203,7 +203,7 @@ class CarService {
 }
 ```
 
-***wsdl***
+**wsdl**
 To expose as a wsdl first jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html> add the wsdl property and classpath to the wsdl as well as setting the endpoint type to `EndpointType.JAX_WS_WSDL`.
 
 ```groovy
