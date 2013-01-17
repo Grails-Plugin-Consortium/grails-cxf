@@ -30,7 +30,7 @@ The Grails Cxf plugin makes exposing classes (services and endpoints) as SOAP we
 
 The current cxf version is [2.6.2](https://issues.apache.org/jira/secure/ReleaseNote.jspa?projectId=12310511&styleName=Html&Create=Create&version=12321668)
 
-New in 1.1.0 is the ability to define custom names and addressing for the services as well as the ability to wire via a single annotation instead of multiple static properties.
+**New** in 1.1.0 is the ability to define custom names and addressing for the services as well as the ability to wire via a single annotation instead of multiple static properties.  In addition, the ability to define custom interceptor beans by name is now available in the annotation.
 
 Some new things as of version 1.0.0 are as follows:
 
@@ -143,6 +143,10 @@ public @interface GrailsCxfEndpoint {
     boolean soap12() default false
     String wsdl() default ""
     String[] excludes() default []
+    String[] inInterceptors() default []
+    String[] outInterceptors() default []
+    String[] inFaultInterceptors() default []
+    String[] outFaultInterceptors() default []
 }
 ```
 
@@ -223,6 +227,90 @@ class AnnotatedCustomerServiceWsdlEndpoint {
 ```
 
 Example is available at <https://github.com/thorstadt/grails-cxf/blob/master/grails-app/endpoints/org/grails/cxf/test/AnnotatedCustomerServiceWsdlEndpoint.groovy>.
+
+**inInterceptors**
+This is a list of bean names in `List<String>` to inject to the cxf service endpoint.  You will need to define your interceptor beans via normal spring dsl (in resources.groovy for example).
+
+This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.InInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
+
+When chosing between the this property and the cxf provided one, if you require value injection the cxf annotation will most likely **NOT** meet your needs and you should use this property instead.
+
+*Note: Make sure to set any beans you wish injected into your interceptors to `bean.autowire = 'byName'` or use the `@Autowire` annotation.*
+
+[CustomLoggingInInterceptor.groovy](https://github.com/thorstadt/grails-cxf/blob/master/src/groovy/org/grails/cxf/test/soap/security/CustomLoggingInInterceptor.groovy)
+```groovy
+@NoJSR250Annotations
+public class CustomLoggingInInterceptor extends AbstractLoggingInterceptor {
+
+    private static final Logger LOG = LogUtils.getLogger(CustomLoggingInInterceptor)
+    def name
+//    @Autowired //or set bean spring dsl to bean.autowire = "byName"
+    InjectedBean injectedBean
+
+    public CustomLoggingInInterceptor() {
+        super(Phase.RECEIVE);
+        log LOG, "Creating the custom interceptor bean"
+    }
+
+    public void handleMessage(Message message) throws Fault {
+        //get another web service bean here by name and call it
+
+        //Check to see if cxf annotations will inject the bean (looks like no!)
+        log LOG, injectedBean?.name ?: "FAIL - NOT SET"
+        log LOG, "$name :: I AM IN CUSTOM IN LOGGER!!!!!!!"
+    }
+
+    @Override
+    protected Logger getLogger() {
+        LOG
+    }
+}
+```
+
+[resources.groovy](https://github.com/thorstadt/grails-cxf/blob/master/grails-app/conf/spring/resources.groovy)
+```groovy
+import org.grails.cxf.test.soap.security.CustomLoggingInInterceptor
+import org.grails.cxf.test.soap.security.InjectedBean
+
+beans = {
+    customLoggingInInterceptor(CustomLoggingInInterceptor) {
+        name = "customLoggingInInterceptor"
+    }
+
+    injectedBean(InjectedBean) { bean ->
+        bean.autowire = 'byName'
+        name = "i was injected"
+    }
+}
+```
+
+[AnnotatedInterceptorService.groovy](https://github.com/thorstadt/grails-cxf/blob/master/grails-app/services/org/grails/cxf/test/AnnotatedInterceptorService.groovy)
+```groovy
+@GrailsCxfEndpoint(inInterceptors = ["customLoggingInInterceptor"])
+class AnnotatedInterceptorService {
+
+    @WebMethod(operationName="simpleMethod")
+    @WebResult(name="simpleResult")
+    String simpleMethod(@WebParam(name="param") String param) {
+        return param.toString()
+    }
+}
+```
+
+**outInterceptors**
+If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.OutInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
+
+See above for examples (of using inInterceptor which should be very similar).
+
+**inFaultInterceptors**
+If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.InFaultInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
+
+See above for examples (of using inInterceptor which should be very similar).
+
+**outFaultInterceptors**
+If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.OutFaultInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
+
+See above for examples (of using inInterceptor which should be very similar).
 
 **Conclusion**
 Using the annotation will help reduce the clutter of having many static properties in your class to configure cxf.
@@ -674,34 +762,10 @@ The Response will look similar to the following (note the nodes `key` and `value
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="security"></a>
+
 CUSTOM SECURITY INTERCEPTORS
 ---------------
-Until the next version of the plugin supports better integration for wiring interceptors you can hook up in/out interceptors at boot time in BootStrap.config as follows (mileage may vary).  When a service class or endpoint is wired via cxf a factory class will be created with the name pattern of `[className]Factory`.  Meaning that an endpoint named `FooEndpoint` would wire up a `fooEndpointFactory` class and `FooService` will wire a `fooServiceFactory`.
-
-In the example below we would be wiring up a simple username/password interceptor to a service named SecureService.  The exmple below is for any version of cxf 2.4+.  At this time the plugin is on version 2.6.x.  Previous to version 2.3.9 wiring this was a bit different.  See <http://www.christianoestreich.com/2012/04/grails-cxf-interceptor-injection/> for more details.
-
-```groovy
-    def init = { servletContext ->
-
-        Map<String, Object> inProps = [:]
-        inProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
-        inProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
-        Map<QName, Validator> validatorMap = new HashMap<QName, Validator>();
-        validatorMap.put(WSSecurityEngine.USERNAME_TOKEN, new UsernameTokenValidator() {
-
-            @Override
-            protected void verifyPlaintextPassword(org.apache.ws.security.message.token.UsernameToken usernameToken, org.apache.ws.security.handler.RequestData data) throws org.apache.ws.security.WSSecurityException {
-                if(data.username == "wsuser" && usernameToken.password != "secret") {
-                    throw new WSSecurityException("password mismatch")
-                } else {
-                    println "user name and password were correct!"
-                }
-            }
-        });
-        inProps.put(WSS4JInInterceptor.VALIDATOR_MAP, validatorMap);
-        secureServiceFactory.getInInterceptors().add(new WSS4JInInterceptor(inProps))
-    }
-```
+See the annotations documentation above or use the cxf interceptor annotations.
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Demo"></a>
@@ -731,6 +795,7 @@ CHANGE LOG
     * Adding support to use annotation driven service configuration via `@GrailsCxfEndpoint(...)` to deprecate the usage of the current several static properties on a class
     * Adding support for versioning through use of the `address` property on the annotation and via a property `static address = '/v2/#name'` *(#name is special and will use the default service name)*
     * Adding support to override the service name (via address) by not using the `#name` special property in the address via `address = '/path/v2/customName'`
+    * Adding support for injecting custom spring beans to services via the new `@GrailsCxfEndpoint(...)` annotation.  Cxf also provides similar functionality via [annotations](http://cxf.apache.org/docs/interceptors.html).  The difference being cxf only allows you to inject other beans **but not** properties to your custom bean.
     * Added a crap-ton of new specs to test these scenarios and annotation
 
 * v1.0.8
@@ -756,7 +821,7 @@ CHANGE LOG
 FUTURE REVISIONS
 ---------------
 
-* Easier support for intercetors via class level definition with something like `static inIntercetors = [InterceptorOne, InterceptorTwo]` for example
+<del>* Easier support for intercetors via class level definition with something like `static inIntercetors = [InterceptorOne, InterceptorTwo]` for example</del>
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="License"></a>

@@ -17,7 +17,6 @@ import org.grails.cxf.test.soap.security.CustomLoggingInInterceptor
  *
  * @see http://cxf.apache.org/docs/simple-frontend.html
  */
-@org.apache.cxf.interceptor.InInterceptors (classes = [CustomLoggingInInterceptor])
 class CoffeeMakerEndpoint {
 
     static expose = EndpointType.SIMPLE

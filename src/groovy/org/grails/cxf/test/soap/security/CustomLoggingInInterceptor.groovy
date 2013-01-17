@@ -7,6 +7,7 @@ import org.apache.cxf.interceptor.Fault
 import org.apache.cxf.message.Message
 import org.apache.cxf.phase.Phase
 import java.util.logging.Logger
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  */
@@ -15,6 +16,8 @@ public class CustomLoggingInInterceptor extends AbstractLoggingInterceptor {
 
     private static final Logger LOG = LogUtils.getLogger(CustomLoggingInInterceptor)
     def name
+//    @Autowired //or set bean spring dsl to bean.autowire = "byName"
+    InjectedBean injectedBean
 
     public CustomLoggingInInterceptor() {
         super(Phase.RECEIVE);
@@ -23,6 +26,9 @@ public class CustomLoggingInInterceptor extends AbstractLoggingInterceptor {
 
     public void handleMessage(Message message) throws Fault {
         //get another web service bean here by name and call it
+
+        //Check to see if cxf annotations will inject the bean (looks like no!)
+        log LOG, injectedBean?.name ?: "FAIL - NOT SET"
         log LOG, "$name :: I AM IN CUSTOM IN LOGGER!!!!!!!"
     }
 
