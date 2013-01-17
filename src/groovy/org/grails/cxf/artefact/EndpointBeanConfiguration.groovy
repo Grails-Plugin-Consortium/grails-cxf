@@ -4,10 +4,11 @@ import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
+import org.grails.cxf.utils.GrailsCxfEndpoint
 
 import javax.jws.WebService
 import javax.xml.ws.soap.SOAPBinding
-import org.grails.cxf.utils.GrailsCxfEndpoint
+import org.apache.cxf.frontend.ServerFactoryBean
 
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
@@ -109,6 +110,10 @@ class EndpointBeanConfiguration {
                 Boolean endpointUseWsdl = endpointArtefact.hasWsdl()
                 String endpointWsdlLocation = endpointArtefact.wsdl?.toString()
                 Boolean endpointUseSoap12 = endpointArtefact.soap12
+                Set annotatedInInterceptors = endpointArtefact.inInterceptors ?: []
+                Set annotatedOutInterceptors = endpointArtefact.outInterceptors ?: []
+                Set annotatedOutFaultInterceptors = endpointArtefact.outFaultInterceptors ?: []
+                Set annotatedInFaultInterceptors = endpointArtefact.inFaultInterceptors ?: []
 
                 "${endpointName}Factory"(endpointFactoryClass) {
                     address = endpointAddress
@@ -124,7 +129,22 @@ class EndpointBeanConfiguration {
                     if(endpointUseSoap12) {
                         bindingId = (endpointArtefact.expose == EndpointExposureType.SIMPLE ? SOAPBinding.SOAP12HTTP_BINDING : SOAPBinding.SOAP12HTTP_MTOM_BINDING)
                     }
+                    if(annotatedInInterceptors.size() > 0){
+                        inInterceptors = annotatedInInterceptors.collect{ref("${it}")}
+                    }
+                    if(annotatedOutInterceptors.size() > 0){
+                        outInterceptors = annotatedOutInterceptors.collect{ref("${it}")}
+                    }
+                    if(annotatedInFaultInterceptors.size() > 0){
+                        inFaultInterceptors = annotatedInFaultInterceptors.collect{ref("${it}")}
+                    }
+                    if(annotatedOutFaultInterceptors.size() > 0){
+                        outFaultInterceptors = annotatedOutFaultInterceptors.collect{ref("${it}")}
+                    }
+
                 }
+
+//                ((ServerFactoryBean)grailsApplication.getMainContext().getBean("${endpointName}Factory")).getInInterceptors().add()
 
                 log.debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
                 log.trace 'Cxf endpoint server factory bean wiring details:' +

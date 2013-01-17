@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 import org.grails.cxf.adapter.GrailsCxfMapAdapter
 import org.grails.cxf.utils.EndpointType
 import javax.jws.WebResult
+import org.grails.cxf.test.soap.security.CustomLoggingInInterceptor
 
 /**
  * An example of a Simple Cxf SOAP Service.
@@ -16,6 +17,7 @@ import javax.jws.WebResult
  *
  * @see http://cxf.apache.org/docs/simple-frontend.html
  */
+@org.apache.cxf.interceptor.InInterceptors (classes = [CustomLoggingInInterceptor])
 class CoffeeMakerEndpoint {
 
     static expose = EndpointType.SIMPLE

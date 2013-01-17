@@ -27,6 +27,11 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     protected URL wsdl;
     protected Boolean soap12;
     protected String address;
+    protected Set<String> inInterceptors;
+    protected Set<String> outInterceptors;
+    protected Set<String> inFaultInterceptors;
+    protected Set<String> outFaultInterceptors;
+
 
     private static final Log log = LogFactory.getLog(DefaultGrailsEndpointClass.class);
 
@@ -38,6 +43,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         setupServletName();
         findWsdl();
         setupSoap12Binding();
+        setupInterceptors();
     }
 
     /**
@@ -115,6 +121,41 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         return soap12;
     }
 
+    public Set<String> getInInterceptors() {
+        return inInterceptors;
+    }
+
+    public Set<String> getOutInterceptors() {
+        return outInterceptors;
+    }
+
+    public Set<String> getInFaultInterceptors() {
+        return inFaultInterceptors;
+    }
+
+    public Set<String> getOutFaultInterceptors() {
+        return outFaultInterceptors;
+    }
+
+    protected void setupInterceptors() {
+        GrailsCxfEndpoint annotation = getClazz().getAnnotation(GrailsCxfEndpoint.class);
+        if(annotation != null) {
+            inInterceptors = setupInterceptorsViaAnnotation("inInterceptors", annotation.inInterceptors());
+            outInterceptors = setupInterceptorsViaAnnotation("outInterceptors", annotation.outInterceptors());
+            inFaultInterceptors = setupInterceptorsViaAnnotation("inFaultInterceptors", annotation.inFaultInterceptors());
+            outFaultInterceptors = setupInterceptorsViaAnnotation("outFaultInterceptors", annotation.outFaultInterceptors());
+        }
+    }
+
+    protected Set<String> setupInterceptorsViaAnnotation(String name, String[] customInterceptors) {
+        Set<String> addedInterceptors = new HashSet<String>();
+        if(customInterceptors.length > 0) {
+            Collections.addAll(addedInterceptors, customInterceptors);
+            log.debug("Endpoint [" + getFullName() + "] configured to use " + name + " " + addedInterceptors + ".");
+        }
+        return Collections.unmodifiableSet(addedInterceptors);
+    }
+
     protected void setupAddress() {
         address = "/" + getNameNoPostfix();
 
@@ -130,8 +171,8 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
 
     private void setupAddressViaProperty() {
         Object propAddress = getPropertyValue(PROP_ADDRESS);
-        if(propAddress != null && propAddress instanceof String){
-            address = ((((String)propAddress).startsWith("/")) ? "" : "/") + ((String)propAddress).replace("#name", getNameNoPostfix());
+        if(propAddress != null && propAddress instanceof String) {
+            address = ((((String) propAddress).startsWith("/")) ? "" : "/") + ((String) propAddress).replace("#name", getNameNoPostfix());
         }
     }
 

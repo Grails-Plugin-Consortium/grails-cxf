@@ -49,6 +49,7 @@ class CxfGrailsPlugin {
     def scm = [url: "https://github.com/thorstadt/grails-cxf"]
 
     def pluginExcludes = [
+            'grails-app/conf/spring/resources.groovy',
             'grails-app/conf/codenarc.groovy',
             'grails-app/conf/codenarc.ruleset.all.groovy.txt',
             'grails-app/domain/**',

@@ -20,4 +20,9 @@ public @interface GrailsCxfEndpoint {
     boolean soap12() default false
     String wsdl() default ""
     String[] excludes() default []
+    //Interceptors
+    String[] inInterceptors() default []
+    String[] outInterceptors() default []
+    String[] inFaultInterceptors() default []
+    String[] outFaultInterceptors() default []
 }

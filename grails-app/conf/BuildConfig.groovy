@@ -44,6 +44,13 @@ grails.project.dependency.resolution = {
         compile("com.sun.xml.bind:jaxb-xjc:${jaxbVersion}")
 
         /* Some Testing Help **************************************************/
+//        test('org.apache.ws.security:wss4j:1.6.7'){
+//            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
+//                     'junit', 'log4j', 'slf4j', 'slf4j-log4j12','slf4j-api', 'slf4j-jdk14'
+//            export = false
+//
+//        }
+
         test("com.github.groovy-wslite:groovy-wslite:0.7.0") {
             export = false
         }
