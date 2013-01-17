@@ -227,7 +227,7 @@ class CarService {
 
 **EXCLUDES**
 
-If you wish to exclude a bunch of methods from exposure when using `EndpointType.SIMPLE` simply provide an array of method name strings to the excludes param.  The groovy methods are ignored by default and no action is necessary to remove the groovy/meta stuff.
+If you wish to exclude methods from exposure when using `EndpointType.SIMPLE` you may provide an array of method name strings to the excludes param.  The groovy methods are ignored by default and no action is necessary to remove the groovy/meta stuff.
 
 ```groovy
 @GrailsCxfEndpoint(expose=EndpointType.SIMPLE, excludes=['methodOne', 'methodTwo'])
@@ -256,7 +256,7 @@ class AnnotatedCustomerServiceWsdlEndpoint {
 }
 ```
 
-Example is available at <https://github.com/thorstadt/grails-cxf/blob/master/grails-app/endpoints/org/grails/cxf/test/AnnotatedCustomerServiceWsdlEndpoint.groovy>.
+Example is available at [AnnotatedCustomerServiceWsdlEndpoint.groovy](https://github.com/thorstadt/grails-cxf/blob/master/grails-app/endpoints/org/grails/cxf/test/AnnotatedCustomerServiceWsdlEndpoint.groovy).
 
 <a name="interceptors"></a>
 **ININTERCEPTORS**
