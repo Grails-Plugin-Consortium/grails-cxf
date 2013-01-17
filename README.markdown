@@ -187,7 +187,32 @@ class CarService {
 }
 ```
 
+To expose as a simple endpoint <http://cxf.apache.org/docs/simple-frontend-configuration.html>:
+
+```groovy
+    expose = EndpointType.SIMPLE
+```
+
+To expose as a jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html>:
+
 *Please note that using the JAX_WS type requires you to annotate your methods with `@WebMethod`, `@WebResult` and `@WebParam`.*
+
+```groovy
+    expose = EndpointType.JAX_WS
+```
+
+To expose as a wsdl first jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html>:
+
+```groovy
+     expose = EndpointType.JAX_WS_WSDL
+     wsdl = 'org/grails/cxf/test/soap/CustomerService.wsdl' //your path (preferred) or url to wsdl
+```
+
+To expose as a jax rest service endpoint <http://cxf.apache.org/docs/jax-rs.html>:
+
+```groovy
+     expose = EndpointType.JAX_RS
+```
 
 **SOAP12**
 
@@ -330,7 +355,7 @@ Using the annotation will help reduce the clutter of having many static properti
 <a name="soap"></a>
 EXPOSING CLASSES VIA PROPERTIES
 -----------------
-*v1.1.0 Note: The usage of the static properties is considered deprecated and switching to the new <a href="#soapannotation">annotation</a> is a cleaner implementation.*
+*v1.1.0 Note: The usage of the static properties is considered deprecated and switching to the new <a href="#soapannotation">annotation</a> is a cleaner implementation.  Also to note that custom interceptors are only supported in the annotation.*
 
 There are many ways to configure the plugin using static properties.  The legacy way was to use the `static expose = ['cxf']` in your service classes.  Legacy support for both `static expose = ['cxf']` , `static expose = ['cxfjax']` and `static expose = ['cxfrs']` services remains, but the new preferred way is to use one of the following methods of exposure.
 
