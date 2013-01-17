@@ -228,6 +228,7 @@ class AnnotatedCustomerServiceWsdlEndpoint {
 
 Example is available at <https://github.com/thorstadt/grails-cxf/blob/master/grails-app/endpoints/org/grails/cxf/test/AnnotatedCustomerServiceWsdlEndpoint.groovy>.
 
+<a name="interceptors"></a>
 **inInterceptors**
 This is a list of bean names in `List<String>` to inject to the cxf service endpoint.  You will need to define your interceptor beans via normal spring dsl (in resources.groovy for example).
 
@@ -765,7 +766,7 @@ The Response will look similar to the following (note the nodes `key` and `value
 
 CUSTOM SECURITY INTERCEPTORS
 ---------------
-See the annotations documentation above or use the cxf interceptor annotations.
+See the <a href="#interceptors">annotations documentation</a> above or use the [cxf provided interceptor annotations](http://cxf.apache.org/docs/interceptors.html).
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Demo"></a>
