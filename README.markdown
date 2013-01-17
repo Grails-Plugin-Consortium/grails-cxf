@@ -240,7 +240,7 @@ This is a list of bean names in `List<String>` to inject to the cxf service endp
 
 This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.InInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
 
-When chosing between the this property and the cxf provided one, if you require value injection the cxf annotation will most likely **NOT** meet your needs and you should use this property instead.
+When chosing between the this property and the cxf provided one, if you require value injection, the cxf provided annotation will most likely **NOT** meet your needs and you should use this property instead.
 
 *Note: Make sure to set any beans you wish injected into your interceptors to `bean.autowire = 'byName'` or use the `@Autowire` annotation.*
 
@@ -310,7 +310,7 @@ If you wish to inject a custom in interceptor bean, use this property.  This is 
 
 See above for examples (of using inInterceptor which should be very similar).
 
-**inFaultInterceptors**
+**INFAULTINTERCEPTORS**
 
 If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.InFaultInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
 
