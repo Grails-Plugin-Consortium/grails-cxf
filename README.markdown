@@ -308,19 +308,19 @@ class AnnotatedInterceptorService {
 
 If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.OutInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
 
-See above for examples (of using inInterceptor which should be very similar).
+See above for examples of using inInterceptor which should be very similar.
 
 **INFAULTINTERCEPTORS**
 
 If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.InFaultInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
 
-See above for examples (of using inInterceptor which should be very similar).
+See above for examples of using inInterceptor which should be very similar.
 
 **OUTFAULTINTERCEPTORS**
 
 If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.OutFaultInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
 
-See above for examples (of using inInterceptor which should be very similar).
+See above for examples of using inInterceptor which should be very similar.
 
 **CONCLUSION**
 
