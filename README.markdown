@@ -147,7 +147,7 @@ public @interface GrailsCxfEndpoint {
 ```
 
 **address**
-The address property is used to adjust the endpoint address that the service will be deployed to.  By default if not provided or is the value is empty (""), this will be the name of the Service or Endpoint with the first letter lowercase and the work Endpoint or Service removed from the end of the name.  The default behavior would deploy the `BoatService` as `/services/boat` and the VeryGoodEndpoint as `/services/veryGood`.
+The address property is used to adjust the endpoint address that the service will be deployed to.  By default if not provided or is the value is empty (""), this will be the name of the Service or Endpoint with the first letter lowercase and the word Endpoint or Service removed from the end of the name.  The default behavior would deploy the `BoatService` as `/services/boat` and the VeryGoodEndpoint as `/services/veryGood`.
 
 If you wish to override this and provide your own service name or address (for versioning support for example) you may set this value.
 
@@ -645,7 +645,7 @@ class CoffeeMakerEndpoint {
     static expose = EndpointType.SIMPLE
 
     @XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)
-    @WebResult(name='entires')
+    @WebResult(name='entries')
     Map<String, CoffeeType> mapCoffeeLocations() {
         return ['Colombia': CoffeeType.Colombian, 'Ethiopia': CoffeeType.Ethiopian]
     }
