@@ -151,6 +151,7 @@ public @interface GrailsCxfEndpoint {
 ```
 
 **address**
+
 The address property is used to adjust the endpoint address that the service will be deployed to.  By default if not provided or is the value is empty (""), this will be the name of the Service or Endpoint with the first letter lowercase and the word Endpoint or Service removed from the end of the name.  The default behavior would deploy the `BoatService` as `/services/boat` and the VeryGoodEndpoint as `/services/veryGood`.
 
 If you wish to override this and provide your own service name or address (for versioning support for example) you may set this value.
@@ -176,6 +177,7 @@ class CarService {
 This would be deployed as `/services/v2/car`
 
 **expose**
+
 The `expose` property will tell the plugin how you wish to expose.  The default is `EndpointType.JAX_WS` which is the same as the following:
 
 ```groovy
@@ -188,6 +190,7 @@ class CarService {
 *Please note that using the JAX_WS type requires you to annotate your methods with `@WebMethod`, `@WebResult` and `@WebParam`.*
 
 **soap12**
+
 To tell a service to default to SOAP 1.2 instead of 1.1 simply set this to `true`. The default value is `false` which will use SOAP 1.1.
 
 ```groovy
@@ -198,6 +201,7 @@ class CarService {
 ```
 
 **excludes**
+
 If you wish to exclude a bunch of methods from exposure when using `EndpointType.SIMPLE` simply provide an array of method name strings to the excludes param.  The groovy methods are ignored by default and no action is necessary to remove the groovy/meta stuff.
 
 ```groovy
@@ -208,6 +212,7 @@ class CarService {
 ```
 
 **wsdl**
+
 To expose as a wsdl first jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html> add the wsdl property and classpath to the wsdl as well as setting the endpoint type to `EndpointType.JAX_WS_WSDL`.
 
 ```groovy
@@ -230,6 +235,7 @@ Example is available at <https://github.com/thorstadt/grails-cxf/blob/master/gra
 
 <a name="interceptors"></a>
 **inInterceptors**
+
 This is a list of bean names in `List<String>` to inject to the cxf service endpoint.  You will need to define your interceptor beans via normal spring dsl (in resources.groovy for example).
 
 This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.InInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
@@ -299,21 +305,25 @@ class AnnotatedInterceptorService {
 ```
 
 **outInterceptors**
+
 If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.OutInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
 
 See above for examples (of using inInterceptor which should be very similar).
 
 **inFaultInterceptors**
+
 If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.InFaultInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
 
 See above for examples (of using inInterceptor which should be very similar).
 
 **outFaultInterceptors**
+
 If you wish to inject a custom in interceptor bean, use this property.  This is helpful when the default cxf annotation of `@org.apache.cxf.interceptor.OutFaultInterceptors (interceptors = {"com.example.Test1Interceptor" })` does not satisfy your needs.
 
 See above for examples (of using inInterceptor which should be very similar).
 
 **Conclusion**
+
 Using the annotation will help reduce the clutter of having many static properties in your class to configure cxf.
 
 <p align="right"><a href="#Top">Top</a></p>
