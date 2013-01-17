@@ -20,23 +20,23 @@ grails.project.dependency.resolution = {
         compile('commons-cli:commons-cli:1.2')
 
         compile("org.apache.cxf:cxf-tools-wsdlto-core:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl','jaxb-xjc'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
 
         compile("org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl','jaxb-xjc'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
 
         compile("org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl','jaxb-xjc'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
 
         compile("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl','jaxb-xjc'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
 
         compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl','jaxb-xjc'
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
 
         compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
@@ -44,12 +44,18 @@ grails.project.dependency.resolution = {
         compile("com.sun.xml.bind:jaxb-xjc:${jaxbVersion}")
 
         /* Some Testing Help **************************************************/
-//        test('org.apache.ws.security:wss4j:1.6.7'){
-//            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
-//                     'junit', 'log4j', 'slf4j', 'slf4j-log4j12','slf4j-api', 'slf4j-jdk14'
-//            export = false
-//
-//        }
+        test('org.apache.ws.security:wss4j:1.6.7') {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
+                     'junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
+            export = false
+        }
+
+        test("org.apache.cxf:cxf-rt-ws-security:${cxfVersion}"){
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
+                     'ehcache', 'easymock', 'ehcache-core',
+                     'log4j', 'slf4j', 'slf4j-log4j12','slf4j-api', 'slf4j-jdk14'
+            export = false
+        }
 
         test("com.github.groovy-wslite:groovy-wslite:0.7.0") {
             export = false

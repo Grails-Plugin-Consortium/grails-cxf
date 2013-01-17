@@ -68,6 +68,11 @@ class EndpointBeanConfiguration {
                 Boolean endpointUseWsdl = endpointArtefact.hasWsdl()
                 String endpointWsdlLocation = endpointArtefact.wsdl?.toString()
                 Boolean endpointUseSoap12 = endpointArtefact.soap12
+                Set annotatedInInterceptors = endpointArtefact.inInterceptors ?: []
+                Set annotatedOutInterceptors = endpointArtefact.outInterceptors ?: []
+                Set annotatedOutFaultInterceptors = endpointArtefact.outFaultInterceptors ?: []
+                Set annotatedInFaultInterceptors = endpointArtefact.inFaultInterceptors ?: []
+                Map annotatedProperties = endpointArtefact.properties ?: [:]
 
                 "${endpointName}Factory"(endpointFactoryClass) {
                     address = endpointAddress
@@ -83,6 +88,24 @@ class EndpointBeanConfiguration {
                     if(endpointUseSoap12) {
                         bindingId = (endpointArtefact.expose == EndpointExposureType.SIMPLE ? SOAPBinding.SOAP12HTTP_BINDING : SOAPBinding.SOAP12HTTP_MTOM_BINDING)
                     }
+
+                    if(annotatedInInterceptors.size() > 0){
+                        inInterceptors = annotatedInInterceptors.collect{ref("${it}")}
+                    }
+                    if(annotatedOutInterceptors.size() > 0){
+                        outInterceptors = annotatedOutInterceptors.collect{ref("${it}")}
+                    }
+                    if(annotatedInFaultInterceptors.size() > 0){
+                        inFaultInterceptors = annotatedInFaultInterceptors.collect{ref("${it}")}
+                    }
+                    if(annotatedOutFaultInterceptors.size() > 0){
+                        outFaultInterceptors = annotatedOutFaultInterceptors.collect{ref("${it}")}
+                    }
+
+                    if(annotatedProperties.size() > 0){
+                        properties = annotatedProperties
+                    }
+
                 }
 
                 log.debug "Cxf endpoint server factory wired for [${endpointArtefact.fullName}] of type [${endpointFactoryClass.simpleName}]."
@@ -114,6 +137,7 @@ class EndpointBeanConfiguration {
                 Set annotatedOutInterceptors = endpointArtefact.outInterceptors ?: []
                 Set annotatedOutFaultInterceptors = endpointArtefact.outFaultInterceptors ?: []
                 Set annotatedInFaultInterceptors = endpointArtefact.inFaultInterceptors ?: []
+                Map annotatedProperties = endpointArtefact.properties ?: [:]
 
                 "${endpointName}Factory"(endpointFactoryClass) {
                     address = endpointAddress
@@ -140,6 +164,10 @@ class EndpointBeanConfiguration {
                     }
                     if(annotatedOutFaultInterceptors.size() > 0){
                         outFaultInterceptors = annotatedOutFaultInterceptors.collect{ref("${it}")}
+                    }
+
+                    if(annotatedProperties.size() > 0){
+                        properties = annotatedProperties
                     }
 
                 }

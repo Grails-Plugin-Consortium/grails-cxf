@@ -9,6 +9,7 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils;
 import org.codehaus.groovy.grails.commons.ServiceArtefactHandler;
 import org.grails.cxf.utils.EndpointType;
 import org.grails.cxf.utils.GrailsCxfEndpoint;
+import org.grails.cxf.utils.GrailsCxfEndpointProperty;
 import org.grails.cxf.utils.GrailsCxfUtils;
 
 import javax.xml.transform.TransformerConfigurationException;
@@ -31,7 +32,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
     protected Set<String> outInterceptors;
     protected Set<String> inFaultInterceptors;
     protected Set<String> outFaultInterceptors;
-
+    protected Map<String, Object> properties = new HashMap<String, Object>();
 
     private static final Log log = LogFactory.getLog(DefaultGrailsEndpointClass.class);
 
@@ -44,6 +45,7 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
         findWsdl();
         setupSoap12Binding();
         setupInterceptors();
+        setupProperties();
     }
 
     /**
@@ -135,6 +137,20 @@ public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass im
 
     public Set<String> getOutFaultInterceptors() {
         return outFaultInterceptors;
+    }
+
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
+
+    protected void setupProperties(){
+        GrailsCxfEndpoint annotation = getClazz().getAnnotation(GrailsCxfEndpoint.class);
+        if(annotation != null && annotation.properties().length > 0) {
+            for(GrailsCxfEndpointProperty prop : annotation.properties()){
+                properties.put(prop.name(), prop.value());
+            }
+            log.debug("Endpoint [" + getFullName() + "] configured to use properties " + properties + ".");
+        }
     }
 
     protected void setupInterceptors() {

@@ -1,7 +1,7 @@
 package org.grails.cxf.test
 
 import org.grails.cxf.utils.EndpointType
-import org.grails.cxf.test.soap.security.CustomLoggingInInterceptor
+import org.grails.cxf.test.soap.interceptor.CustomLoggingInInterceptor
 
 @org.apache.cxf.interceptor.InInterceptors (classes = [CustomLoggingInInterceptor])
 class CxfAnnotationInterceptorEndpoint {

@@ -1,4 +1,4 @@
-package org.grails.cxf.test.soap.security
+package org.grails.cxf.test.soap.interceptor
 
 /**
  */

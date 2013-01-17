@@ -1,4 +1,4 @@
-package org.grails.cxf.test.soap.security
+package org.grails.cxf.test.soap.interceptor
 
 import org.apache.cxf.common.injection.NoJSR250Annotations
 import org.apache.cxf.common.logging.LogUtils
@@ -7,7 +7,6 @@ import org.apache.cxf.interceptor.Fault
 import org.apache.cxf.message.Message
 import org.apache.cxf.phase.Phase
 import java.util.logging.Logger
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  */

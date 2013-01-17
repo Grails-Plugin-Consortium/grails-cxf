@@ -1,5 +1,5 @@
-import org.grails.cxf.test.soap.security.CustomLoggingInInterceptor
-import org.grails.cxf.test.soap.security.InjectedBean
+import org.grails.cxf.test.soap.interceptor.CustomLoggingInInterceptor
+import org.grails.cxf.test.soap.interceptor.InjectedBean
 
 beans = {
     customLoggingInInterceptor(CustomLoggingInInterceptor) {

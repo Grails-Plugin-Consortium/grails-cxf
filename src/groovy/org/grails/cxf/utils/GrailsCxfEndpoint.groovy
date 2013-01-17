@@ -25,4 +25,12 @@ public @interface GrailsCxfEndpoint {
     String[] outInterceptors() default []
     String[] inFaultInterceptors() default []
     String[] outFaultInterceptors() default []
+    GrailsCxfEndpointProperty[] properties() default []
+
+}
+
+@Target(ElementType.METHOD)
+public @interface GrailsCxfEndpointProperty {
+    public String name();
+    public String value();
 }
