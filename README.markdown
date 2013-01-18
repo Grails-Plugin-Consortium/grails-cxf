@@ -967,7 +967,7 @@ CHANGE LOG
     * Adding support to use annotation driven service configuration via `@GrailsCxfEndpoint(...)` to deprecate the usage of the current several static properties on a class
     * Adding support for versioning through use of the `address` property on the annotation and via a property `static address = '/v2/#name'` *(#name is special and will use the default service name)*
     * Adding support to override the service name (via address) by not using the `#name` special property in the address via `address = '/path/v2/customName'`
-    * Adding support for injecting custom spring beans to services via the new `@GrailsCxfEndpoint(...)` annotation.  Cxf also provides similar functionality via [annotations](http://cxf.apache.org/docs/interceptors.html).  The difference being cxf only allows you to inject other beans **but not** properties to your custom bean.
+    * Adding support for injecting custom spring beans to services via the new `@GrailsCxfEndpoint(...)` annotation.  Cxf also provides similar functionality via [annotations](http://cxf.apache.org/docs/interceptors.html).  The difference being apache cxf **does not** allow bean or value injection to the provided classes.
     * Added a crap-ton of new specs to test these scenarios and annotation
 
 * v1.0.8
