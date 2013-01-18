@@ -801,7 +801,143 @@ The Response will look similar to the following (note the nodes `key` and `value
 
 CUSTOM SECURITY INTERCEPTORS
 ---------------
-See the <a href="#interceptors">annotations documentation</a> above or use the [cxf provided interceptor annotations](http://cxf.apache.org/docs/interceptors.html).
+Using security on your webservice may be as simple as providing an in or out interceptor, but in some cases like when using WSS4J, you may be required to do a bit more work.
+
+Since WSS4J configuration requires more than just creating and using an interceptor bean and requires you to provide some configuration details, the easiest way to set it up is to inject the interceptor in your `BootStrap.groovy`.
+
+To use WSS4J on the class `AnnotatedSecureService` we would need to inject the object onto the `annotatedSecureServiceFactory` object in the bootstrap.  All Service and Endpoint Classes will create a factory class that is used for cxf that will simply be named by appending `Factory` to the end with a lowercase first letter.
+
+BootStrap.groovy
+```groovy
+class BootStrap {
+
+    ServerFactoryBean annotatedSecureServiceFactory
+
+    def init = { servletContext ->
+        //Register some wss4j security
+        Map<String, Object> inProps = [:]
+        inProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+        inProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
+        Map<QName, Validator> validatorMap = new HashMap<QName, Validator>();
+        validatorMap.put(WSSecurityEngine.USERNAME_TOKEN, new UsernameTokenValidator() {
+            @Override
+            protected void verifyPlaintextPassword(org.apache.ws.security.message.token.UsernameToken usernameToken, org.apache.ws.security.handler.RequestData data) throws org.apache.ws.security.WSSecurityException {
+                if(data.username == "wsuser" && usernameToken.password != "secret") {
+                    throw new WSSecurityException("password mismatch")
+                } else {
+                    println "user name and password were correct!"
+                }
+            }
+        });
+        inProps.put(WSS4JInInterceptor.VALIDATOR_MAP, validatorMap);
+        annotatedSecureServiceFactory.getInInterceptors().add(new WSS4JInInterceptor(inProps))
+        //These can be added here or taken care of in the @GrailsCxfEndpoint annotation
+        //annotatedSecureServiceFactory.getProperties(true).put("ws-security.enable.nonce.cache","false")
+        //annotatedSecureServiceFactory.getProperties(true).put("ws-security.enable.timestamp.cache","false")
+    }
+}
+```
+
+To get the webservice working in the current version of CXF we must disable the playback cache by setting the properties `ws-security.enable.nonce.cache=false` and `ws-security.enable.timestamp.cache=false`.  This is done by using the `@GrailsCxfEndpointProperty`.
+
+[AnnotatedSecureService.groovy](https://github.com/thorstadt/grails-cxf/blob/master/grails-app/services/org/grails/cxf/test/AnnotatedSecureService.groovy)
+```groovy
+package org.grails.cxf.test
+
+import org.grails.cxf.utils.EndpointType
+import org.grails.cxf.utils.GrailsCxfEndpoint
+import org.grails.cxf.utils.GrailsCxfEndpointProperty
+
+import javax.jws.WebMethod
+import javax.jws.WebParam
+import javax.jws.WebResult
+
+@GrailsCxfEndpoint(expose = EndpointType.JAX_WS,properties = [@GrailsCxfEndpointProperty(name = "ws-security.enable.nonce.cache", value = "false"), @GrailsCxfEndpointProperty(name = "ws-security.enable.timestamp.cache", value = "false")])
+class AnnotatedSecureService {
+
+    @WebMethod(operationName = "simpleMethod")
+    @WebResult(name = "simpleResult")
+    String simpleMethod(@WebParam(name = "param") String param) {
+        return param.toString()
+    }
+}
+```
+
+Anyone invoking your server will be required to set the security header to simple user name and password.  You can use a similar mechanism for certificate security.  Configuring WSS4J using certs examples are available around the web.
+
+##SOAP##
+
+The soap message will look like the following:
+
+```xml
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://test.cxf.grails.org/" xmlns:soapenv="soapenv">
+   <soap-env:Header>
+      <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-13">
+            <wsse:Username>wsuer</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">secret</wsse:Password>
+            <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">y98XJq+CCJh2JfFu4jqjRQ==</wsse:Nonce>
+            <wsu:Created>2013-01-18T16:19:17.950Z</wsu:Created>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </soap-env:Header>
+   <soap-env:Body>
+      <test:simpleMethod>
+         <param>hello</param>
+      </test:simpleMethod>
+   </soap-env:Body>
+</soap-env:Envelope>
+```
+
+##WSLITE##
+
+Adding the username and plain text credentials to [wslite](https://github.com/jwagenleitner/groovy-wslite) looks like this:
+
+```groovy
+SOAPResponse response = client.send {
+    envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/', "xmlns:soapenv":"soapenv"
+    version SOAPVersion.V1_1
+    header {
+        'wsse:Security'('soapenv:mustUnderstand': "1", 'xmlns:wsse': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd', 'xmlns:wsu': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd') {
+            'wsse:UsernameToken'('wsu:Id':"UsernameToken-13") {
+                'wsse:Username'(username)
+                'wsse:Password'('Type':'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText',password)
+                'wsse:Nonce'('EncodingType':'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary',new String(password.bytes.encodeBase64().toString()))
+                'wsu:Created'('2013-01-18T16:19:17.950Z')
+            }
+        }
+    }
+    body {
+        'test:simpleMethod' {
+            param(legacyParam)
+        }
+    }
+}
+```
+
+##CXF CLIENT PLUGIN##
+
+Configuring this in the [cxf-client](https://github.com/ctoestreich/cxf-client) grails plugin would look similar to the following:
+
+```groovy
+cxf {
+    client {
+         secureServiceClient {
+            ...
+            secured = true
+            username = "wsuser"
+            password = "secret"
+            ...
+        }
+    }
+}
+```
+
+There are additional examples available using the [cxf-client-demo](https://www.github.com/ctoestreich/cxf-client-demo) project.
+
+##OTHER##
+
+See the <a href="#interceptors">annotations documentation</a> above or use the [cxf provided interceptor annotations](http://cxf.apache.org/docs/interceptors.html) for use of annotations in general.
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Demo"></a>
