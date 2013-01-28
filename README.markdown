@@ -165,7 +165,7 @@ class CarService {
 
 The above would be deployed to `/services/v2/custom/path`.
 
-If you wish to simply version the service you could use the special `#name` keywork in the address or manually set it to the name that matches the rule above.
+If you wish to simply version the service you could use the special `#name` keyword in the address or manually set it to the name that matches the rule above.
 
 ```groovy
 @GrailsCxfEndpoint(address='/v2/#name') //or address='/v2/car'
@@ -412,7 +412,7 @@ To expose as a jax rest service endpoint <http://cxf.apache.org/docs/jax-rs.html
 
 *Please note that while possible to use the string literals behind the `EndpointType` constants, using the constant is much preferred and will cause less issues with spellings and upgrade issues in the future.*
 
-*Please note that that using list annotations is also possible such as `static expose = [EndpointType.SIMPLE]` although there should be no need to ever use more than one cxf expose keyword, other plugins may overlap with this keywork and you can add these other keywords to the list.*
+*Please note that that using list annotations is also possible such as `static expose = [EndpointType.SIMPLE]` although there should be no need to ever use more than one cxf expose keyword, other plugins may overlap with this keyword and you can add these other keywords to the list.*
 
 **Using Apache CXF Without Plugin Wiring**
 
