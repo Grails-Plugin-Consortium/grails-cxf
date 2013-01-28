@@ -6,16 +6,21 @@ import org.apache.cxf.interceptor.AbstractLoggingInterceptor
 import org.apache.cxf.interceptor.Fault
 import org.apache.cxf.message.Message
 import org.apache.cxf.phase.Phase
+import org.springframework.stereotype.Component
+
 import java.util.logging.Logger
+import javax.annotation.Resource
 
 /**
  */
 @NoJSR250Annotations
+@Component
 class CustomLoggingInInterceptor extends AbstractLoggingInterceptor {
 
     private static final Logger LOG = LogUtils.getLogger(CustomLoggingInInterceptor)
     def name
 //    @Autowired //or set bean spring dsl to bean.autowire = "byName"
+    @Resource(name = "injectedBean")
     InjectedBean injectedBean
 
     CustomLoggingInInterceptor() {
