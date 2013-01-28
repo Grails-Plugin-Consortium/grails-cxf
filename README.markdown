@@ -1,3 +1,5 @@
+[![Build Status](http://build.christianoestreich.com:8080/jenkins/job/grails-cxf/badge/icon)](http://build.christianoestreich.com:8080/jenkins/job/grails-cxf/)
+
 <a name="Top"></a>
 
 GRAILS CXF PLUGIN
