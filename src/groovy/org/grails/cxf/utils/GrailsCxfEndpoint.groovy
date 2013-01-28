@@ -13,12 +13,12 @@ import java.lang.annotation.Target
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface GrailsCxfEndpoint {
-    String address() default ""
-    String name() default ""
+@interface GrailsCxfEndpoint {
+    String address() default ''
+    String name() default ''
     EndpointType expose() default EndpointType.JAX_WS
     boolean soap12() default false
-    String wsdl() default ""
+    String wsdl() default ''
     String[] excludes() default []
     //Interceptors
     String[] inInterceptors() default []
@@ -30,7 +30,7 @@ public @interface GrailsCxfEndpoint {
 }
 
 @Target(ElementType.METHOD)
-public @interface GrailsCxfEndpointProperty {
-    public String name();
-    public String value();
+@interface GrailsCxfEndpointProperty {
+    public String name() default ''
+    public String value() default ''
 }

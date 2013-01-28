@@ -7,6 +7,7 @@ import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
 import org.apache.ws.security.util.Base64
 import org.opensaml.ws.wssecurity.Username
+import wslite.http.auth.HTTPBasicAuthorization
 
 class AnnotatedSecureServiceSpec extends GebReportingSpec {
 
