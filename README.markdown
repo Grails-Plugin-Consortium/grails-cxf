@@ -1,4 +1,4 @@
-[![Build Status](http://build.christianoestreich.com:8080/jenkins/job/grails-cxf/badge/icon)](http://build.christianoestreich.com:8080/jenkins/job/grails-cxf/)
+[![Build Status](http://build.christianoestreich.com/jenkins/job/grails-cxf/badge/icon)](http://build.christianoestreich.com/jenkins/job/grails-cxf/)
 
 <a name="Top"></a>
 
@@ -17,6 +17,7 @@ GRAILS CXF PLUGIN
 * <a href="#hasMany">Handling hasMany Mappings</a>
 * <a href="#maps">Handling Map Responses</a>
 * <a href="#security">Custom Security Interceptors</a>
+* <a href="#console">Enabling Logging of SOAP Messages</a>
 * <a href="#Demo">Demo Project</a>
 * <a href="#Issues">Issues</a>
 * <a href="#Build">Build</a>
@@ -798,6 +799,28 @@ The Response will look similar to the following (note the nodes `key` and `value
 </soap:Envelope>
 ```
 
+
+
+<p align="right"><a href="#Top">Top</a></p>
+<a name="console"></a>
+
+ENABLING LOGGING OF SOAP MESSAGES
+---------------
+If you would like to view the raw soap in the console/log files add the follow:
+
+JVM startup params:
+```
+-Dorg.apache.cxf.Logger=org.apache.cxf.common.logging.Log4jLogger
+```
+
+Logging config:
+```groovy
+log4j {
+    ...
+  info 'org.apache.cxf' //debug, etc
+}
+```
+
 <p align="right"><a href="#Top">Top</a></p>
 <a name="security"></a>
 
@@ -959,7 +982,7 @@ I will be using the github issue tracker <https://github.com/thorstadt/grails-cx
 BUILD SERVER
 -----------------
 
-[![Build Status](http://build.christianoestreich.com:8080/jenkins/job/grails-cxf/badge/icon)](http://build.christianoestreich.com:8080/jenkins/job/grails-cxf/)
+[![Build Status](http://build.christianoestreich.com/jenkins/job/grails-cxf/badge/icon)](http://build.christianoestreich.com/jenkins/job/grails-cxf/)
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Change"></a>
