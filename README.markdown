@@ -957,7 +957,7 @@ I will be using the github issue tracker <https://github.com/thorstadt/grails-cx
 BUILD SERVER
 -----------------
 
-When making changes, builds will be run on trunk and branches at <http://build.christianoestreich.com/jenkins/job/grails-cxf/>.
+[![Build Status](http://build.christianoestreich.com:8080/jenkins/job/grails-cxf/badge/icon)](http://build.christianoestreich.com:8080/jenkins/job/grails-cxf/)
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Change"></a>
