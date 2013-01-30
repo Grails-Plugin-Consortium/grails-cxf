@@ -143,7 +143,6 @@ private wsdl2Java() {
             arg(value: '-mark-generated')
         }
 
-        arg(value: "-wsdlList")
         arg(value: options.wsdl)
     }
 
