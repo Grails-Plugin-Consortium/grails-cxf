@@ -32,8 +32,8 @@ class CxfGrailsPlugin {
     def version = '1.1.1'
     def grailsVersion = '1.3.7 > *'
 
-    def author = 'Christian Oestreich'
-    def authorEmail = 'acetrike@gmail.com'
+    def author = 'Grails Plugin Consortium'
+    def authorEmail = ''
     def title = 'CXF plug-in for Grails'
     def description = 'Brings easy exposure of service and endpoint classes as Apache CXF SOAP Services to Grails.'
 
@@ -42,11 +42,11 @@ class CxfGrailsPlugin {
             [name: "Ryan Crum", email: "ryan.j.crum@gmail.com"],
             [name: "Ben Doerr", email: "craftsman@bendoerr.me"]]
 
-    def documentation = "https://github.com/thorstadt/grails-cxf"
+    def documentation = "https://github.com/Grails-Plugin-Consortium/grails-cxf"
     def license = 'APACHE'
 
-    def issueManagement = [system: 'JIRA', url: 'https://github.com/thorstadt/grails-cxf/issues']
-    def scm = [url: "https://github.com/thorstadt/grails-cxf"]
+    def issueManagement = [system: 'JIRA', url: 'https://github.com/Grails-Plugin-Consortium/grails-cxf/issues']
+    def scm = [url: "https://github.com/Grails-Plugin-Consortium/grails-cxf"]
 
     def pluginExcludes = [
             'grails-app/conf/spring/resources.groovy',
