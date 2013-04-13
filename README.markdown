@@ -1,4 +1,4 @@
-[![Build Status](http://build.christianoestreich.com/jenkins/job/grails-cxf/badge/icon)](http://build.christianoestreich.com/jenkins/job/grails-cxf/)
+[![Build Status](https://travis-ci.org/Grails-Plugin-Consortium/grails-cxf.png?branch=master)](https://travis-ci.org/Grails-Plugin-Consortium/grails-cxf)
 
 <a name="Top"></a>
 
@@ -42,7 +42,7 @@ Some new things as of version 1.0.0 are as follows:
 * Service creation scripts create-cxf-service and create-cxf-service-simple will create cxf artefacts in grails-app\services
 * The suggested pattern to isolate cxf endpoints is to have endpoints live in grails-app/endpoints directory (or you can use grails-app/services for overlapping and shared services)
 * Built in support for simple Map response type handling via `@XmlJavaTypeAdapter(GrailsCxfMapAdapter.class)` method annotation has been included to use or to kick start your own map adapter creation
-* Many new examples to help with configuration can be found in the source via functional specs and test classes at <https://github.com/thorstadt/grails-cxf>
+* Many new examples to help with configuration can be found in the source via functional specs and test classes at <https://github.com/Grails-Plugin-Consortium/grails-cxf>
 * Default plugin configuration is provided via `DefaultCxfConfig.groovy`.  Although usually not necessary, you can override in your project's Config.groovy
 * The default url for wsdl viewing remains `http://.../[app name if not root]/services` as it was in previous versions.  Multiple cxf servlet endpoints can be configured or the default changed via Config.goovy
 * Wsdl First services are now available to use <a href="#wsdl">example below</a>
@@ -259,7 +259,7 @@ class AnnotatedCustomerServiceWsdlEndpoint {
 }
 ```
 
-Example is available at [AnnotatedCustomerServiceWsdlEndpoint.groovy](https://github.com/thorstadt/grails-cxf/blob/master/grails-app/endpoints/org/grails/cxf/test/AnnotatedCustomerServiceWsdlEndpoint.groovy).
+Example is available at [AnnotatedCustomerServiceWsdlEndpoint.groovy](https://github.com/Grails-Plugin-Consortium/grails-cxf/blob/master/grails-app/endpoints/org/grails/cxf/test/AnnotatedCustomerServiceWsdlEndpoint.groovy).
 
 <a name="interceptors"></a>
 **ININTERCEPTORS**
@@ -272,7 +272,7 @@ When chosing between the this property and the cxf provided one, if you require 
 
 *Note: Make sure to set any beans you wish injected into your interceptors to `bean.autowire = 'byName'` or use the `@Autowire` annotation.*
 
-[CustomLoggingInInterceptor.groovy](https://github.com/thorstadt/grails-cxf/blob/master/src/groovy/org/grails/cxf/test/soap/security/CustomLoggingInInterceptor.groovy)
+[CustomLoggingInInterceptor.groovy](https://github.com/Grails-Plugin-Consortium/grails-cxf/blob/master/src/groovy/org/grails/cxf/test/soap/security/CustomLoggingInInterceptor.groovy)
 ```groovy
 @NoJSR250Annotations
 public class CustomLoggingInInterceptor extends AbstractLoggingInterceptor {
@@ -302,7 +302,7 @@ public class CustomLoggingInInterceptor extends AbstractLoggingInterceptor {
 }
 ```
 
-[resources.groovy](https://github.com/thorstadt/grails-cxf/blob/master/grails-app/conf/spring/resources.groovy)
+[resources.groovy](https://github.com/Grails-Plugin-Consortium/grails-cxf/blob/master/grails-app/conf/spring/resources.groovy)
 ```groovy
 import org.grails.cxf.test.soap.security.CustomLoggingInInterceptor
 import org.grails.cxf.test.soap.security.InjectedBean
@@ -319,7 +319,7 @@ beans = {
 }
 ```
 
-[AnnotatedInterceptorService.groovy](https://github.com/thorstadt/grails-cxf/blob/master/grails-app/services/org/grails/cxf/test/AnnotatedInterceptorService.groovy)
+[AnnotatedInterceptorService.groovy](https://github.com/Grails-Plugin-Consortium/grails-cxf/blob/master/grails-app/services/org/grails/cxf/test/AnnotatedInterceptorService.groovy)
 ```groovy
 @GrailsCxfEndpoint(inInterceptors = ["customLoggingInInterceptor"])
 class AnnotatedInterceptorService {
@@ -865,7 +865,7 @@ class BootStrap {
 
 To get the webservice working in the current version of CXF we must disable the playback cache by setting the properties `ws-security.enable.nonce.cache=false` and `ws-security.enable.timestamp.cache=false`.  This is done by using the `@GrailsCxfEndpointProperty`.
 
-[AnnotatedSecureService.groovy](https://github.com/thorstadt/grails-cxf/blob/master/grails-app/services/org/grails/cxf/test/AnnotatedSecureService.groovy)
+[AnnotatedSecureService.groovy](https://github.com/Grails-Plugin-Consortium/grails-cxf/blob/master/grails-app/services/org/grails/cxf/test/AnnotatedSecureService.groovy)
 ```groovy
 package org.grails.cxf.test
 
@@ -942,7 +942,7 @@ SOAPResponse response = client.send {
 
 ##CXF CLIENT PLUGIN##
 
-Configuring this in the [cxf-client](https://github.com/ctoestreich/cxf-client) grails plugin would look similar to the following:
+Configuring this in the [cxf-client](https://github.com/Grails-Plugin-Consortium/grails-cxf-client) grails plugin would look similar to the following:
 
 ```groovy
 cxf {
@@ -958,7 +958,7 @@ cxf {
 }
 ```
 
-There are additional examples available using the [cxf-client-demo](https://www.github.com/ctoestreich/cxf-client-demo) project.
+There are additional examples available using the [cxf-client-demo](https://github.com/Grails-Plugin-Consortium/grails-cxf-client-demo) project.
 
 ##OTHER##
 
@@ -974,7 +974,7 @@ The best way to play around with wiring up services/endpoints is to clone this p
 <a name="Issues"></a>
 ISSUES
 ---------------
-I will be using the github issue tracker <https://github.com/thorstadt/grails-cxf/issues> for issues and questions.
+I will be using the github issue tracker <https://github.com/Grails-Plugin-Consortium/grails-cxf/issues> for issues and questions.
 
 
 <p align="right"><a href="#Top">Top</a></p>
@@ -982,7 +982,7 @@ I will be using the github issue tracker <https://github.com/thorstadt/grails-cx
 BUILD SERVER
 -----------------
 
-[![Build Status](http://build.christianoestreich.com/jenkins/job/grails-cxf/badge/icon)](http://build.christianoestreich.com/jenkins/job/grails-cxf/)
+[![Build Status](https://travis-ci.org/Grails-Plugin-Consortium/grails-cxf.png?branch=master)](https://travis-ci.org/Grails-Plugin-Consortium/grails-cxf)
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Change"></a>
@@ -993,7 +993,7 @@ CHANGE LOG
     * Adding support for versioning through use of the `address` property on the annotation (**deprecated**: and via a static property `static address = '/v2/#name'`) *(#name is special and will use the default service name)*
     * Adding support to override the default service name (via address) by NOT using the `#name` special property in the address via `address = '/path/v2/customName'`
     * Adding support for injecting interceptors to services via the new `@GrailsCxfEndpoint(...)` annotation.  Cxf also provides similar functionality via [annotations](http://cxf.apache.org/docs/interceptors.html).  The difference being apache cxf **does not** allow bean or value injection to the provided classes as it appears to not understand `@Autowire` internally or deal with spring injection.
-    * Added a crap-ton (which is a lot) of [new specs](https://github.com/thorstadt/grails-cxf/tree/master/test/functional/org/grails/cxf/test) to test these scenarios and annotation
+    * Added a crap-ton (which is a lot) of [new specs](https://github.com/Grails-Plugin-Consortium/grails-cxf/tree/master/test/functional/org/grails/cxf/test) to test these scenarios and annotation
 
 * v1.0.8
     * No logical code changes, code cleanup and removal of unused items - thanks @burtbeckwith
