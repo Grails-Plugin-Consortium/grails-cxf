@@ -6,7 +6,7 @@ jdk:
 before_install:
 - sudo add-apt-repository -y ppa:groovy-dev/grails
 - sudo apt-get update
-- sudo apt-get install grails-2.2.0
+- sudo apt-get install grails-2.1.3
 
 branches:
   only:
