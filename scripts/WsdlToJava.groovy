@@ -15,6 +15,8 @@ options = null
 target(main: 'Quick way to generate wsdl to java from cxf plugin') {
     depends(checkVersion)
 
+    println 'untouched args: ' + args
+
     createCli()
     println 'Using args: ' + doSplit(args)
     options = cli.parse(doSplit(args))
