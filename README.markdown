@@ -53,17 +53,25 @@ WSDL2JAVA SCRIPT
 ---------------
 Included with the plugin is a convenient script to generate java code from a wsdl.  Please note that the grails cxf-client plugin also includes a similar script (wsdl2java) albeit using different configuration to create java files from Config.groovy instead of command line params.
 
+*Note:* You may need to quote the options due to how grails and groovy interact with command line parameters such as `grails wsdl-to-java "--wsdl=path --mark"`
+
 ```
-usage: grails wsdl-to-java --wsdl=<path to wsdl> [--package=<package>]
+usage grails wsdl-to-java --wsdl=<path to wsdl>
+    [--package=<package>] [--fe=frontend-name] [--db=databinding-name]
+    [--wv=wsdl-version] [--sn=service-name] [--b=binding-name]
+    [--catalog=catalog-file-name] [--d output-directory] [--compile]
+    [--classdir=compile-class-dir] [--client] [--server]
+    [--impl] [--all] [--ant] [--autoNameResolution] [--exsh=(true/false)]
+    [--dns=(true/false)] [--dex=(true/false)] [--validate] [--keep] [--noAddressBinding]
+    [--exceptionSuper] [--reserveClass=classname] [--allowElementReferences<=true>]
+    [--asyncMethods=foo,bar,...] [--bareMethods=foo,bar,...]
+    [--mimeMethods=foo,bar,...] [--mark]
 
 Script Options:
-  -h, --help           Prints this help message
-  -p, --package=arg    The package to put the generated Java objects in.
-  -w, --wsdl=arg       The path to the wsdl to use.
+  -help, --help           Prints this help message
 ```
 
 See <http://cxf.apache.org/docs/wsdl-to-java.html> for additional options.
-
 
 <p align="right"><a href="#Top">Top</a></p>
 <a name="Plugin"></a>

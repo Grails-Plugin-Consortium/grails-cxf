@@ -167,7 +167,7 @@ grails wsdl-to-java --wsdl=<path to wsdl>
     [--dns=(true/false)] [--dex=(true/false)] [--validate] [--keep] [--noAddressBinding]
     [--exceptionSuper] [--reserveClass=classname] [--allowElementReferences<=true>]
     [--asyncMethods=foo,bar,...] [--bareMethods=foo,bar,...]
-    [--mimeMethods=foo,bar,...] [--mark-generated]
+    [--mimeMethods=foo,bar,...] [--mark]
 
 See http://cxf.apache.org/docs/wsdl-to-java.html for more details.
 '''
@@ -226,7 +226,7 @@ See http://cxf.apache.org/docs/wsdl-to-java.html for additional options.'''
         bareMethods longOpt: 'bareMethods', args: Option.UNLIMITED_VALUES, valueSeparator: ',' as char, required: false, ''
         mimeMethods longOpt: 'mimeMethods', args: Option.UNLIMITED_VALUES, valueSeparator: ',' as char, required: false, ''
         faultSerialVersionUID longOpt: 'faultSerialVersionUID', args: 1, required: false, ''
-        mark longOpt: 'mark', args: 0, required: false, 'Mark the class as generated'
+        mark longOpt: 'mark', args: 0, required: false, 'Mark the classes as generated'
     }
 }
 
