@@ -14,27 +14,28 @@ options = null
 
 target(main: 'Quick way to generate wsdl to java from cxf plugin') {
     depends(checkVersion)
-
-    println 'untouched args: ' + args
-
     createCli()
-    println 'Using args: ' + doSplit(args)
-    options = cli.parse(doSplit(args))
+    def ops = doSplit(args)
+    printMessage "Using args: ${ops}"
 
-    if(options.help) {
+    if(ops?.size() == 1 && (ops[0] == '-h' || ops[0] == '--help')){
         cli.usage()
         return false
     }
 
-    wsdl2Java()
+    options = cli.parse(ops)
+
+    if(options?.wsdl) {
+        wsdl2Java()
+    }
 }
 
 printMessage = { String message -> event('StatusUpdate', [message]) }
 finished = {String message -> event('StatusFinal', [message])}
 errorMessage = { String message -> event('StatusError', [message]) }
 
-private doSplit(string){
-    return string.split(/(\n|[ ]|=)/).collect{ it.trim() }.findResults  { it && it != '' ? it : null }
+private doSplit(String string){
+    string.split(/(\n|[ ]|=)/).collect{ it.trim() }.findResults  { it && it != '' ? it : null }
 }
 
 private wsdl2Java() {
@@ -184,7 +185,7 @@ See http://cxf.apache.org/docs/wsdl-to-java.html for additional options.'''
             footer: usageFooterText)
 
     cli.formatter = new HelpFormatter()
-    cli.width = 250
+    cli.width = 150
     cli.writer = new PrintWriter(new StringWriter() {
 
         @Override
@@ -195,7 +196,7 @@ See http://cxf.apache.org/docs/wsdl-to-java.html for additional options.'''
     })
 
     cli.with {
-        help longOpt: 'help', 'Prints this help message: See http://cxf.apache.org/docs/wsdl-to-java.html for more details usages of these args.'
+        h longOpt: 'help', 'Prints this help message: See http://cxf.apache.org/docs/wsdl-to-java.html for more details usages of these args.'
         wsdl longOpt: 'wsdl', args: 1, required: true, 'The path to the wsdl to use.'
         'package' longOpt: 'package', args: 1, 'The package to put the generated Java objects in.'
         fe longOpt: 'fe', args: 1, required: false, 'Specifies the frontend. Default is JAXWS. Currently supports only JAXWS frontend and a "jaxws21" frontend to generate JAX-WS 2.1 compliant code. '
