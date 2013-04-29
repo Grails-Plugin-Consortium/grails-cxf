@@ -56,7 +56,7 @@ Included with the plugin is a convenient script to generate java code from a wsd
 *Note:* You may need to quote the options due to how grails and groovy interact with command line parameters such as `grails wsdl-to-java "--wsdl=path --mark"`
 
 ```
-usage grails wsdl-to-java --wsdl=<path to wsdl>
+usage: grails wsdl-to-java --wsdl=<path to wsdl>
     [--package=<package>] [--fe=frontend-name] [--db=databinding-name]
     [--wv=wsdl-version] [--sn=service-name] [--b=binding-name]
     [--catalog=catalog-file-name] [--d output-directory] [--compile]
@@ -70,6 +70,8 @@ usage grails wsdl-to-java --wsdl=<path to wsdl>
 Script Options:
   -help, --help           Prints this help message
 ```
+
+I tried to map as close as possible the options from the wsdl2java script.
 
 See <http://cxf.apache.org/docs/wsdl-to-java.html> for additional options.
 
