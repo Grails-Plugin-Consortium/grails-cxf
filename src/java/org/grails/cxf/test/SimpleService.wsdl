@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="SimpleService" targetNamespace="http://demo.client.cxf/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://demo.client.cxf/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://demo.client.cxf/" xmlns="http://demo.client.cxf/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:complexType name="simpleRequest">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="name" type="xs:string"/>
+                    <xs:element minOccurs="0" name="age" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="simpleResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="isOld" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="status" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="simpleMethod2" type="simpleMethod2"/>
+
+            <xs:complexType name="simpleMethod2">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="request" type="simpleRequest"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="simpleMethod2Response" type="simpleMethod2Response"/>
+            <xs:complexType name="simpleMethod2Response">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="return" type="simpleResponse"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="simpleMethod1" type="simpleMethod1"/>
+            <xs:complexType name="simpleMethod1">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="request" type="simpleRequest"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:element name="simpleMethod1Response" type="simpleMethod1Response"/>
+            <xs:complexType name="simpleMethod1Response">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="return" type="simpleResponse"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="simpleMethod1Response">
+        <wsdl:part element="tns:simpleMethod1Response" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+
+    <wsdl:message name="simpleMethod1">
+        <wsdl:part element="tns:simpleMethod1" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="simpleMethod2">
+        <wsdl:part element="tns:simpleMethod2" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="simpleMethod2Response">
+
+        <wsdl:part element="tns:simpleMethod2Response" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="SimpleServicePortType">
+        <wsdl:operation name="simpleMethod2">
+            <wsdl:input message="tns:simpleMethod2" name="simpleMethod2">
+            </wsdl:input>
+            <wsdl:output message="tns:simpleMethod2Response" name="simpleMethod2Response">
+            </wsdl:output>
+
+        </wsdl:operation>
+        <wsdl:operation name="simpleMethod1">
+            <wsdl:input message="tns:simpleMethod1" name="simpleMethod1">
+            </wsdl:input>
+            <wsdl:output message="tns:simpleMethod1Response" name="simpleMethod1Response">
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SimpleServiceSoapBinding" type="tns:SimpleServicePortType">
+
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="simpleMethod2">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="simpleMethod2">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="simpleMethod2Response">
+                <soap:body use="literal"/>
+            </wsdl:output>
+
+        </wsdl:operation>
+        <wsdl:operation name="simpleMethod1">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="simpleMethod1">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="simpleMethod1Response">
+                <soap:body use="literal"/>
+            </wsdl:output>
+
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SimpleService">
+        <wsdl:port binding="tns:SimpleServiceSoapBinding" name="SimpleServicePort">
+            <soap:address location="http://localhost:8080/cxf-client-demo/services/simple"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
