@@ -57,9 +57,9 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test("com.github.groovy-wslite:groovy-wslite:0.7.0") {
-            export = false
-        }
+//        test("com.github.groovy-wslite:groovy-wslite:0.7.2.0") {
+//            export = false
+//        }
 
         test("org.codehaus.geb:geb-spock:${gebVersion}") {
             export = false
@@ -99,6 +99,10 @@ grails.project.dependency.resolution = {
 
         /* Spock and Geb for Testing ******************************************/
         test(":spock:0.6") {
+            export = false
+        }
+
+        test(":wslite:0.7.2.0") {
             export = false
         }
 
