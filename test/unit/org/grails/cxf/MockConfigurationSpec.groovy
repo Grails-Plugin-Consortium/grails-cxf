@@ -12,8 +12,8 @@ import spock.lang.Specification
 
 class MockConfigurationSpec extends Specification {
 
-    protected class TestOneEndpoint {}
-    protected class TestTwoEndpoint {}
+    class TestOneEndpoint {}
+    class TestTwoEndpoint {}
 
     Closure getArtefactsMock = {String type ->
         assert EndpointArtefactHandler.TYPE == type

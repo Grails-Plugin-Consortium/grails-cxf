@@ -5,7 +5,6 @@ grails.project.dependency.resolution = {
 
     String cxfVersion = '2.6.2'
     String jaxbVersion = '2.2.6'
-    String gebVersion = '0.7.2'
 
     inherits 'global'
     log 'warn'
@@ -61,7 +60,15 @@ grails.project.dependency.resolution = {
 //            export = false
 //        }
 
-        test("org.codehaus.geb:geb-spock:${gebVersion}") {
+//        test("org.codehaus.geb:geb-spock:${gebVersion}") {
+//            export = false
+//        }
+
+        test("org.spockframework:spock-grails-support:0.7-groovy-2.0"){
+            export = false
+        }
+
+        test("org.gebish:geb-spock:0.9.2"){
             export = false
         }
 
@@ -98,7 +105,8 @@ grails.project.dependency.resolution = {
         }
 
         /* Spock and Geb for Testing ******************************************/
-        test(":spock:0.6") {
+        test(":spock:0.7") {
+            exclude "spock-grails-support"
             export = false
         }
 
@@ -106,7 +114,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test(":geb:${gebVersion}") {
+        test(":geb:0.9.2") {
             export = false
         }
 
