@@ -1,5 +1,6 @@
 import groovyjarjarcommonscli.Option
 import org.apache.commons.cli.HelpFormatter
+import org.codehaus.gant.GantState
 
 includeTargets << grailsScript("Init")
 includeTargets << grailsScript("_GrailsClasspath")
@@ -39,6 +40,8 @@ private doSplit(String string){
 }
 
 private wsdl2Java() {
+
+    ant.logger.setMessageOutputLevel(GantState.NORMAL)
 
     ant.java(classname: 'org.apache.cxf.tools.wsdlto.WSDLToJava') {
         arg(value: '-verbose')
