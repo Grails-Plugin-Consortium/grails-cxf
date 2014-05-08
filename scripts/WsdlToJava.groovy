@@ -48,7 +48,7 @@ private wsdl2Java() {
         arg(value: '-d')
         arg(value: javaSourceDir)
         arg(value: '-p')
-        arg(value: options?.p ?: defaultOutPackage)
+        arg(value: options?.package ?: defaultOutPackage)
         if(options?.fe) {
             arg(value: '-fe')
             arg(value: options.fe)
@@ -163,7 +163,7 @@ private wsdl2Java() {
 private createCli() {
     String usageText = '''
 grails wsdl-to-java --wsdl=<path to wsdl>
-    [--package=<package>] [--fe=frontend-name] [--db=databinding-name]
+    [--p=<package>] [--fe=frontend-name] [--db=databinding-name]
     [--wv=wsdl-version] [--sn=service-name] [--b=binding-name]
     [--catalog=catalog-file-name] [--d output-directory] [--compile]
     [--classdir=compile-class-dir] [--client] [--server]
@@ -201,7 +201,7 @@ See http://cxf.apache.org/docs/wsdl-to-java.html for additional options.'''
     cli.with {
         h longOpt: 'help', 'Prints this help message: See http://cxf.apache.org/docs/wsdl-to-java.html for more details usages of these args.'
         wsdl longOpt: 'wsdl', args: 1, required: true, 'The path to the wsdl to use.'
-        'package' longOpt: 'package', args: 1, 'The package to put the generated Java objects in.'
+        p longOpt: 'package', args: 1, 'The package to put the generated Java objects in.'
         fe longOpt: 'fe', args: 1, required: false, 'Specifies the frontend. Default is JAXWS. Currently supports only JAXWS frontend and a "jaxws21" frontend to generate JAX-WS 2.1 compliant code. '
         db longOpt: 'db', args: 1, required: false, 'Specifies the databinding. Default is jaxb. Currently supports jaxb, xmlbeans, sdo (sdo-static and sdo-dynamic), and jibx.'
         wv longOpt: 'wv', args: 1, required: false, 'Specifies the wsdl version .Default is WSDL1.1. Currently suppports only WSDL1.1 version.'
