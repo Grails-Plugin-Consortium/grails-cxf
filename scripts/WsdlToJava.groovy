@@ -1,5 +1,5 @@
 import groovyjarjarcommonscli.Option
-import org.codehaus.groovy.tools.shell.util.HelpFormatter
+import org.apache.commons.cli.HelpFormatter
 
 includeTargets << grailsScript("Init")
 includeTargets << grailsScript("_GrailsClasspath")
