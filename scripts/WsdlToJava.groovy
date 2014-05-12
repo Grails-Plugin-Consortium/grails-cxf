@@ -13,7 +13,7 @@ defaultOutPackage = 'org.grails.cxf.soap'
 cli = null
 options = null
 
-target(main: 'Quick way to generate wsdl to java from cxf plugin') {
+target(wsdlToJava: 'Quick way to generate wsdl to java from cxf plugin') {
     depends(checkVersion)
     createCli()
     def ops = doSplit(args)
@@ -234,4 +234,4 @@ See http://cxf.apache.org/docs/wsdl-to-java.html for additional options.'''
     }
 }
 
-setDefaultTarget(main)
+setDefaultTarget(wsdlToJava)

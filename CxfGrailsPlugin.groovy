@@ -29,7 +29,7 @@ class CxfGrailsPlugin {
      * Plugin Metadata Down-under
      * **********************************************************************/
 
-    def version = '1.1.3'
+    def version = '1.1.4'
     def grailsVersion = '1.3.7 > *'
 
     def author = 'Grails Plugin Consortium'
