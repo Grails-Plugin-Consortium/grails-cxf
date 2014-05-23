@@ -10,7 +10,6 @@ class GrailsCxfUtils {
     static final String CFG_SERVLET_MAPPINGS = 'servlets'
     static final String CFG_ENDPOINT_SOAP12 = 'endpoint.soap12Binding'
 
-    //this is injected from bootstrap... ConfigurationHolder is now depreciated
     static GrailsApplication grailsApplication
 
     private GrailsCxfUtils() {

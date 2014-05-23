@@ -1,9 +1,9 @@
 package org.grails.cxf.utils
 
-import grails.plugin.spock.UnitSpec
 import spock.lang.Unroll
+import spock.lang.Specification
 
-class NavigableConfigurationSpec extends UnitSpec {
+class NavigableConfigurationSpec extends Specification {
 
     ConfigObject simpleConfig
 

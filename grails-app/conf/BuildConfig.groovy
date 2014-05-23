@@ -3,8 +3,9 @@ grails.project.source.level = 1.6
 
 grails.project.dependency.resolution = {
 
-    String cxfVersion = '2.6.2'
+    String cxfVersion = '2.6.6'
     String jaxbVersion = '2.2.6'
+    String springVersion = '4.0.5.RELEASE'
 
     inherits 'global'
     log 'warn'
@@ -42,6 +43,10 @@ grails.project.dependency.resolution = {
 
         compile("com.sun.xml.bind:jaxb-xjc:${jaxbVersion}")
 
+        compile("org.springframework:spring-expression:${springVersion}") 
+
+        compile("org.springframework:spring-aop:${springVersion}")
+
         /* Some Testing Help **************************************************/
         test('org.apache.ws.security:wss4j:1.6.7') {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
@@ -56,6 +61,11 @@ grails.project.dependency.resolution = {
             export = false
         }
 
+      
+        test("org.gebish:geb-spock:0.9.2") {
+            export = false
+        }
+
 //        test("com.github.groovy-wslite:groovy-wslite:0.7.2.0") {
 //            export = false
 //        }
@@ -63,14 +73,6 @@ grails.project.dependency.resolution = {
 //        test("org.codehaus.geb:geb-spock:${gebVersion}") {
 //            export = false
 //        }
-
-        test("org.spockframework:spock-grails-support:0.7-groovy-2.0"){
-            export = false
-        }
-
-        test("org.gebish:geb-spock:0.9.2"){
-            export = false
-        }
 
         test('org.seleniumhq.selenium:selenium-htmlunit-driver:2.25.0') {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
@@ -92,21 +94,15 @@ grails.project.dependency.resolution = {
         //remove this before committing.  Only used to release...not test.
         // This still an issue?!?
         // http://grails.1312388.n4.nabble.com/Geb-and-Release-plugin-httpclient-conflicts-td4295238.html
-//        build(":release:2.2.0", ':rest-client-builder:1.0.3') {
-//            export = false
-//        }
-
-        runtime(":hibernate:${grailsVersion}") {
+        build(":release:3.0.1", ':rest-client-builder:1.0.3') {
             export = false
         }
 
-        runtime(":tomcat:${grailsVersion}") {
+        runtime(":hibernate4:4.3.5.3") {
             export = false
         }
 
-        /* Spock and Geb for Testing ******************************************/
-        test(":spock:0.7") {
-            exclude "spock-grails-support"
+        runtime(":tomcat:7.0.53") {
             export = false
         }
 
@@ -122,7 +118,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test(":codenarc:0.17") {
+        test(":codenarc:0.21") {
             export = false
         }
     }
