@@ -5,8 +5,6 @@ import org.codehaus.gant.GantState
 includeTargets << grailsScript("Init")
 includeTargets << grailsScript("_GrailsClasspath")
 
-argsArray = [] as String[]
-
 javaSourceDir = "src${File.separator}java"
 defaultOutPackage = 'org.grails.cxf.soap'
 
