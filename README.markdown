@@ -998,6 +998,15 @@ BUILD SERVER
 <a name="Change"></a>
 CHANGE LOG
 ---------------
+* v 2.0
+    * Update grails version
+    * Removed spock plugin (now bundled with grails)
+    * Added needed spring dependencies because of upgrade to Spring 4
+    * Refresh GenericApplicationContext _before_ use (otherwise Spring 4 blows up)
+    * Removed use of ConfigurationHolder
+    * Fixed applicationContext.xml for Grails 2.4
+    * Upgrade CXF to 2.6.6. Newer versions breaks testsuite
+
 * v1.1.0
     * Adding support to use annotation driven service configuration via `@GrailsCxfEndpoint(...)` to deprecate the usage of the current several static properties on a class
     * Adding support for versioning through use of the `address` property on the annotation (**deprecated**: and via a static property `static address = '/v2/#name'`) *(#name is special and will use the default service name)*
