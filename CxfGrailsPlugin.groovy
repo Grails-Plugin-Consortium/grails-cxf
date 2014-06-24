@@ -29,8 +29,8 @@ class CxfGrailsPlugin {
      * Plugin Metadata Down-under
      * **********************************************************************/
 
-    def version = '1.1.5-SNAPSHOT'
-    def grailsVersion = '1.3.7 > *'
+    def version = '2.0'
+    def grailsVersion = '2.2 > *'
 
     def author = 'Grails Plugin Consortium'
     def authorEmail = ''
