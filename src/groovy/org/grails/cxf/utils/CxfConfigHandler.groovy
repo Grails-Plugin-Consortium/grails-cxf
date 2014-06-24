@@ -1,7 +1,6 @@
 package org.grails.cxf.utils
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
-
+import grails.util.Holders
 import grails.util.Environment
 import groovy.transform.Synchronized
 import org.apache.commons.logging.Log
@@ -44,18 +43,18 @@ class CxfConfigHandler {
     }
 
     private ConfigObject getDefinedConfig() {
-        def configObject = new NavigableConfiguration(CH.config)
+        def configObject = new NavigableConfiguration(Holders.config)
         try {
             return (ConfigObject) configObject.get(CONFIG_PATH)
         } catch(NullPointerException npe) {
             log.error npe
             log.info "config node ${CONFIG_PATH} not found"
-            return CH.config
+            return Holders.config
         }
     }
 
     private void setDefinedConfig(final ConfigObject c) {
-        new NavigableConfiguration(CH.config).set(CONFIG_PATH, c)
+        new NavigableConfiguration(Holders.config).set(CONFIG_PATH, c)
     }
 
     /**

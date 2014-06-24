@@ -40,6 +40,7 @@ class GrailsCxfServlet extends CXFServlet {
                 getWebApplicationContext(servletContext);
 
         ApplicationContext childCtx = new GenericApplicationContext(applicationContext)
+        childCtx.refresh()
         BeanBuilder bb = new BeanBuilder(childCtx)
 
         bb.beans {
@@ -49,7 +50,6 @@ class GrailsCxfServlet extends CXFServlet {
             with beanConfiguration.cxfServiceEndpointBeans(servletName)
         }
 
-        childCtx.refresh()
         bb.createApplicationContext()
     }
 }
