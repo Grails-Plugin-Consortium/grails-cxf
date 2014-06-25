@@ -29,7 +29,7 @@ class CxfGrailsPlugin {
      * Plugin Metadata Down-under
      * **********************************************************************/
 
-    def version = '2.0'
+    def version = '2.0.1'
     def grailsVersion = '2.2 > *'
 
     def author = 'Grails Plugin Consortium'
@@ -49,7 +49,13 @@ class CxfGrailsPlugin {
     def scm = [url: "https://github.com/Grails-Plugin-Consortium/grails-cxf"]
 
     def pluginExcludes = [
+            'grails-app/conf/spring/ApplicationResources.groovy',
             'grails-app/conf/spring/resources.groovy',
+            'grails-app/conf/spring/resources.groovy',
+            'grails-app/conf/ApplicationResources.groovy',
+            'grails-app/conf/BootStrap.groovy',
+            'grails-app/conf/DataSource.groovy',
+            'grails-app/conf/UrlMappings.groovy',
             'grails-app/conf/codenarc.groovy',
             'grails-app/conf/codenarc.ruleset.all.groovy.txt',
             'grails-app/domain/**',

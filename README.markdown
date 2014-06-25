@@ -998,6 +998,9 @@ BUILD SERVER
 <a name="Change"></a>
 CHANGE LOG
 ---------------
+* v 2.0.1
+    * Removing artifacts that crept into the plugin
+
 * v 2.0
     * Update grails version
     * Removed spock plugin (now bundled with grails)
