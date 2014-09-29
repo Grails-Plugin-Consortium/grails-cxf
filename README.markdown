@@ -2,6 +2,8 @@
 
 <a name="Top"></a>
 
+*Please note that the current 2.x versions will only with with grails 2.4+.  If you wish to use this with 2.0 - 2.3.x please use version 1.1.4 of the plugin.*
+
 GRAILS CXF PLUGIN
 ======
 
@@ -1009,7 +1011,11 @@ CHANGE LOG
     * Removed use of ConfigurationHolder
     * Fixed applicationContext.xml for Grails 2.4
     * Upgrade CXF to 2.6.6. Newer versions breaks testsuite
-
+    * 
+* v1.1.4
+    * Fixing the wsdl2java script to be able to be used externally as the default is no longer just main in the script.
+    * This is the last version compatible with grails < 2.4.  If you are on any version bewteen 2.0 and 2.3.x please use this version.
+    
 * v1.1.0
     * Adding support to use annotation driven service configuration via `@GrailsCxfEndpoint(...)` to deprecate the usage of the current several static properties on a class
     * Adding support for versioning through use of the `address` property on the annotation (**deprecated**: and via a static property `static address = '/v2/#name'`) *(#name is special and will use the default service name)*
