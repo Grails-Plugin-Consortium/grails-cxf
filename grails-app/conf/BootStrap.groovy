@@ -20,8 +20,8 @@ class BootStrap {
     ServerFactoryBean annotatedSecureServiceFactory
 
     def init = { servletContext ->
-        GrailsCxfUtils.metaClass.getGrailsApplication = {-> grailsApplication }
-        GrailsCxfUtils.metaClass.static.getGrailsApplication = {-> grailsApplication }
+        GrailsCxfUtils.metaClass.getGrailsApplication = { -> grailsApplication }
+        GrailsCxfUtils.metaClass.static.getGrailsApplication = { -> grailsApplication }
 
         JSON.registerObjectMarshaller(SimpleException) {
             [message: it.message]

@@ -1,11 +1,12 @@
+grails.servlet.version = "3.0" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.work.dir = 'target'
 grails.project.source.level = 1.6
 
 grails.project.dependency.resolution = {
 
-    String cxfVersion = '2.6.6'
+    String cxfVersion = '2.6.16'
     String jaxbVersion = '2.2.6'
-    String springVersion = '4.0.5.RELEASE'
+    String springVersion = '4.0.8.RELEASE'
 
     inherits 'global'
     log 'warn'
@@ -43,7 +44,7 @@ grails.project.dependency.resolution = {
 
         compile("com.sun.xml.bind:jaxb-xjc:${jaxbVersion}")
 
-        compile("org.springframework:spring-expression:${springVersion}") 
+        compile("org.springframework:spring-expression:${springVersion}")
 
         compile("org.springframework:spring-aop:${springVersion}")
 

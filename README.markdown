@@ -1000,6 +1000,11 @@ BUILD SERVER
 <a name="Change"></a>
 CHANGE LOG
 ---------------
+* v 2.0.2
+    * Upgrading CXF to 2.6.16
+    * Upgrading Spring deps to 4.0.8.RELEASE
+    
+    
 * v 2.0.1
     * Removing artifacts that crept into the plugin
 
