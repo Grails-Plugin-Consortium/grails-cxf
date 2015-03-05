@@ -1,13 +1,10 @@
 language: groovy
 jdk:
-  - oraclejdk7
-
-branches:
-  only:
-    - master
-    
+- openjdk7
 before_script:
-    - chmod +x grailsw
-     
-script: ./grailsw refresh-dependencies
-  && ./grailsw test-app
+- rm -rf target
+script: ./travis-build.sh
+env:
+  global:
+  - GIT_NAME="Christian Oestreich"
+  - GIT_EMAIL="acetrike@gmail.com"

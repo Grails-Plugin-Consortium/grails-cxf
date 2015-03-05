@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<%@ page import="org.grails.cxf.utils.GrailsCxfUtils" %>
+<!doctype html>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -17,10 +18,6 @@
         -moz-border-radius: 0.6em;
         -webkit-border-radius: 0.6em;
         border-radius: 0.6em;
-    }
-
-    .ie6 #status {
-        display: inline; /* float double margin fix http://www.positioniseverything.net/explorer/doubled-margin.html */
     }
 
     #status ul {
@@ -87,8 +84,9 @@
 <div id="status" role="complementary">
     <h1>Application Status</h1>
     <ul>
-        <li>App version: <g:meta name="app.version"/></li>
-        <li>Grails version: <g:meta name="app.grails.version"/></li>
+        <li>App profile: ${grailsApplication.config.grails?.profile}</li>
+        <li>App version: <g:meta name="info.app.version"/></li>
+        <li>Grails version: <g:meta name="info.app.grailsVersion"/></li>
         <li>Groovy version: ${GroovySystem.getVersion()}</li>
         <li>JVM version: ${System.getProperty('java.version')}</li>
         <li>Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</li>
@@ -117,8 +115,8 @@
     <div id="servletList" class="dialog">
         <h2>Available CXF Servlets:</h2>
         <ul>
-            <g:each var="c" in="${org.grails.cxf.utils.GrailsCxfUtils.getServletsMappings()}">
-                <li class="controller"><g:link uri="${c?.value?.toString()?.replace('*','')}">${c?.key}</g:link></li>
+            <g:each var="c" in="${GrailsCxfUtils.getServletsMappings()}">
+                <li class="controller"><g:link uri="${c?.value?.toString()?.replace('*', '')}">${c?.key}</g:link></li>
             </g:each>
         </ul>
     </div>
@@ -134,12 +132,15 @@
 
     <div id="serviceList" class="dialog">
         <h2>Available Services</h2>
+
         <p>Currently the services that are cxf type are not iterable as they share the base artifact type of "Service" with grails.  If we move away from this,
         the list of services exposed will be added similar to the endpoints above.  For now here are all the services (some may be cxf type).</p>
 
         <ul>
             <g:each var="c" in="${grailsApplication.serviceClasses.sort { it.fullName }}">
-                <li class="controller"><g:link uri="/services/${c.shortName.replace('Service','').replaceFirst('.'){it.toLowerCase()}}?wsdl">${c.fullName}</g:link></li>
+                <li class="controller"><g:link uri="/services/${c.shortName.replace('Service', '').replaceFirst('.') {
+                    it.toLowerCase()
+                }}?wsdl">${c.fullName}</g:link></li>
             </g:each>
         </ul>
     </div>
