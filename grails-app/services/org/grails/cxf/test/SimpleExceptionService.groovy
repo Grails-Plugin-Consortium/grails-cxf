@@ -1,9 +1,11 @@
 package org.grails.cxf.test
 
+import org.grails.cxf.test.soap.simple.SimpleException
+
 import javax.jws.WebMethod
 import javax.jws.WebResult
 
-import org.grails.cxf.test.soap.simple.SimpleException
+
 import org.grails.cxf.utils.EndpointType
 
 class SimpleExceptionService {

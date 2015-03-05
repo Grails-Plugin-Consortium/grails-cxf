@@ -4,6 +4,7 @@ package org.grails.cxf.test.soap;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
  * <p>Java class for customerType.
  * 

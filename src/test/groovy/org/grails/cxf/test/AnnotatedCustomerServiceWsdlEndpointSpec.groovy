@@ -1,6 +1,6 @@
 package org.grails.cxf.test
 
-import geb.spock.*
+import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
 import org.grails.cxf.test.soap.CustomerType
 import wslite.soap.SOAPClient

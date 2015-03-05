@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import grails.core.GrailsApplication
 import grails.util.GrailsClassUtils
+import org.grails.core.artefact.ServiceArtefactHandler
 import org.grails.cxf.utils.GrailsCxfEndpoint
 
 import javax.jws.WebService
@@ -223,7 +224,7 @@ class EndpointBeanConfiguration {
  * @param forEachGrailsClass
  */
     void eachServiceArtefact(final Closure forEachGrailsClass) {
-        grailsApplication?.getArtefacts("Service")?.each { service ->
+        grailsApplication?.getArtefacts(ServiceArtefactHandler.TYPE)?.each { service ->
             def expose = GrailsClassUtils.getStaticPropertyValue(service.clazz, 'expose')
             def annotation = service.clazz.getAnnotation(WebService) || service.clazz.getAnnotation(GrailsCxfEndpoint)
             if(expose || annotation) {

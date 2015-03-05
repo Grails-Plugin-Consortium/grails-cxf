@@ -1,7 +1,9 @@
 package org.grails.cxf.utils
 
-import grails.util.Holders
+import grails.config.Config
+import grails.core.GrailsApplication
 import grails.util.Environment
+import grails.util.Holders
 import groovy.transform.Synchronized
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
@@ -22,9 +24,9 @@ class CxfConfigHandler {
      * @return The groovy ConfigObject representation of this plugins configuration.
      */
     @Synchronized
-    ConfigObject getCxfConfig() {
-        if(config == null) {
-            reloadCxfConfig()
+    ConfigObject getCxfConfig(GrailsApplication grailsApplication = Holders.grailsApplication) {
+        if (config == null) {
+            reloadCxfConfig(grailsApplication)
         }
 
         config
@@ -38,24 +40,28 @@ class CxfConfigHandler {
     /**
      * Force a reload of the Cxf Plugin configuration.
      */
-    void reloadCxfConfig() {
-        config = mergeConfig(definedConfig, DEFAULT_CXF_CONFIG_CLASS)
-        definedConfig = this.config
+    void reloadCxfConfig(GrailsApplication grailsApplication) {
+        config = mergeConfig(grailsApplication, definedConfig, DEFAULT_CXF_CONFIG_CLASS)
+        setDefinedConfig(grailsApplication, this.config)
     }
 
-    private ConfigObject getDefinedConfig() {
-        def configObject = new NavigableConfiguration(Holders.grailsApplication.config)
-        try {
-            return (ConfigObject) configObject.get(CONFIG_PATH)
-        } catch(NullPointerException npe) {
-            log.error npe
-            log.info "config node ${CONFIG_PATH} not found"
-            return Holders.config
-        }
+    private static ConfigObject getDefinedConfig(GrailsApplication grailsApplication = Holders.grailsApplication) {
+//        ConfigObject configObject
+//        try {
+//            configObject = new ConfigSlurper().parse(grailsApplication?.config?.toProperties())
+//        } catch (NullPointerException npe) {
+//            log.error npe
+//            log.info "config node ${CONFIG_PATH} not found"
+//            configObject = new ConfigObject()
+//        }
+
+        return new ConfigObject()
     }
 
-    private void setDefinedConfig(final ConfigObject c) {
-        new NavigableConfiguration(Holders.grailsApplication.config).set(CONFIG_PATH, c)
+    private static void setDefinedConfig(GrailsApplication grailsApplication, final ConfigObject c) {
+//        def configObject = new ConfigSlurper().parse(grailsApplication?.config?.toProperties())
+        def configObject = new ConfigObject()
+        new NavigableConfiguration(configObject).set(CONFIG_PATH, c)
     }
 
     /**
@@ -64,22 +70,22 @@ class CxfConfigHandler {
      * @param currentConfig the current configuration
      * @param className the name of the config class to load
      */
-    private ConfigObject mergeConfig(final ConfigObject currentConfig, final String className) {
+    private static ConfigObject mergeConfig(final GrailsApplication grailsApplication, final ConfigObject currentConfig, final String className) {
 
-        return currentConfig
-//        ClassLoader cl = CxfConfigHandler.classLoader
-//        ConfigSlurper slurper = new ConfigSlurper(Environment.current.name)
-//        ConfigObject secondaryConfig
-//
-//        try {
-////            secondaryConfig = slurper.parse(cl.loadClass(className))
-//            secondaryConfig = slurper.parse(DefaultCxfConfig)
-//        } catch(ClassNotFoundException e) {
-//            throw new RuntimeException(e)
-//        }
-//
-//        ConfigObject defaultCxfWsConfig = secondaryConfig?.cxf
-//        mergeConfig(currentConfig, defaultCxfWsConfig)
+//        return currentConfig
+        ClassLoader cl = CxfConfigHandler.classLoader
+        ConfigSlurper slurper = new ConfigSlurper(Environment.current.name)
+        ConfigObject secondaryConfig
+
+        try {
+//            secondaryConfig = slurper.parse(cl.loadClass(className))
+            secondaryConfig = slurper.parse(DefaultCxfConfig)
+        } catch(ClassNotFoundException e) {
+            throw new RuntimeException(e)
+        }
+
+        ConfigObject defaultCxfWsConfig = secondaryConfig?.cxf
+        mergeConfig(currentConfig, defaultCxfWsConfig)
     }
 
     /**
@@ -91,7 +97,7 @@ class CxfConfigHandler {
      * @param secondary new default values
      * @return the merged configs
      */
-    private ConfigObject mergeConfig(final ConfigObject currentConfig, final ConfigObject secondary) {
+    private static ConfigObject mergeConfig(final ConfigObject currentConfig, final ConfigObject secondary) {
         ConfigObject config = new ConfigObject()
         config.putAll(secondary?.merge(currentConfig) ?: currentConfig)
         config
@@ -108,12 +114,12 @@ class CxfConfigHandler {
     }
 
     static CxfConfigHandler getInstance() {
-        if(instance) {
+        if (instance) {
             return instance
         }
 
-        synchronized(CxfConfigHandler) {
-            if(instance) {
+        synchronized (CxfConfigHandler) {
+            if (instance) {
                 return instance
             }
 

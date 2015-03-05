@@ -3,10 +3,9 @@ package org.grails.cxf.test
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
 import wslite.soap.SOAPClient
+import wslite.soap.SOAPFaultException
 import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
-import javax.xml.soap.SOAPException
-import wslite.soap.SOAPFaultException
 
 @Integration(applicationClass=grailscxf.Application)
 class AnnotatedExcludesCarServiceSpec extends GebSpec {

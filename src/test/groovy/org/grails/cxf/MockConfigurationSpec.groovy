@@ -4,7 +4,8 @@ import grails.core.GrailsClass
 import grails.spring.BeanBuilder
 
 import grails.core.GrailsApplication
-
+import grails.util.Holders
+import org.grails.core.artefact.ServiceArtefactHandler
 import org.grails.cxf.artefact.DefaultGrailsEndpointClass
 import org.grails.cxf.artefact.EndpointArtefactHandler
 import org.grails.cxf.artefact.EndpointBeanConfiguration
@@ -17,7 +18,7 @@ class MockConfigurationSpec extends Specification {
     class TestTwoEndpoint {}
 
     Closure getArtefactsMock = {String type ->
-        assert EndpointArtefactHandler.TYPE == type
+        assert EndpointArtefactHandler.TYPE == type || ServiceArtefactHandler.TYPE == type
         return [new DefaultGrailsEndpointClass(TestOneEndpoint),
                 new DefaultGrailsEndpointClass(TestTwoEndpoint)] as GrailsClass[]
     }
@@ -45,5 +46,6 @@ class MockConfigurationSpec extends Specification {
         grailsApplicationMock.metaClass.getServiceClasses = getServiceClassesMock
         bc = new EndpointBeanConfiguration(grailsApplicationMock)
         bb = new BeanBuilder()
+        Holders.setGrailsApplication(grailsApplicationMock)
     }
 }

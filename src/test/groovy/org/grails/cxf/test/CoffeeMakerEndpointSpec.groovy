@@ -3,7 +3,6 @@ package org.grails.cxf.test
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
 import org.grails.cxf.test.soap.simple.CoffeeType
-
 import spock.lang.Unroll
 import wslite.soap.SOAPClient
 import wslite.soap.SOAPFaultException

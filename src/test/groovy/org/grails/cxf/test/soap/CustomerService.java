@@ -22,5 +22,8 @@ public interface CustomerService {
     @RequestWrapper(localName = "getCustomersByName", targetNamespace = "http://customerservice.example.com/", className = "org.grails.cxf.soap.GetCustomersByName")
     @WebMethod
     @ResponseWrapper(localName = "getCustomersByNameResponse", targetNamespace = "http://customerservice.example.com/", className = "org.grails.cxf.soap.GetCustomersByNameResponse")
-    public java.util.List<Customer> getCustomersByName(@WebParam(name = "name", targetNamespace = "") String name) throws NoSuchCustomerException;
+    public java.util.List<org.grails.cxf.test.soap.Customer> getCustomersByName(
+        @WebParam(name = "name", targetNamespace = "")
+        java.lang.String name
+    ) throws NoSuchCustomerException;
 }

@@ -8,8 +8,8 @@ import org.apache.cxf.message.Message
 import org.apache.cxf.phase.Phase
 import org.springframework.stereotype.Component
 
-import javax.annotation.Resource
 import java.util.logging.Logger
+import javax.annotation.Resource
 
 /**
  */

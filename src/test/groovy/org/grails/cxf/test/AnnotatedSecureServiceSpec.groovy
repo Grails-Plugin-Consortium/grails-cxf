@@ -6,9 +6,6 @@ import wslite.soap.SOAPClient
 import wslite.soap.SOAPClientException
 import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
-import org.apache.ws.security.util.Base64
-import org.opensaml.ws.wssecurity.Username
-import wslite.http.auth.HTTPBasicAuthorization
 
 @Integration(applicationClass=grailscxf.Application)
 class AnnotatedSecureServiceSpec extends GebSpec {

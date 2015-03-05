@@ -5,7 +5,6 @@ import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor
 import org.apache.ws.security.WSConstants
 import org.apache.ws.security.handler.WSHandlerConstants
 import org.apache.wss4j.common.ext.WSPasswordCallback
-import org.codehaus.groovy.grails.web.converters.marshaller.xml.InstanceMethodBasedMarshaller
 import org.grails.cxf.test.soap.simple.SimpleException
 import org.grails.cxf.utils.GrailsCxfUtils
 import org.grails.web.converters.marshaller.xml.InstanceMethodBasedMarshaller

@@ -15,7 +15,7 @@ import javax.jws.WebResult
 //@GrailsCxfEndpoint()
 //these seem to fail injection of any internal beans
 @InInterceptors(classes = [CustomLoggingInInterceptor])
-//@InInterceptors(interceptors=['org.grails.cxf.test.soap.interceptor.CustomLoggingInInterceptor'])
+//@InInterceptors(interceptors=['CustomLoggingInInterceptor'])
 class AnnotatedInterceptorService {
 
     @WebMethod(operationName = "simpleMethod")
