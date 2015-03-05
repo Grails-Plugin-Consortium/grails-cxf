@@ -5,6 +5,7 @@ import grails.util.Environment
 import groovy.transform.Synchronized
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
+import org.grails.cxf.DefaultCxfConfig
 
 /**
  * Handles the Plugins Configuration
@@ -43,7 +44,7 @@ class CxfConfigHandler {
     }
 
     private ConfigObject getDefinedConfig() {
-        def configObject = new NavigableConfiguration(Holders.config)
+        def configObject = new NavigableConfiguration(Holders.grailsApplication.config)
         try {
             return (ConfigObject) configObject.get(CONFIG_PATH)
         } catch(NullPointerException npe) {
@@ -54,7 +55,7 @@ class CxfConfigHandler {
     }
 
     private void setDefinedConfig(final ConfigObject c) {
-        new NavigableConfiguration(Holders.config).set(CONFIG_PATH, c)
+        new NavigableConfiguration(Holders.grailsApplication.config).set(CONFIG_PATH, c)
     }
 
     /**
@@ -64,18 +65,21 @@ class CxfConfigHandler {
      * @param className the name of the config class to load
      */
     private ConfigObject mergeConfig(final ConfigObject currentConfig, final String className) {
-        ClassLoader cl = CxfConfigHandler.classLoader
-        ConfigSlurper slurper = new ConfigSlurper(Environment.current.name)
-        ConfigObject secondaryConfig
 
-        try {
-            secondaryConfig = slurper.parse(cl.loadClass(className))
-        } catch(ClassNotFoundException e) {
-            throw new RuntimeException(e)
-        }
-
-        ConfigObject defaultCxfWsConfig = secondaryConfig.cxf
-        mergeConfig(currentConfig, defaultCxfWsConfig)
+        return currentConfig
+//        ClassLoader cl = CxfConfigHandler.classLoader
+//        ConfigSlurper slurper = new ConfigSlurper(Environment.current.name)
+//        ConfigObject secondaryConfig
+//
+//        try {
+////            secondaryConfig = slurper.parse(cl.loadClass(className))
+//            secondaryConfig = slurper.parse(DefaultCxfConfig)
+//        } catch(ClassNotFoundException e) {
+//            throw new RuntimeException(e)
+//        }
+//
+//        ConfigObject defaultCxfWsConfig = secondaryConfig?.cxf
+//        mergeConfig(currentConfig, defaultCxfWsConfig)
     }
 
     /**

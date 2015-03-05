@@ -18,8 +18,8 @@ class CxfGrailsPlugin extends Plugin {
     def artefacts = GrailsCxfUtils.configuredArtefacts()
 
     Closure doWithSpring() {
-        { ->
-            EndpointBeanConfiguration bc = new EndpointBeanConfiguration(application)
+        {  ->
+            EndpointBeanConfiguration bc = new EndpointBeanConfiguration(grailsApplication)
 
             with bc.cxfBeans()
             with bc.endpointBeans()
