@@ -41,7 +41,7 @@ class CxfGrailsPlugin extends Plugin {
     def title = 'CXF plug-in for Grails'
     def description = 'Brings easy exposure of service and endpoint classes as Apache CXF SOAP Services to Grails.'
     def grailsVersion = "3.0.0.BUILD-SNAPSHOT > *"
-
+    def version = '3.0.0.BUILD-SNAPSHOT'
     def developers = [
             [name: "Christian Oestreich", email: "acetrike@gmail.com"],
             [name: "Ryan Crum", email: "ryan.j.crum@gmail.com"],

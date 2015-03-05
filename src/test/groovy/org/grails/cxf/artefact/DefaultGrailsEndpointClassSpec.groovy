@@ -1,5 +1,6 @@
 package org.grails.cxf.artefact
 
+import org.grails.cxf.DefaultCxfConfig
 import org.grails.cxf.MockConfigurationSpec
 import org.grails.cxf.utils.CxfConfigHandler
 import spock.lang.Unroll
@@ -31,7 +32,7 @@ class DefaultGrailsEndpointClassSpec extends MockConfigurationSpec {
 
     def setup() {
         CxfConfigHandler.instance.cxfConfig =
-                new ConfigSlurper().parse(getClass().getClassLoader().loadClass('DefaultCxfConfig')).cxf
+                new ConfigSlurper().parse(DefaultCxfConfig).cxf
 
         // Reset this stuff each go
         SimpleEndpoint.expose = ""

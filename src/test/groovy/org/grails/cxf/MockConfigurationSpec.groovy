@@ -23,8 +23,8 @@ class MockConfigurationSpec extends Specification {
     }
 
     Closure getCxfConfig = {
-        Class scriptClass = getClass().classLoader.loadClass('DefaultCxfConfig')
-        ConfigObject config = new ConfigSlurper().parse(scriptClass)
+//        Class scriptClass = getClass().classLoader.loadClass(DefaultCxfConfig)
+        ConfigObject config = new ConfigSlurper().parse(DefaultCxfConfig)
         println config.toString()
         return config
     }

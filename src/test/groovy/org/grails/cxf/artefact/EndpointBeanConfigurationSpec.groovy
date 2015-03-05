@@ -28,12 +28,12 @@ class EndpointBeanConfigurationSpec extends MockConfigurationSpec {
 
         then:
         BeanDefinition testOneEndpoint = beans.testOneEndpoint
-        testOneEndpoint.getBeanClassName() == MockConfigurationSpec.TestOneEndpoint.class.name
+        testOneEndpoint.getBeanClassName() == TestOneEndpoint.class.name
         testOneEndpoint.isSingleton()
         testOneEndpoint.isAutowireCandidate()
 
         BeanDefinition testTwoEndpoint = beans.testTwoEndpoint
-        testTwoEndpoint.getBeanClassName() == MockConfigurationSpec.TestTwoEndpoint.class.name
+        testTwoEndpoint.getBeanClassName() == TestTwoEndpoint.class.name
         testTwoEndpoint.isSingleton()
         testTwoEndpoint.isAutowireCandidate()
     }
@@ -51,7 +51,7 @@ class EndpointBeanConfigurationSpec extends MockConfigurationSpec {
 
         MutablePropertyValues testOneEFBeanProps = testOneEndpointFactory.getPropertyValues()
         testOneEFBeanProps.getPropertyValue('address').value == '/testOne'
-        testOneEFBeanProps.getPropertyValue('serviceClass').value == MockConfigurationSpec.TestOneEndpoint.class
+        testOneEFBeanProps.getPropertyValue('serviceClass').value == TestOneEndpoint.class
         testOneEFBeanProps.getPropertyValue('serviceBean').value == new RuntimeBeanReference('testOneEndpoint')
         testOneEFBeanProps.getPropertyValue('ignoredMethods').value == GrailsEndpointClass.DEFAULT_GROOVY_EXCLUDES
 
@@ -62,7 +62,7 @@ class EndpointBeanConfigurationSpec extends MockConfigurationSpec {
 
         MutablePropertyValues testTwoEFBeanProps = testTwoEndpointFactory.getPropertyValues()
         testTwoEFBeanProps.getPropertyValue('address').value == '/testTwo'
-        testTwoEFBeanProps.getPropertyValue('serviceClass').value == MockConfigurationSpec.TestTwoEndpoint.class
+        testTwoEFBeanProps.getPropertyValue('serviceClass').value == TestTwoEndpoint.class
         testTwoEFBeanProps.getPropertyValue('serviceBean').value == new RuntimeBeanReference('testTwoEndpoint')
         testTwoEFBeanProps.getPropertyValue('ignoredMethods').value == GrailsEndpointClass.DEFAULT_GROOVY_EXCLUDES
     }
