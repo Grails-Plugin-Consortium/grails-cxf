@@ -4,16 +4,18 @@ grails.project.source.level = 1.6
 
 grails.project.dependency.resolution = {
 
-    String cxfVersion = '2.6.16'
-    String jaxbVersion = '2.2.6'
-    String springVersion = '4.0.8.RELEASE'
+    String cxfVersion = '3.0.4'
+    String jaxbVersion = '2.2.11'
+    String springVersion = '4.0.9.RELEASE'
 
     inherits 'global'
     log 'warn'
 
     repositories {
-        grailsCentral()
+        grailsPlugins()
+        grailsHome()
         mavenLocal()
+        grailsCentral()
         mavenCentral()
     }
 
@@ -49,20 +51,20 @@ grails.project.dependency.resolution = {
         compile("org.springframework:spring-aop:${springVersion}")
 
         /* Some Testing Help **************************************************/
-        test('org.apache.ws.security:wss4j:1.6.7') {
+        test('org.apache.ws.security:wss4j:1.6.18') {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
-                     'junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
+                    'junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
             export = false
         }
 
         test("org.apache.cxf:cxf-rt-ws-security:${cxfVersion}"){
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
-                     'ehcache', 'easymock', 'ehcache-core',
-                     'log4j', 'slf4j', 'slf4j-log4j12','slf4j-api', 'slf4j-jdk14'
+                    'ehcache', 'easymock', 'ehcache-core',
+                    'log4j', 'slf4j', 'slf4j-log4j12','slf4j-api', 'slf4j-jdk14'
             export = false
         }
 
-      
+
         test("org.gebish:geb-spock:0.9.2") {
             export = false
         }
@@ -111,7 +113,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test(":geb:0.9.2") {
+        test(":geb:0.10.0") {
             export = false
         }
 

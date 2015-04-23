@@ -138,7 +138,6 @@ private wsdl2Java() {
         }
         if(options?.bareMethods) {
             arg(value: '-bareMethods')
-            arg(value: options.bareMethods)
         }
         if(options?.mimeMethods) {
             arg(value: '-mimeMethods')
