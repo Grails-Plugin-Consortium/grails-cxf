@@ -17,12 +17,13 @@ grails.project.dependency.resolution = {
     repositories {
         inherits true // Whether to inherit repository definitions from plugins
 
+        mavenLocal()
+        mavenCentral()
         grailsPlugins()
         grailsHome()
-        mavenLocal()
         grailsCentral()
-        mavenCentral()
         mavenRepo "http://repo.grails.org/grails/repo/"
+        mavenRepo "http://repo1.maven.org/maven2/"
     }
 
     dependencies {
@@ -72,9 +73,6 @@ grails.project.dependency.resolution = {
         compile("org.apache.cxf:cxf-rt-databinding-jaxb:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
-        compile("org.apache.cxf:cxf-rt-ws-security:${cxfVersion}") {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-        }
 
         compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
 
@@ -85,7 +83,7 @@ grails.project.dependency.resolution = {
         compile("org.springframework:spring-aop:${springVersion}")
 
         /* Some Testing Help **************************************************/
-        test('org.apache.wss4j:wss4j:2.0.3') {
+        test('org.apache.wss4j:wss4j-parent:2.0.3') {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
                     'junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
             export = false
