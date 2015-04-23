@@ -138,6 +138,10 @@ private wsdl2Java() {
         }
         if(options?.bareMethods) {
             arg(value: '-bareMethods')
+            arg(value: options?.bareMethods)
+        }
+        if(options?.bareMethodsAll) {
+            arg(value: '-bareMethods')
         }
         if(options?.mimeMethods) {
             arg(value: '-mimeMethods')
@@ -167,7 +171,7 @@ grails wsdl-to-java --wsdl=<path to wsdl>
     [--impl] [--all] [--ant] [--autoNameResolution] [--exsh=(true/false)]
     [--dns=(true/false)] [--dex=(true/false)] [--validate] [--keep] [--noAddressBinding]
     [--exceptionSuper] [--reserveClass=classname] [--allowElementReferences<=true>]
-    [--asyncMethods=foo,bar,...] [--bareMethods=foo,bar,...]
+    [--asyncMethods=foo,bar,...] [--bareMethods=foo,bar,...] [--bareMethodsAll]
     [--mimeMethods=foo,bar,...] [--mark]
 
 See http://cxf.apache.org/docs/wsdl-to-java.html for more details.
@@ -225,6 +229,7 @@ See http://cxf.apache.org/docs/wsdl-to-java.html for additional options.'''
         allowElementReferences longOpt: 'allowElementReferences', args: 1, required: false, 'If true, disregards the rule given in section 2.3.1.2(v) of the JAX-WS 2.2 specification disallowing element references when using wrapper-style mapping. '
         asyncMethods longOpt: 'asyncMethods', args: Option.UNLIMITED_VALUES, valueSeparator: ',' as char, required: false, 'List of subsequently generated Java class methods to allow for client-side asynchronous calls, similar to enableAsyncMapping in a JAX-WS binding file. '
         bareMethods longOpt: 'bareMethods', args: Option.UNLIMITED_VALUES, valueSeparator: ',' as char, required: false, 'List of subsequently generated Java class methods to have wrapper style (see below), similar to enableWrapperStyle in JAX-WS binding file. '
+        bareMethodsAll longOpt: 'bareMethodsAll', args: 0, required: false, 'All generated Java class methods to have wrapper style (see below), similar to enableWrapperStyle in JAX-WS binding file. '
         mimeMethods longOpt: 'mimeMethods', args: Option.UNLIMITED_VALUES, valueSeparator: ',' as char, required: false, 'List of subsequently generated Java class methods to enable mime:content mapping, similar to enableMIMEContent in JAX-WS binding file. '
         faultSerialVersionUID longOpt: 'faultSerialVersionUID', args: 1, required: false, 'How to generate suid of fault exceptions. Use NONE, TIMESTAMP, FQCN, or a specific number. Default is NONE. '
         mark longOpt: 'mark', args: 0, required: false, 'Adds the @Generated annotation to classes generated.'
