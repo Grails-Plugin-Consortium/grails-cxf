@@ -4,18 +4,16 @@ grails.project.source.level = 1.6
 
 grails.project.dependency.resolution = {
 
-    String cxfVersion = '3.0.4'
-    String jaxbVersion = '2.2.11'
-    String springVersion = '4.0.9.RELEASE'
+    String cxfVersion = '2.6.16'
+    String jaxbVersion = '2.2.6'
+    String springVersion = '4.0.8.RELEASE'
 
     inherits 'global'
     log 'warn'
 
     repositories {
-        grailsPlugins()
-        grailsHome()
-        mavenLocal()
         grailsCentral()
+        mavenLocal()
         mavenCentral()
     }
 
@@ -51,7 +49,7 @@ grails.project.dependency.resolution = {
         compile("org.springframework:spring-aop:${springVersion}")
 
         /* Some Testing Help **************************************************/
-        test('org.apache.ws.security:wss4j:1.6.18') {
+        test('org.apache.ws.security:wss4j:1.6.7') {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
                     'junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
             export = false
@@ -113,7 +111,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test(":geb:0.10.0") {
+        test(":geb:0.9.2") {
             export = false
         }
 
