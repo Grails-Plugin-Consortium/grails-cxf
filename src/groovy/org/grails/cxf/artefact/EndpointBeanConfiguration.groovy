@@ -8,7 +8,6 @@ import org.grails.cxf.utils.GrailsCxfEndpoint
 
 import javax.jws.WebService
 import javax.xml.ws.soap.SOAPBinding
-import org.apache.cxf.frontend.ServerFactoryBean
 
 /**
  * Various spring DSL definitions for the Cxf Endpoints.
