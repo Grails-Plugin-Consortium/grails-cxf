@@ -22,8 +22,9 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
-        mavenRepo "http://repo.grails.org/grails/repo/"
-        mavenRepo "http://repo1.maven.org/maven2/"
+//        mavenRepo "http://repo.grails.org/grails/repo/"
+//        mavenRepo "http://repo1.maven.org/maven2/"
+//        mavenRepo "http://repo1.maven.org/maven2/"
     }
 
     dependencies {
@@ -52,7 +53,7 @@ grails.project.dependency.resolution = {
         compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
-        compile("org.apache.cxf:cxf-core:${cxfVersion}"){
+        compile("org.apache.cxf:cxf-core:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
         compile("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}") {
@@ -61,13 +62,13 @@ grails.project.dependency.resolution = {
         compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
-        compile("org.apache.cxf:cxf-rt-frontend-simple:${cxfVersion}"){
+        compile("org.apache.cxf:cxf-rt-frontend-simple:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
-        compile("org.apache.cxf:cxf-rt-wsdl:${cxfVersion}")    {
+        compile("org.apache.cxf:cxf-rt-wsdl:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
-        compile("org.apache.cxf:cxf-rt-bindings-soap:${cxfVersion}")  {
+        compile("org.apache.cxf:cxf-rt-bindings-soap:${cxfVersion}") {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
         compile("org.apache.cxf:cxf-rt-databinding-jaxb:${cxfVersion}") {
@@ -83,7 +84,7 @@ grails.project.dependency.resolution = {
         compile("org.springframework:spring-aop:${springVersion}")
 
         /* Some Testing Help **************************************************/
-        test('org.apache.wss4j:wss4j-parent:2.0.3') {
+        test('org.apache.ws.security:wss4j:1.6.18') {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
                     'junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
             export = false
