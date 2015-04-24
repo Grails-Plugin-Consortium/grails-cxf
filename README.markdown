@@ -2,6 +2,8 @@
 
 <a name="Top"></a>
 
+*Please note that the current 2.1.x versions use cxf 3.0.4 and WSS4J 2.x is required for security.*
+
 *Please note that the current 2.x versions will only with with grails 2.4+.  If you wish to use this with 2.0 - 2.3.x please use version 1.1.4 of the plugin.*
 
 GRAILS CXF PLUGIN
@@ -844,6 +846,8 @@ Since WSS4J configuration requires more than just creating and using an intercep
 
 To use WSS4J on the class `AnnotatedSecureService` we would need to inject the object onto the `annotatedSecureServiceFactory` object in the bootstrap.  All Service and Endpoint Classes will create a factory class that is used for cxf that will simply be named by appending `Factory` to the end with a lowercase first letter.
 
+##  WSS4J 1.x ##
+
 BootStrap.groovy
 ```groovy
 class BootStrap {
@@ -874,6 +878,78 @@ class BootStrap {
     }
 }
 ```
+
+##  WSS4J 2.x ##
+
+Bootstrap.groovy
+``` groovy
+import grails.converters.JSON
+import grails.converters.XML
+import org.apache.cxf.frontend.ServerFactoryBean
+import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor
+import org.apache.wss4j.common.ext.WSPasswordCallback
+import org.apache.wss4j.dom.WSConstants
+import org.apache.wss4j.dom.handler.WSHandlerConstants
+import org.codehaus.groovy.grails.web.converters.marshaller.xml.InstanceMethodBasedMarshaller
+import org.grails.cxf.test.soap.simple.SimpleException
+import org.grails.cxf.utils.GrailsCxfUtils
+
+import javax.security.auth.callback.Callback
+import javax.security.auth.callback.CallbackHandler
+import javax.security.auth.callback.UnsupportedCallbackException
+
+class BootStrap {
+
+    def grailsApplication
+    ServerFactoryBean annotatedSecureServiceFactory
+
+    def init = { servletContext ->
+        GrailsCxfUtils.metaClass.getGrailsApplication = { -> grailsApplication }
+        GrailsCxfUtils.metaClass.static.getGrailsApplication = { -> grailsApplication }
+
+        JSON.registerObjectMarshaller(SimpleException) {
+            [message: it.message]
+        }
+
+        XML.registerObjectMarshaller(new InstanceMethodBasedMarshaller())
+
+        Map<String, Object> inProps = [:]
+        inProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+        inProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
+        inProps.put(WSHandlerConstants.PW_CALLBACK_REF, new UsernamePasswordCallbackHandler());
+
+        annotatedSecureServiceFactory.inInterceptors.add(new WSS4JInInterceptor(inProps))
+    }
+}
+
+public class UsernamePasswordCallbackHandler implements CallbackHandler {
+
+    private Map<String, String> users = new HashMap<String, String>();
+
+    public UsernamePasswordCallbackHandler() {
+        users.put("wsuser", "password");
+        users.put("bob", "security");
+        users.put("alice", "securityPassword");
+    }
+
+    public void handle(Callback[] callbacks)
+            throws IOException, UnsupportedCallbackException {
+        for (int i = 0; i < callbacks.length; i++) {
+            if (callbacks[i] instanceof WSPasswordCallback) {
+                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+                if (pc.getUsage() == WSPasswordCallback.USERNAME_TOKEN) {
+                    pc.setPassword(users.get(pc.getIdentifier()));
+                    break;
+                }
+            } else {
+                throw new UnsupportedCallbackException(callbacks[i], "Unrecognized Callback");
+            }
+        }
+    }
+}
+```
+
+## WSS4J Generic ##
 
 To get the webservice working in the current version of CXF we must disable the playback cache by setting the properties `ws-security.enable.nonce.cache=false` and `ws-security.enable.timestamp.cache=false`.  This is done by using the `@GrailsCxfEndpointProperty`.
 
@@ -963,7 +1039,7 @@ cxf {
             ...
             secured = true
             username = "wsuser"
-            password = "secret"
+            password = "secret" //or "password"
             ...
         }
     }
@@ -1000,6 +1076,11 @@ BUILD SERVER
 <a name="Change"></a>
 CHANGE LOG
 ---------------
+* v 2.1.1
+    * Upgrading to cxf 3.0.4, wss4j 2.0.3 and sun jaxb 2.2.11 and spring 4.0.9-RELEASE
+    * Fixing wsdl2java script for bareMethods.  Added new -bareMethodsAll that takes no params for doing all methods as bare (no out params).  The -bareMethods requires one or more params.
+    * Still working on grails 3 migration
+
 * v 2.0.2
     * Upgrading CXF to 2.6.16
     * Upgrading Spring deps to 4.0.8.RELEASE
