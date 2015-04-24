@@ -34,6 +34,8 @@ class BootStrap {
         inProps.put(WSHandlerConstants.PW_CALLBACK_REF, new UsernamePasswordCallbackHandler());
 
         annotatedSecureServiceFactory.inInterceptors.add(new WSS4JInInterceptor(inProps))
+        annotatedSecureServiceFactory.getProperties(true).put("ws-security.enable.nonce.cache", "false")
+        annotatedSecureServiceFactory.getProperties(true).put("ws-security.enable.timestamp.cache", "false")
     }
 }
 
