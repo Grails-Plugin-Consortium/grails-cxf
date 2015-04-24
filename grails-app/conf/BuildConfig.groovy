@@ -24,7 +24,6 @@ grails.project.dependency.resolution = {
         grailsCentral()
 //        mavenRepo "http://repo.grails.org/grails/repo/"
 //        mavenRepo "http://repo1.maven.org/maven2/"
-//        mavenRepo "http://repo1.maven.org/maven2/"
     }
 
     dependencies {
@@ -84,9 +83,34 @@ grails.project.dependency.resolution = {
         compile("org.springframework:spring-aop:${springVersion}")
 
         /* Some Testing Help **************************************************/
-        test('org.apache.ws.security:wss4j:1.6.18') {
-            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
-                    'junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
+//        test('org.apache.ws.security:wss4j:1.6.18') {
+        /*
+        <module>parent</module>
+        <module>bindings</module>
+        <module>policy</module>
+        <module>ws-security-common</module>
+        <module>ws-security-dom</module>
+        <module>ws-security-stax</module>
+        <module>integration</module>
+        <module>ws-security-policy-stax</module>
+        */
+        test('org.apache.wss4j:wss4j-ws-security-stax:2.0.3') {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis','junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
+            export = false
+        }
+
+        test('org.apache.wss4j:wss4j-ws-security-dom:2.0.3') {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis','junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
+            export = false
+        }
+
+        test('org.apache.wss4j:wss4j-bindings:2.0.3') {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis','junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
+            export = false
+        }
+
+        test('org.apache.wss4j:wss4j-policy:2.0.3') {
+            excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis','junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
             export = false
         }
 

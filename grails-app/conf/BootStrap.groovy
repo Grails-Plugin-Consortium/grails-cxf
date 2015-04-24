@@ -1,18 +1,17 @@
 import grails.converters.JSON
 import grails.converters.XML
-
+import org.apache.cxf.frontend.ServerFactoryBean
+import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor
+import org.apache.wss4j.common.ext.WSPasswordCallback
+import org.apache.wss4j.dom.WSConstants
+import org.apache.wss4j.dom.handler.WSHandlerConstants
 import org.codehaus.groovy.grails.web.converters.marshaller.xml.InstanceMethodBasedMarshaller
 import org.grails.cxf.test.soap.simple.SimpleException
 import org.grails.cxf.utils.GrailsCxfUtils
-import org.apache.ws.security.handler.WSHandlerConstants
-import org.apache.ws.security.WSConstants
-import javax.xml.namespace.QName
-import org.apache.ws.security.validate.Validator
-import org.apache.ws.security.WSSecurityEngine
-import org.apache.ws.security.validate.UsernameTokenValidator
-import org.apache.ws.security.WSSecurityException
-import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor
-import org.apache.cxf.frontend.ServerFactoryBean
+
+import javax.security.auth.callback.Callback
+import javax.security.auth.callback.CallbackHandler
+import javax.security.auth.callback.UnsupportedCallbackException
 
 class BootStrap {
 
@@ -29,25 +28,37 @@ class BootStrap {
 
         XML.registerObjectMarshaller(new InstanceMethodBasedMarshaller())
 
-//        //Register some wss4j security
         Map<String, Object> inProps = [:]
         inProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
         inProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
-        Map<QName, Validator> validatorMap = new HashMap<QName, Validator>();
-        validatorMap.put(WSSecurityEngine.USERNAME_TOKEN, new UsernameTokenValidator() {
+        inProps.put(WSHandlerConstants.PW_CALLBACK_REF, new UsernamePasswordCallbackHandler());
 
-            @Override
-            protected void verifyPlaintextPassword(org.apache.ws.security.message.token.UsernameToken usernameToken, org.apache.ws.security.handler.RequestData data) throws org.apache.ws.security.WSSecurityException {
-                if(data.username == "wsuser" && usernameToken.password != "secret") {
-                    throw new WSSecurityException("password mismatch")
-                } else {
-                    println "user name and password were correct!"
+        annotatedSecureServiceFactory.inInterceptors.add(new WSS4JInInterceptor(inProps))
+    }
+}
+
+public class UsernamePasswordCallbackHandler implements CallbackHandler {
+
+    private Map<String, String> users = new HashMap<String, String>();
+
+    public UsernamePasswordCallbackHandler() {
+        users.put("wsuser", "password");
+        users.put("bob", "security");
+        users.put("alice", "securityPassword");
+    }
+
+    public void handle(Callback[] callbacks)
+            throws IOException, UnsupportedCallbackException {
+        for (int i = 0; i < callbacks.length; i++) {
+            if (callbacks[i] instanceof WSPasswordCallback) {
+                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+                if (pc.getUsage() == WSPasswordCallback.USERNAME_TOKEN) {
+                    pc.setPassword(users.get(pc.getIdentifier()));
+                    break;
                 }
+            } else {
+                throw new UnsupportedCallbackException(callbacks[i], "Unrecognized Callback");
             }
-        });
-        inProps.put(WSS4JInInterceptor.VALIDATOR_MAP, validatorMap);
-        annotatedSecureServiceFactory.getInInterceptors().add(new WSS4JInInterceptor(inProps))
-//        annotatedSecureServiceFactory.getProperties(true).put("ws-security.enable.nonce.cache","false")
-//        annotatedSecureServiceFactory.getProperties(true).put("ws-security.enable.timestamp.cache","false")
+        }
     }
 }

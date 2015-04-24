@@ -5,9 +5,6 @@ import wslite.soap.SOAPClient
 import wslite.soap.SOAPClientException
 import wslite.soap.SOAPResponse
 import wslite.soap.SOAPVersion
-import org.apache.ws.security.util.Base64
-import org.opensaml.ws.wssecurity.Username
-import wslite.http.auth.HTTPBasicAuthorization
 
 class AnnotatedSecureServiceSpec extends GebReportingSpec {
 
@@ -33,19 +30,30 @@ class AnnotatedSecureServiceSpec extends GebReportingSpec {
     def "invoke a method on wss4j secured service with creds"() {
         given:
         def username = "wsuser"
-        def password = "secret"
+        def password = "password"
 
+        //Fri Apr 24 12:58:08 CDT 2015:DEBUG:>> "
+        // <soapenv:Header>
+        // <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        //      <wsse:UsernameToken wsu:Id="UsernameToken-75B63659BEDD8A861714298982881941">
+        //          <wsse:Username>wsuser</wsse:Username>
+        //          <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">password</wsse:Password>
+        //          <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">mzMOFF8Jsj6XR1y1kVVlzQ==</wsse:Nonce>
+        //          <wsu:Created>2015-04-24T17:58:08.192Z</wsu:Created>
+        //      </wsse:UsernameToken>
+        //  </wsse:Security>
+        // </soapenv:Header>"
         when:
         SOAPResponse response = client.send {
             envelopeAttributes "xmlns:test": 'http://test.cxf.grails.org/', "xmlns:soapenv":"soapenv"
             version SOAPVersion.V1_1
             header {
                 'wsse:Security'('soapenv:mustUnderstand': "1", 'xmlns:wsse': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd', 'xmlns:wsu': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd') {
-                    'wsse:UsernameToken'('wsu:Id':"UsernameToken-13") {
+                    'wsse:UsernameToken'('wsu:Id':"UsernameToken-75B63659BEDD8A861714298982881941") {
                         'wsse:Username'(username)
                         'wsse:Password'('Type':'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText',password)
                         'wsse:Nonce'('EncodingType':'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary',new String(password.bytes.encodeBase64().toString()))
-                        'wsu:Created'('2013-01-18T16:19:17.950Z')
+                        'wsu:Created'('2015-04-24T17:58:08.192Z')
                     }
                 }
             }
