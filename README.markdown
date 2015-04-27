@@ -4,6 +4,8 @@
 
 *Please note that the current 2.1.x versions use cxf 3.0.4 and WSS4J 2.x is required for security.*
 
+*Please note that in cxf 3.0.4 (plugin v 2.1+) stuff was moved around, A LOT.  For example we had to add org.apache.cxf.xjc.runtime.DataTypeAdapter in place of a previously included item.*
+
 *Please note that the current 2.x versions will only with with grails 2.4+.  If you wish to use this with 2.0 - 2.3.x please use version 1.1.4 of the plugin.*
 
 GRAILS CXF PLUGIN
