@@ -66,90 +66,32 @@ dependencies {
 
     compile('commons-cli:commons-cli:1.2')
 
-    compile("org.apache.cxf:cxf-core:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-
-    compile("org.apache.cxf:cxf-tools-wsdlto-core:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-
-    compile("org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-
-    compile("org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-
-    compile("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-
-    compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-    compile("org.apache.cxf:cxf-core:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-    compile("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-    compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-    compile("org.apache.cxf:cxf-rt-frontend-simple:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-    compile("org.apache.cxf:cxf-rt-wsdl:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-    compile("org.apache.cxf:cxf-rt-bindings-soap:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-    compile("org.apache.cxf:cxf-rt-databinding-jaxb:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
-    }
-
+    compile("org.apache.cxf:cxf-core:${cxfVersion}")
+    compile("org.apache.cxf:cxf-tools-wsdlto-core:${cxfVersion}")
+    compile("org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}")
+    compile("org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}")
+    compile("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}")
+    compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}")
+    compile("org.apache.cxf:cxf-core:${cxfVersion}")
+    compile("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}")
+    compile("org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}")
+    compile("org.apache.cxf:cxf-rt-frontend-simple:${cxfVersion}")
+    compile("org.apache.cxf:cxf-rt-wsdl:${cxfVersion}")
+    compile("org.apache.cxf:cxf-rt-bindings-soap:${cxfVersion}")
+    compile("org.apache.cxf:cxf-rt-databinding-jaxb:${cxfVersion}")
     compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
-
     compile("com.sun.xml.bind:jaxb-xjc:${jaxbVersion}")
-
     compile("org.springframework:spring-expression:${springVersion}")
-
     compile("org.springframework:spring-aop:${springVersion}")
 
-    testCompile('org.apache.wss4j:wss4j-ws-security-stax:2.0.3') {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis','junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
-        export = false
-    }
-
-    testCompile('org.apache.wss4j:wss4j-ws-security-dom:2.0.3') {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis','junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
-        export = false
-    }
-
-    testCompile('org.apache.wss4j:wss4j-bindings:2.0.3') {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis','junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
-        export = false
-    }
-
-    testCompile('org.apache.wss4j:wss4j-policy:2.0.3') {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis','junit', 'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
-        export = false
-    }
-
-    testCompile("org.apache.cxf:cxf-rt-ws-security:${cxfVersion}") {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis',
-                'ehcache', 'easymock', 'ehcache-core',
-                'log4j', 'slf4j', 'slf4j-log4j12', 'slf4j-api', 'slf4j-jdk14'
-        export = false
-    }
+    testCompile('org.apache.wss4j:wss4j-ws-security-stax:2.0.3')
+    testCompile('org.apache.wss4j:wss4j-ws-security-dom:2.0.3')
+    testCompile('org.apache.wss4j:wss4j-bindings:2.0.3')
+    testCompile('org.apache.wss4j:wss4j-policy:2.0.3')
+    testCompile("org.apache.cxf:cxf-rt-ws-security:${cxfVersion}")
 
 
-    testCompile("org.gebish:geb-spock:0.10.0") {
-        export = false
-    }
+    testCompile("org.gebish:geb-spock:0.10.0")
 
 //        test("com.github.groovy-wslite:groovy-wslite:0.7.2.0") {
 //            export = false
@@ -158,21 +100,22 @@ dependencies {
 //        test("org.codehaus.geb:geb-spock:${gebVersion}") {
 //            export = false
 //        }
+    testCompile('org.seleniumhq.selenium:selenium-firefox-driver:2.44.0')
 
-    testCompile('org.seleniumhq.selenium:selenium-htmlunit-driver:2.25.0') {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
-        export = false
-    }
-
-    testCompile('org.seleniumhq.selenium:selenium-chrome-driver:2.25.0') {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
-        export = false
-    }
-
-    testCompile('org.seleniumhq.selenium:selenium-firefox-driver:2.25.0') {
-        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
-        export = false
-    }
+//    testCompile('org.seleniumhq.selenium:selenium-htmlunit-driver:2.25.0') {
+//        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+//        export = false
+//    }
+//
+//    testCompile('org.seleniumhq.selenium:selenium-chrome-driver:2.25.0') {
+//        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+//        export = false
+//    }
+//
+//    testCompile('org.seleniumhq.selenium:selenium-firefox-driver:2.25.0') {
+//        excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis'
+//        export = false
+//    }
 
     testCompile "org.grails:grails-plugin-testing"
 
