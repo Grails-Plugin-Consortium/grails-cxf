@@ -2,6 +2,20 @@ grails.servlet.version = "3.0" // Change depending on target container complianc
 grails.project.work.dir = 'target'
 grails.project.source.level = 1.6
 
+grails.project.fork = [
+        // configure settings for compilation JVM, note that if you alter the Groovy version forked compilation is required
+        //  compile: [maxMemory: 256, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
+
+        // configure settings for the test-app JVM, uses the daemon by default
+        test   : false, //[maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, daemon: true],
+        // configure settings for the run-app JVM
+        run    : false, //[maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, forkReserve: false],
+        // configure settings for the run-war JVM
+        war    : [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, forkReserve: false],
+        // configure settings for the Console UI JVM
+        console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
+]
+
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
 
@@ -74,8 +88,8 @@ grails.project.dependency.resolution = {
             excludes 'xmlbeans', 'spring-web', 'spring-core', 'xml-apis', 'jaxb-impl', 'jaxb-xjc'
         }
 
+        compile("com.sun.xml.bind:jaxb-core:${jaxbVersion}")
         compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
-
         compile("com.sun.xml.bind:jaxb-xjc:${jaxbVersion}")
 
         compile("org.springframework:spring-expression:${springVersion}")
