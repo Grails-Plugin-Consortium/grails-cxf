@@ -22,6 +22,7 @@ group "org.grails.plugins"
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: "spring-boot"
 apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.grails-gsp"
 // Used for publishing to central repository, remove if not needed
@@ -55,18 +56,17 @@ dependencies {
     provided "org.springframework.boot:spring-boot-autoconfigure"
     provided "org.springframework.boot:spring-boot-starter-tomcat"
 
-    provided "org.grails:grails-core"
     provided "org.grails:grails-web-boot"
     provided "org.grails:grails-dependencies"
     provided 'javax.servlet:javax.servlet-api:3.1.0'
 
-    testCompile "org.grails:grails-plugin-testing"
     console "org.grails:grails-console"
-
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.apache.cxf:cxf-core:3.1.1'
     compile 'org.apache.cxf:cxf-rt-frontend-jaxws:3.1.1'
     compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.1.1'
+
+    testCompile "org.grails:grails-plugin-testing"
 }
 
 task wrapper(type: Wrapper) {

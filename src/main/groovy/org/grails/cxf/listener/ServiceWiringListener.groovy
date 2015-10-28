@@ -3,6 +3,7 @@ package org.grails.cxf.listener
 import groovy.util.logging.Commons
 import org.apache.commons.lang3.StringUtils
 import org.apache.cxf.Bus
+import org.apache.cxf.interceptor.Interceptor
 import org.apache.cxf.jaxws.EndpointImpl
 import org.apache.cxf.message.Message
 import org.grails.core.artefact.ServiceArtefactHandler
