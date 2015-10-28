@@ -12,12 +12,17 @@ import org.grails.cxf.utils.GrailsCxfEndpointProperty
 import org.springframework.aop.framework.Advised
 import org.springframework.beans.BeansException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.config.BeanDefinition
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationListener
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.event.ContextRefreshedEvent
+import org.springframework.core.type.StandardMethodMetadata
 import org.springframework.stereotype.Component
 
 import javax.xml.ws.soap.SOAPBinding
+import java.lang.annotation.Annotation
 
 @SuppressWarnings("GroovyUnusedDeclaration")
 @Component
@@ -25,7 +30,7 @@ import javax.xml.ws.soap.SOAPBinding
 public class ServiceWiringListener implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Autowired
-	ApplicationContext applicationContext
+	ConfigurableApplicationContext applicationContext
 
 	/*
 	 * This method is called during Spring's startup.
@@ -38,6 +43,7 @@ public class ServiceWiringListener implements ApplicationListener<ContextRefresh
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
 
 		Bus bus = (Bus) applicationContext.getBean(Bus.DEFAULT_BUS_ID)
+
 		Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(GrailsCxfEndpoint.class)
 		for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
 			Object implementor = entry.getValue()
@@ -150,7 +156,7 @@ public class ServiceWiringListener implements ApplicationListener<ContextRefresh
 				log.error('Could not wire AOP Proxied smart api endpoint.', e)
 			}
 		} else {
-			url = implementor.getClass().getAnnotation(GrailsCxfEndpoint.class).address()
+			url = implementor.getClass().getAnnotation(GrailsCxfEndpoint.class)?.address()
 		}
 
 		url = url ?: getNameNoPostfix(implementor)

@@ -1,4 +1,4 @@
-package org.grails.example
+package org.grails.cxf.test.example
 
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType

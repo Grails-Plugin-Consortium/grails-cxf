@@ -1,4 +1,4 @@
-package org.grails.example
+package org.grails.cxf.test.example
 
 import grails.transaction.Transactional
 import org.grails.cxf.utils.GrailsCxfEndpoint
@@ -8,12 +8,12 @@ import javax.jws.WebParam
 import javax.jws.WebResult
 
 @Transactional
-@GrailsCxfEndpoint(inInterceptors = ['customLoggingInInterceptor'])
-class PersonService {
+@GrailsCxfEndpoint(address='/special/person')
+class PersonSpecialService {
 
 	@WebMethod
 	@WebResult(name = "Person", targetNamespace = "")
 	Person createPerson(@WebParam(name = 'name') String name) {
-		Person.findOrSaveByName(name)
+		Person.findOrSaveWhere(name: name)
 	}
 }

@@ -1,4 +1,4 @@
-package grails.cxf
+package org.grails.cxf
 
 import grails.plugins.Plugin
 
@@ -20,8 +20,8 @@ class GrailsCxfGrailsPlugin extends Plugin {
 			'grails-app/i18n/**',
 			'grails-app/services/**',
 			'grails-app/views/**',
-			'src/groovy/org/grails/cxf/test/**',
-			'src/java/org/grails/cxf/test/**',
+			'src/main/groovy/org/grails/cxf/test/**',
+			'src/main/java/org/grails/cxf/test/**',
 			'web-app/**',
 			'codenarc.properties'
 	]
