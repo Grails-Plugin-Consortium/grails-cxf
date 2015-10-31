@@ -53,6 +53,7 @@ class EndpointRegistrationUtil {
 			addWsdl(annotation, endpoint)
 			addProperties(annotation, implementor, endpoint)
 			addInInterceptors(annotation, endpoint, context)
+			addInFaultInterceptors(annotation, endpoint, context)
 			addOutInterceptors(annotation, endpoint, context)
 			addOutFaultInterceptors(annotation, endpoint, context)
 		}
@@ -76,6 +77,18 @@ class EndpointRegistrationUtil {
 			for (String inInterceptorName : annotation.inInterceptors()) {
 				endpoint.getServer().getEndpoint().getInInterceptors().add((Interceptor<? extends Message>) context.getBean(inInterceptorName))
 				log.info('Endpoint [' + endpoint.address + '] configured to use in interceptor bean ' + inInterceptorName + '.');
+			}
+		} catch (BeansException e) {
+			log.error('Could not wire in interceptors', e)
+		}
+	}
+
+	private
+	static void addInFaultInterceptors(GrailsCxfEndpoint annotation, EndpointImpl endpoint, ApplicationContext context) {
+		try {
+			for (String inFaultInterceptorName : annotation.inFaultInterceptors()) {
+				endpoint.getServer().getEndpoint().getInFaultInterceptors().add((Interceptor<? extends Message>) context.getBean(inFaultInterceptorName))
+				log.info('Endpoint [' + endpoint.address + '] configured to use in fault interceptor bean ' + inFaultInterceptorName + '.');
 			}
 		} catch (BeansException e) {
 			log.error('Could not wire in interceptors', e)
