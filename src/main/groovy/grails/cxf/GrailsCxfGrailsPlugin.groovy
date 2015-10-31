@@ -1,7 +1,13 @@
-package org.grails.cxf
+package grails.cxf
 
 import grails.plugins.Plugin
+import groovy.util.logging.Slf4j
+import org.apache.cxf.bus.spring.SpringBus
+import org.apache.cxf.transport.servlet.CXFServlet
+import org.grails.cxf.utils.EndpointRegistrationUtil
+import org.springframework.boot.context.embedded.ServletRegistrationBean
 
+@Slf4j
 class GrailsCxfGrailsPlugin extends Plugin {
 	def grailsVersion = "3.0.0 > *"
 	def pluginExcludes = [
@@ -18,7 +24,7 @@ class GrailsCxfGrailsPlugin extends Plugin {
 			'grails-app/domain/**',
 			'grails-app/endpoints/**',
 			'grails-app/i18n/**',
-			'grails-app/services/**',
+			'grails-app/services/org/**',
 			'grails-app/views/**',
 			'src/main/groovy/org/grails/cxf/test/**',
 			'src/main/java/org/grails/cxf/test/**',
@@ -43,7 +49,13 @@ class GrailsCxfGrailsPlugin extends Plugin {
 
 	Closure doWithSpring() {
 		{ ->
-			// TODO Implement runtime spring config (optional)
+
+			println 'wiring plugin'
+			cxfServlet(ServletRegistrationBean, new CXFServlet(), "/services/*") {
+				loadOnStartup = 1
+			}
+
+			cxf(SpringBus)
 		}
 	}
 
@@ -52,7 +64,7 @@ class GrailsCxfGrailsPlugin extends Plugin {
 	}
 
 	void doWithApplicationContext() {
-		// TODO Implement post initialization spring config (optional)
+		EndpointRegistrationUtil.wireEndpoints(applicationContext)
 	}
 
 	void onChange(Map<String, Object> event) {
