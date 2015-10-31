@@ -307,6 +307,13 @@ See above for examples of using inInterceptor which should be very similar.
 Using the annotation will help reduce the clutter of having many static properties in your class to configure cxf.
 
 
+Demo Project
+---------
+https://github.com/Grails-Plugin-Consortium/grails-cxf-demo
+
+
+
+
 <p align="right"><a href="#Top">Top</a></p>
 <a name="License"></a>
 LICENSE
