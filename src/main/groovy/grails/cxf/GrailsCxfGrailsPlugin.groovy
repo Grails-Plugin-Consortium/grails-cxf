@@ -50,7 +50,7 @@ class GrailsCxfGrailsPlugin extends Plugin {
 	Closure doWithSpring() {
 		{ ->
 
-			println 'wiring plugin'
+			log.info 'Wiring the cxf plugin'
 			cxfServlet(ServletRegistrationBean, new CXFServlet(), "/services/*") {
 				loadOnStartup = 1
 			}

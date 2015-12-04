@@ -1,5 +1,6 @@
 package org.grails.cxf.utils
 
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.commons.lang3.StringUtils
 import org.apache.cxf.Bus
@@ -14,6 +15,7 @@ import org.springframework.context.ApplicationContext
 import javax.xml.ws.soap.SOAPBinding
 
 @Slf4j
+@CompileStatic
 class EndpointRegistrationUtil {
 
 	public static void wireEndpoints(ApplicationContext context) {
@@ -75,7 +77,7 @@ class EndpointRegistrationUtil {
 	static void addInInterceptors(GrailsCxfEndpoint annotation, EndpointImpl endpoint, ApplicationContext context) {
 		try {
 			for (String inInterceptorName : annotation.inInterceptors()) {
-				endpoint.getServer().getEndpoint().getInInterceptors().add((Interceptor<? extends Message>) context.getBean(inInterceptorName))
+				endpoint.getServer().getEndpoint().getInInterceptors().add(getInterceptor(context, inInterceptorName))
 				log.info('Endpoint [' + endpoint.address + '] configured to use in interceptor bean ' + inInterceptorName + '.');
 			}
 		} catch (BeansException e) {
@@ -87,7 +89,7 @@ class EndpointRegistrationUtil {
 	static void addInFaultInterceptors(GrailsCxfEndpoint annotation, EndpointImpl endpoint, ApplicationContext context) {
 		try {
 			for (String inFaultInterceptorName : annotation.inFaultInterceptors()) {
-				endpoint.getServer().getEndpoint().getInFaultInterceptors().add((Interceptor<? extends Message>) context.getBean(inFaultInterceptorName))
+				endpoint.getServer().getEndpoint().getInFaultInterceptors().add(getInterceptor(context, inFaultInterceptorName))
 				log.info('Endpoint [' + endpoint.address + '] configured to use in fault interceptor bean ' + inFaultInterceptorName + '.');
 			}
 		} catch (BeansException e) {
@@ -99,7 +101,7 @@ class EndpointRegistrationUtil {
 	static void addOutInterceptors(GrailsCxfEndpoint annotation, EndpointImpl endpoint, ApplicationContext context) {
 		try {
 			for (String outInterceptorName : annotation.outInterceptors()) {
-				endpoint.getServer().getEndpoint().getOutInterceptors().add((Interceptor<? extends Message>) context.getBean(outInterceptorName))
+				endpoint.getServer().getEndpoint().getOutInterceptors().add(getInterceptor(context, outInterceptorName))
 				log.info('Endpoint [' + endpoint.address + '] configured to use out interceptor bean ' + outInterceptorName + '.');
 			}
 		} catch (BeansException e) {
@@ -111,13 +113,18 @@ class EndpointRegistrationUtil {
 	static void addOutFaultInterceptors(GrailsCxfEndpoint annotation, EndpointImpl endpoint, ApplicationContext context) {
 		try {
 			for (String outFaultInterceptorName : annotation.outFaultInterceptors()) {
-				endpoint.getServer().getEndpoint().getOutFaultInterceptors().add((Interceptor<? extends Message>) context.getBean(outFaultInterceptorName))
+				endpoint.getServer().getEndpoint().getOutFaultInterceptors().add(getInterceptor(context, outFaultInterceptorName))
 				log.info('Endpoint [' + endpoint.address + '] configured to use out fault interceptor bean ' + outFaultInterceptorName + '.');
 			}
 		} catch (BeansException e) {
 			log.error('Could not wire out fault interceptors', e)
 		}
 	}
+
+	public static Interceptor<? extends Message> getInterceptor(ApplicationContext context, String inInterceptorName) {
+		(Interceptor<? extends Message>) context.getBean(inInterceptorName)
+	}
+
 
 	private static void addProperties(GrailsCxfEndpoint annotation, implementor, EndpointImpl endpoint) {
 		if (annotation?.properties()?.length > 0) {
