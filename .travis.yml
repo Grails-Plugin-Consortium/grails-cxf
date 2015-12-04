@@ -1,10 +1,9 @@
 language: groovy
 sudo: false
 jdk:
-  - oraclejdk7
+  - openjdk7
+before_script:
+  - chmod +x grailsw
 
-branches:
-  only:
-    - master
-
-script: ./gradlew clean check assemble
+script: rm -rf *.zip
+        ./gradlew clean test assemble
