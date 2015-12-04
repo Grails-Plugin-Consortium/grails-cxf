@@ -128,7 +128,7 @@ class EndpointRegistrationUtil {
 
 	private static void addProperties(GrailsCxfEndpoint annotation, implementor, EndpointImpl endpoint) {
 		if (annotation?.properties()?.length > 0) {
-			Map<String, String> properties = [:]
+			Map<String, Object> properties = [:]
 			for (GrailsCxfEndpointProperty prop : annotation.properties()) {
 				properties.put(prop.name(), prop.value());
 			}
