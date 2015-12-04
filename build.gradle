@@ -88,7 +88,6 @@ bintray {
         vcsUrl = "https://github.com/Grails-Plugin-Consortium/grails-cxf"
         licenses = ['Apache-2.0']
         publicDownloadNumbers = true
-        initiateTheGoldStandard = true
     }
 }
 
