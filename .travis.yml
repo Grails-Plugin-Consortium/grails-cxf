@@ -2,8 +2,6 @@ language: groovy
 sudo: false
 jdk:
   - openjdk7
-before_script:
-  - chmod +x grailsw
 
 script: rm -rf *.zip
         ./gradlew clean check assemble
