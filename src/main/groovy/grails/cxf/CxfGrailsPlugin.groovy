@@ -8,7 +8,7 @@ import org.grails.cxf.utils.EndpointRegistrationUtil
 import org.springframework.boot.context.embedded.ServletRegistrationBean
 
 @Slf4j
-class GrailsCxfGrailsPlugin extends Plugin {
+class CxfGrailsPlugin extends Plugin {
 	def grailsVersion = "3.0.0 > *"
 	def pluginExcludes = [
 			'grails-app/views/error.gsp',
