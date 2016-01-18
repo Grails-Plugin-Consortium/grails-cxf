@@ -81,7 +81,7 @@ bintray {
     pkg {
         repo = 'grails-plugins'
         userOrg = 'ctoestreich'
-        name = "org.grails.plugins:grails-cxf"
+        name = "cxf"
         desc = "Grails CXF Plugin"
         websiteUrl = "http://grails.org/plugin/grails-cxf"
         issueTrackerUrl = "https://github.com/Grails-Plugin-Consortium/grails-cxf/issues"
