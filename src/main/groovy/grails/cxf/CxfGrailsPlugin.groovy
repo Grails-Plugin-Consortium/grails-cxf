@@ -32,6 +32,7 @@ class CxfGrailsPlugin extends Plugin {
 			'codenarc.properties'
 	]
 
+	def name = "cxf"
 	def author = 'Grails Plugin Consortium'
 	def authorEmail = ''
 	def title = 'CXF plug-in for Grails'
