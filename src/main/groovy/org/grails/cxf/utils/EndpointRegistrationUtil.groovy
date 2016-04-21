@@ -20,21 +20,26 @@ class EndpointRegistrationUtil {
 
 	public static void wireEndpoints(ApplicationContext context) {
 
-		Bus bus = (Bus) context.getBean(Bus.DEFAULT_BUS_ID)
-
 		Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(GrailsCxfEndpoint.class)
-		for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
-			Object implementor = entry.getValue()
-			EndpointImpl endpoint = new EndpointImpl(bus, implementor)
-			publishEndpointUrl(endpoint, implementor)
-			addConfiguredProperties(endpoint, implementor, context)
+		if(beansWithAnnotation) {
+			Bus bus = (Bus) context.getBean(Bus.DEFAULT_BUS_ID)
+			for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
+				Object implementor = entry.getValue()
+				EndpointImpl endpoint = new EndpointImpl(bus, implementor)
+				publishEndpointUrl(endpoint, implementor)
+				addConfiguredProperties(endpoint, implementor, context)
+			}
 		}
 	}
 
 	private static void publishEndpointUrl(EndpointImpl endpoint, Object implementor) {
 		String url = getPublishUrl(implementor)
 		log.info('Endpoint [' + implementor.class + '] configured to use url ' + url + '.');
-		endpoint.publish(url)
+		if(!url || url == '/') {
+			throw new RuntimeException('Endpoint could not be wired due to endpoint url not being set.  Check [' + implementor.class + '] to ensure address property is set')
+		} else {
+			endpoint.publish(url)
+		}
 	}
 
 	private static void addConfiguredProperties(EndpointImpl endpoint, Object implementor, ApplicationContext context) {
@@ -156,15 +161,15 @@ class EndpointRegistrationUtil {
 		}
 
 		url = url ?: getNameNoPostfix(implementor)
-		return !url.startsWith('/') ? '/' + url : url
+		return !url?.startsWith('/') ? '/' + url : url
 	}
 
 	private static String getNameNoPostfix(Object endpoint) {
 		String className = endpoint?.class?.simpleName
-		String url = 'devnull'
+		String url = ""
 		if (className?.endsWith(ServiceArtefactHandler.TYPE)) {
 			url = StringUtils.removeEnd(className, ServiceArtefactHandler.TYPE)
 		}
-		return '/' + url.toLowerCase()
+		return '/' + url?.toLowerCase()
 	}
 }
