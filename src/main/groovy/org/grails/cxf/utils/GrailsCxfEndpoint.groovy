@@ -12,7 +12,10 @@ import java.lang.annotation.Target
 @Target(ElementType.TYPE)
 @interface GrailsCxfEndpoint {
     String address() default ''
+    //this is the serviceName (localpart) attribute
     String name() default ''
+    //this is the servicePort (localpart) attribute
+    String port() default ''
     EndpointType expose() default EndpointType.JAX_WS
     boolean soap12() default false
     String wsdl() default ''

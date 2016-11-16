@@ -178,8 +178,16 @@ class PersonService {
 }
 ```
 
-<p align="right"><a href="#Top">Top</a></p>
-<a name="soapannotation"></a>
+SERVLET MAPPING
+---------
+The default behavior is to expose the CxfServlet at the `/services/*` endpoint.  If you with to override this behavior you can set the following config:
+
+```yml
+cxf:
+    servlet:
+        mapping: /webservices/*
+```
+
 EXPOSING CLASSES VIA ANNOTATION
 -----------------
 When using the annotation, the property values will only be used if the corresponding annotation value is not provided or is set to the default value.  The following are available to configure via the annotation:
@@ -239,6 +247,28 @@ class CarService {
 ```
 
 Simple and JaxRS types are currently not supported.  *TODO*
+
+**NAME**
+
+The `name` property will tell the plugin how you wish to name the service.  This will change the wsdl name property from the default for the example below from `CarService` to simply just `Car` like this `<wsdl:definitions name="Car" targetNamespace="http://demo.gpc.com">`
+
+```groovy
+@GrailsCxfEndpoint(name='Car')
+class CarService {
+    ...
+}
+```
+
+**PORT**
+
+The `port` property will tell the plugin how you wish to name the service port binding.  This will change the wsdl name property of the port from the default for the example below from `CarServicePort` to simply just `CarPort` like this `<wsdl:port binding="tns:CarServiceSoapBinding" name="CarPort">`
+
+```groovy
+@GrailsCxfEndpoint(port='CarPort')
+class CarService {
+    ...
+}
+```
 
 **SOAP12**
 
