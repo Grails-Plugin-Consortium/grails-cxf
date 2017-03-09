@@ -9,14 +9,14 @@ import org.springframework.boot.context.embedded.ServletRegistrationBean
 
 @Slf4j
 class CxfGrailsPlugin extends Plugin {
-    def grailsVersion = "3.0.0 > *"
+    def grailsVersion = "3.1.0 > *"
     def pluginExcludes = [
             'grails-app/views/error.gsp',
             'grails-app/conf/spring/ApplicationResources.groovy',
             'grails-app/conf/spring/resources.groovy',
             'grails-app/conf/spring/resources.groovy',
             'grails-app/conf/ApplicationResources.groovy',
-            'grails-app/conf/BootStrap.groovy',
+            'grails-app/init/BootStrap.groovy',
             'grails-app/conf/DataSource.groovy',
             'grails-app/conf/UrlMappings.groovy',
             'grails-app/conf/codenarc.groovy',
