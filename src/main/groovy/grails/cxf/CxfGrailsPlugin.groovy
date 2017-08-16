@@ -5,7 +5,7 @@ import groovy.util.logging.Slf4j
 import org.apache.cxf.bus.spring.SpringBus
 import org.apache.cxf.transport.servlet.CXFServlet
 import org.grails.cxf.utils.EndpointRegistrationUtil
-import org.springframework.boot.context.embedded.ServletRegistrationBean
+import org.springframework.boot.web.servlet.ServletRegistrationBean
 
 @Slf4j
 class CxfGrailsPlugin extends Plugin {
