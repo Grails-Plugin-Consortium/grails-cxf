@@ -1,7 +1,10 @@
 language: groovy
 sudo: false
 jdk:
-  - openjdk7
+  - openjdk8
 
 script: rm -rf *.zip
         ./gradlew clean check assemble
+
+before_install:
+    - JAVA_HOME=$(jdk_switcher home openjdk8) ./gradlew
