@@ -19,6 +19,7 @@ import java.lang.annotation.Target
     EndpointType expose() default EndpointType.JAX_WS
     boolean soap12() default false
     String wsdl() default ''
+    String namespace() default ''
     //Interceptors
     String[] inInterceptors() default []
     String[] outInterceptors() default []
