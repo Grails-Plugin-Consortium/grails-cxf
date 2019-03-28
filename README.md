@@ -204,6 +204,7 @@ When using the annotation, the property values will only be used if the correspo
     EndpointType expose() default EndpointType.JAX_WS
     boolean soap12() default false
     String wsdl() default ''
+    String namespace() default ''
     //Interceptors
     String[] inInterceptors() default []
     String[] outInterceptors() default []
@@ -283,14 +284,10 @@ class CarService {
 
 **WSDL**
 
-To expose as a wsdl first jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html> add the wsdl property and classpath to the wsdl as well as setting the endpoint type to `EndpointType.JAX_WS_WSDL`.
+To expose as a wsdl first jax web service endpoint <http://cxf.apache.org/docs/jax-ws-configuration.html> add the wsdl property.
 
 ```groovy
-@WebService(name = 'CustomerServiceWsdlEndpoint',
-targetNamespace = 'http://test.cxf.grails.org/',
-serviceName = 'CustomerServiceWsdlEndpoint',
-portName = 'CustomerServiceWsdlPort')
-@GrailsCxfEndpoint(wsdl = 'org/grails/cxf/test/soap/CustomerService.wsdl', expose = EndpointType.JAX_WS_WSDL)
+@GrailsCxfEndpoint(wsdl = 'org/grails/cxf/test/soap/CustomerService.wsdl', address='/customerServiceWsdlEndpoint')
 class AnnotatedCustomerServiceWsdlEndpoint {
 
     CustomerServiceEndpoint customerServiceEndpoint
