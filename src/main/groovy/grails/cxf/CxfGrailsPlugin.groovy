@@ -10,28 +10,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean
 @Slf4j
 class CxfGrailsPlugin extends Plugin {
     def grailsVersion = "3.1.0 > *"
-    def pluginExcludes = [
-            'grails-app/views/error.gsp',
-            'grails-app/conf/spring/ApplicationResources.groovy',
-            'grails-app/conf/spring/resources.groovy',
-            'grails-app/conf/spring/resources.groovy',
-            'grails-app/conf/ApplicationResources.groovy',
-            'grails-app/init/BootStrap.groovy',
-            'grails-app/conf/DataSource.groovy',
-            'grails-app/conf/UrlMappings.groovy',
-            'grails-app/conf/codenarc.groovy',
-            'grails-app/conf/codenarc.ruleset.all.groovy.txt',
-            'grails-app/domain/**',
-            'grails-app/endpoints/**',
-            'grails-app/i18n/**',
-            'grails-app/services/org/**',
-            'grails-app/views/**',
-            'src/main/groovy/org/grails/cxf/test/**',
-            'src/main/java/org/grails/cxf/test/**',
-            'web-app/**',
-            'codenarc.properties'
-    ]
-
+    def pluginExcludes = []
     def name = "cxf"
     def author = 'Grails Plugin Consortium'
     def authorEmail = ''
@@ -50,7 +29,6 @@ class CxfGrailsPlugin extends Plugin {
 
     Closure doWithSpring() {
         { ->
-
             log.info 'Wiring the cxf plugin'
             String servletMapping = config.cxf.servlet.mapping ?: "/services/*"
             if (!servletMapping.endsWith("/*")) {
