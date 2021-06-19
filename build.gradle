@@ -1,69 +1,68 @@
 buildscript {
-	ext {
-		grailsVersion = project.grailsVersion
-	}
-	repositories {
-		mavenLocal()
-		maven { url "https://repo.grails.org/grails/core" }
-	}
-	dependencies {
-		classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-	}
+    ext {
+        grailsVersion = project.grailsVersion
+    }
+    repositories {
+        mavenLocal()
+        maven { url 'https://repo.grails.org/grails/core' }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+    }
 }
 
-version "3.1.2"
-group "org.grails.plugins"
+version '3.1.2'
+group 'org.grails.plugins'
 
-apply plugin:"eclipse"
-apply plugin:"idea"
-apply plugin:"org.grails.grails-plugin"
-apply plugin:"org.grails.grails-plugin-publish"
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.grails.grails-plugin'
+apply plugin: 'org.grails.grails-plugin-publish'
 
 ext {
-	grailsVersion = project.grailsVersion
-	gradleWrapperVersion = project.gradleWrapperVersion
+    grailsVersion = project.grailsVersion
+    gradleWrapperVersion = project.gradleWrapperVersion
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenLocal()
-	mavenCentral()
-	maven { url "https://repo.grails.org/grails/core" }
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://repo.grails.org/grails/core' }
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.grails:grails-bom:$grailsVersion"
-	}
-	applyMavenExclusions false
+    imports {
+        mavenBom "org.grails:grails-bom:$grailsVersion"
+    }
+    applyMavenExclusions false
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-logging"
-    compile "org.springframework.boot:spring-boot-autoconfigure"
-    compile "org.grails:grails-core"
+    compile 'org.springframework.boot:spring-boot-starter-logging'
+    compile 'org.springframework.boot:spring-boot-autoconfigure'
+    compile 'org.grails:grails-core'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.apache.cxf:cxf-core:3.1.8'
+    compile 'org.apache.cxf:cxf-rt-frontend-jaxws:3.1.8'
+    compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.1.8'
+    compile 'org.apache.cxf:cxf-rt-transports-http:3.1.8'
 
-	provided "org.grails:grails-web-boot"
-	provided "org.grails:grails-dependencies"
-	provided 'javax.servlet:javax.servlet-api:3.1.0'
+    provided 'org.grails:grails-web-boot'
+    provided 'org.grails:grails-dependencies'
+    provided 'javax.servlet:javax.servlet-api:3.1.0'
 
-    console "org.grails:grails-console"
+    console 'org.grails:grails-console'
 
-    profile "org.grails.profiles:plugin"
+    profile 'org.grails.profiles:plugin'
 
-	compile 'org.apache.commons:commons-lang3:3.4'
-	compile 'org.apache.cxf:cxf-core:3.1.8'
-	compile 'org.apache.cxf:cxf-rt-frontend-jaxws:3.1.8'
-	compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.1.8'
-	compile 'org.apache.cxf:cxf-rt-transports-http:3.1.8'
-
-	testCompile "org.grails:grails-plugin-testing"
+    testCompile 'org.grails:grails-plugin-testing'
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = gradleWrapperVersion
+    gradleVersion = gradleWrapperVersion
 }
 
 grailsPublish {
@@ -71,35 +70,31 @@ grailsPublish {
     license {
         name = 'Apache-2.0'
     }
-    title = "Grails CXF Plugin"
-    desc = "Grails CXF Plugin"
-    developers = [acetrike: "Christian Oestreich",
-                  'ryan.j.crum': "Ryan Crum",
-                  crafsman: "Ben Doerr"]
+    title = 'Grails CXF Plugin'
+    desc = 'Grails CXF Plugin'
+    developers = [acetrike: 'Christian Oestreich',
+                  'ryan.j.crum': 'Ryan Crum',
+                  crafsman: 'Ben Doerr']
 
-    portalUser = ""
-    portalPassword = ""
+    portalUser = ''
+    portalPassword = ''
 }
 
 bintray {
-	user = System.getenv("BINTRAY_USER") ?: project.hasProperty("bintrayUser") ? project.bintrayUser : ''
-	key = System.getenv("BINTRAY_KEY") ?: project.hasProperty("bintrayKey") ? project.bintrayKey : ''
-	publications = ['maven']
-	pkg {
-		repo = 'grails-plugins'
-		userOrg = 'ctoestreich'
-		name = "cxf"
-		desc = "Grails CXF Plugin"
-		websiteUrl = "http://grails.org/plugin/grails-cxf"
-		issueTrackerUrl = "https://github.com/Grails-Plugin-Consortium/grails-cxf/issues"
-		vcsUrl = "https://github.com/Grails-Plugin-Consortium/grails-cxf"
-		licenses = ['Apache-2.0']
-		publicDownloadNumbers = true
-	}
-}
-
-jar {
-	exclude 'org/grails/cxf/test/**'
+    user = System.getenv('BINTRAY_USER') ?: project.hasProperty('bintrayUser') ? project.bintrayUser : ''
+    key = System.getenv('BINTRAY_KEY') ?: project.hasProperty('bintrayKey') ? project.bintrayKey : ''
+    publications = ['maven']
+    pkg {
+        repo = 'grails-plugins'
+        userOrg = 'ctoestreich'
+        name = 'cxf'
+        desc = 'Grails CXF Plugin'
+        websiteUrl = 'http://grails.org/plugin/grails-cxf'
+        issueTrackerUrl = 'https://github.com/Grails-Plugin-Consortium/grails-cxf/issues'
+        vcsUrl = 'https://github.com/Grails-Plugin-Consortium/grails-cxf'
+        licenses = ['Apache-2.0']
+        publicDownloadNumbers = true
+    }
 }
 
 bintrayUpload.dependsOn sourcesJar, javadocJar
